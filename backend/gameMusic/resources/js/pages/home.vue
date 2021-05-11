@@ -1,18 +1,10 @@
 <template>
   <div>
-    <v-img
-          height="500px"
-          src="https://cdn.pixabay.com/photo/2017/03/18/16/42/video-game-2154473_960_720.png"
-        >
-      <v-container>
-        <v-row class="d-flex justify-center">
-          <div >
-            <h1>こんにリハ</h1>
-          </div>
-        </v-row>
-      </v-container>
-
-    </v-img>
+    <div class="d-flex flex-row-reverse bd-highlight">
+      <div class="p-2 bd-highlight">Flex item 1</div>
+      <div class="p-2 bd-highlight">Flex item 2</div>
+      <div class="p-2 bd-highlight">Flex item 3</div>
+    </div>
   </div>
 </template>
 
@@ -23,7 +15,4 @@ export default {
 </script>
 
 <style>
-.aaa {
-  background-color: transparent;
-}
 </style>

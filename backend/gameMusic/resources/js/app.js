@@ -5,6 +5,8 @@ import '@mdi/font/css/materialdesignicons.css'
 import routes from './router/index'
 import store from './store' 
 
+ 
+
 Vue.component('app-header', require('./components/Header.vue').default);
 Vue.component('app-footer', require('./components/Footer.vue').default);
 

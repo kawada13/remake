@@ -1,10 +1,14 @@
 <template>
-  <v-footer padless color="indigo darken-4" dark>
-    <v-col
-      class="text-center"
-      cols="12"
-    >
-      {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
-    </v-col>
-  </v-footer>
+<div>
+ <div class="alert alert-primary aaa" role="alert">
+  A simple primary alert—check it out!
+</div>
+</div>
 </template>
+
+<style scoped>
+.aaa {
+  font-size: 100px;
+  background-color: brown;
+}
+</style>
