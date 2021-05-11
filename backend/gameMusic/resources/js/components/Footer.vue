@@ -1,14 +1,11 @@
 <template>
-<div>
- <div class="alert alert-primary aaa" role="alert">
-  A simple primary alert—check it out!
-</div>
+<div class="footer fixed-bottom d-flex justify-content-center py-4">
+  <h1 class="text-white">footer</h1>
 </div>
 </template>
 
 <style scoped>
-.aaa {
-  font-size: 100px;
-  background-color: brown;
+.footer {
+  background-color: #25324F;
 }
 </style>

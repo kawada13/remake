@@ -6545,7 +6545,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.aaa[data-v-61a7c374] {\n  font-size: 100px;\n  background-color: brown;\n}\n", ""]);
+exports.push([module.i, "\n.footer[data-v-61a7c374] {\n  background-color: #25324F;\n}\n", ""]);
 
 // exports
 
@@ -38480,13 +38480,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c(
-        "div",
-        { staticClass: "alert alert-primary aaa", attrs: { role: "alert" } },
-        [_vm._v("\n  A simple primary alert—check it out!\n")]
-      )
-    ])
+    return _c(
+      "div",
+      { staticClass: "footer fixed-bottom d-flex justify-content-center py-4" },
+      [_c("h1", { staticClass: "text-white" }, [_vm._v("footer")])]
+    )
   }
 ]
 render._withStripped = true
@@ -38517,7 +38515,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
+    return _c("div", { staticClass: "sticky-top" }, [
       _c(
         "nav",
         { staticClass: "navbar navbar-expand-lg navbar-dark bg-dark p-3" },
