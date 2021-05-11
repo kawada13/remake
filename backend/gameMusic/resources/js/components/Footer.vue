@@ -1,5 +1,5 @@
 <template>
-<div class="footer fixed-bottom d-flex justify-content-center py-4">
+<div class="footer fixed-bottom d-flex justify-content-center py-2">
   <h1 class="text-white">footer</h1>
 </div>
 </template>
@@ -9,3 +9,5 @@
   background-color: #25324F;
 }
 </style>
+
+
