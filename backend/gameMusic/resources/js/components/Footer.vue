@@ -1,5 +1,5 @@
 <template>
-<div class="footer fixed-bottom d-flex justify-content-center py-2">
+<div class="footer d-flex justify-content-center py-2">
   <h1 class="text-white">footer</h1>
 </div>
 </template>

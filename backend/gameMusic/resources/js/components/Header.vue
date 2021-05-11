@@ -8,9 +8,9 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <div class="navbar-nav navlink">
-          <a class="nav-item nav-link">会員登録</a>
-          <a class="nav-item nav-link">ログイン</a>
-          <a class="nav-item nav-link">メニュー3</a>
+          <a class="nav-item nav-link text-white">会員登録</a>
+          <a class="nav-item nav-link text-white">ログイン</a>
+          <a class="nav-item nav-link text-white">メニュー3</a>
         </div>
       </div>
     </nav>
