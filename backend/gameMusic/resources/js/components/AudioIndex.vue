@@ -13,19 +13,22 @@
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">{{ audio.title }}</h5>
-                <audio controls>
+                <audio controls controlslist="nodownload">
                   <source :src="audio.sound">
                 </audio>
                 <p class="card-text"><small class="text-muted">{{audio.artist}}</small></p>
               </div>
             </div>
           </div>
-
         </div>
       </div>
 
       <div class="button mt-5">
-        <button type="button" class="btn btn-primary">もっと見る</button>
+        <button 
+          type="button" 
+          class="btn btn-primary"
+          @click="$router.push({ name: 'audio-index' })"
+          >もっと見る</button>
       </div>
       
     </div> 

@@ -6,7 +6,7 @@
         <h1>新着オーディオ</h1>
       </div>
       
-      <audio controls>
+      <audio controls controlslist="nodownload">
         <source :src="mp3">
       </audio>
     </div> 
