@@ -1,5 +1,5 @@
 <template>
-<div class="footer py-2">
+<div class="footer py-2 fixed-bottom">
   <h1 class="text-white">footer</h1>
 </div>
 </template>
