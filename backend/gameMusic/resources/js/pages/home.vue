@@ -7,20 +7,31 @@
 
     <!-- 中身 -->
     <div class="contents">
-      <content-top />
+      <new-audio />
+      <audio-index />
     </div>
     
+
+    <!-- フッター -->
+    <!-- <div>
+      <Footer />
+    </div> -->
 
   </div>
 </template>
 
 <script>
 import Hero from '../components/Hero.vue'
-import ContentTop from '../components/ContentTop.vue'
+import NewAudio from '../components/NewAudio.vue'
+import AudioIndex from '../components/AudioIndex.vue'
+import Footer from '../components/Footer.vue'
+
 export default {
   components: { 
     Hero,
-    ContentTop
+    NewAudio,
+    AudioIndex,
+    Footer
     }
 }
 </script>
