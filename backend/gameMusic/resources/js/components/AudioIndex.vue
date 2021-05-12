@@ -12,7 +12,7 @@
           <div class="col-sm-4" v-for="(audio, i) in audios" :key="i">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">{{ audio.title }}</h5>
+                <h5 class="card-title" @click="$router.push({ name: 'audio-show' })">{{ audio.title }}</h5>
                 <audio controls controlslist="nodownload">
                   <source :src="audio.sound">
                 </audio>
@@ -101,6 +101,13 @@ audio {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.card .card-title:hover {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: underline;
+    cursor: pointer;
 }
 .button {
   text-align: center;

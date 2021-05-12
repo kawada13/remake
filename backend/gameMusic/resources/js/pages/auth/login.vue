@@ -91,7 +91,7 @@ export default {
 
 <style scoped>
 .new-audio {
-  height: auto;
+  height: 1151px;
   background: #F6F6F4;
 }
 

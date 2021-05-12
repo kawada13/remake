@@ -94,8 +94,8 @@ export default {
 
     .jumbotron {
         position: relative;
-        height: 100vh;
-        max-height: 610px;
+        height: 110vh;
+        max-height: 620px;
         background: url('/images/hero-top.jpg') no-repeat center center;
         background-size: cover;
         margin-bottom: 0;
