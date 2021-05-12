@@ -8,9 +8,17 @@
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <div class="navbar-nav navlink">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-user-alt text-white"></i>
+            </a>
+            <div class="dropdown-menu " aria-labelledby="navbarDropdown">
+              <a class="dropdown-item">マイページ</a>
+              <a class="dropdown-item">ログアウト</a>
+            </div>
+          </li>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'register' })">会員登録</a>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'login' })">ログイン</a>
-          <a class="nav-item nav-link text-white">メニュー3</a>
         </div>
       </div>
     </nav>
