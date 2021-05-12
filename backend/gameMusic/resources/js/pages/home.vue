@@ -9,13 +9,10 @@
     <div class="contents">
       <new-audio />
       <audio-index />
+      <how-to />
     </div>
     
 
-    <!-- フッター -->
-    <!-- <div>
-      <Footer />
-    </div> -->
 
   </div>
 </template>
@@ -24,14 +21,14 @@
 import Hero from '../components/Hero.vue'
 import NewAudio from '../components/NewAudio.vue'
 import AudioIndex from '../components/AudioIndex.vue'
-import Footer from '../components/Footer.vue'
+import HowTo from '../components/HowTo.vue'
 
 export default {
   components: { 
     Hero,
     NewAudio,
     AudioIndex,
-    Footer
+    HowTo
     }
 }
 </script>

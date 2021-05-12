@@ -9,7 +9,6 @@
 
       <div class="mt-5">
         <div class="card-deck row">
-
           <div class="col-sm-4" v-for="(audio, i) in audios" :key="i">
             <div class="card">
               <div class="card-body">
@@ -23,6 +22,10 @@
           </div>
 
         </div>
+      </div>
+
+      <div class="button mt-5">
+        <button type="button" class="btn btn-primary">もっと見る</button>
       </div>
       
     </div> 
@@ -95,5 +98,14 @@ audio {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.button {
+  text-align: center;
+}
+.button .btn{
+  color: white;
+  font-weight: bold;
+  padding: 12px 40px;
+  border-radius: 20px;
 }
 </style>
