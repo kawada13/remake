@@ -30,8 +30,7 @@
           @click="$router.push({ name: 'audio-index' })"
           >もっと見る</button>
       </div>
-      
-    </div> 
+    </div>
   </div>
 </template>
 
