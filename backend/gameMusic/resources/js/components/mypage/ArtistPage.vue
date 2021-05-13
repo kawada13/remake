@@ -9,6 +9,11 @@
             <img src="/images/498467_s.jpg" class="rounded-circle">
           </div>
           <h3>Artist Name</h3>
+          <div class="card my-3">
+            <ul class="list-group list-group-flush listing">
+              <li class="list-group-item">出品する<i class="fas fa-chevron-right pl-2"></i></li>
+            </ul>
+          </div>
           <div class="card">
             <ul class="list-group list-group-flush accout_setting">
               <li class="list-group-item">アーティスト情報設定</li>
@@ -66,8 +71,32 @@ export default {
   cursor: pointer;
   color: #58BDF0;
 }
+.listing li {
+  outline: solid #58BDF0;
+}
+.listing li:hover {
+  cursor: pointer;
+  color: #58BDF0;
+}
 h3 {
   text-align: center;
+}
+
+
+@media screen and (max-width:767px) {
+    /*画面サイズが767px以下の場合読み込む（スマホ）*/
+
+    .listing i {
+      margin-left: 209px;
+    }
+
+}
+@media screen and (min-width:768px){
+    /*画面サイズが768px以上の場合読み込む（PC）*/
+
+    .listing i {
+      margin-left: 148px;
+    }
 }
 
 </style>
