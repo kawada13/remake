@@ -19,40 +19,43 @@
             <div class="card-body detail type_title d-flex titles justify-content-start">
               <p class="">種類：</p>
             </div>
-            <div class="card-body detail type_content buttons d-flex justify-content-start">
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
+            <div class="card-body detail type_content buttons">
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
             </div>
 
             <div class="card-body detail understanding_title d-flex justify-content-start">
               <p class="">イメージ：</p>
             </div>
-            <div class="card-body detail type_content buttons d-flex justify-content-start">
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
+            <div class="card-body detail type_content buttons">
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
             </div>
 
             <div class="card-body detail instrument_title d-flex justify-content-start">
               <p class="">楽器：</p>
             </div>
-            <div class="card-body detail type_content buttons d-flex justify-content-start">
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2">Dark</button>
+            <div class="card-body detail type_content buttons">
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
             </div>
           </div>
         </div>
@@ -184,7 +187,8 @@ export default {
   color: #334e6f;
 }
 .buttons{
-  padding: 0 0 0 20px;
+  padding: 0 0 20px 20px;
+  text-align: left;
 }
 .titles {
   padding-bottom: 0;
