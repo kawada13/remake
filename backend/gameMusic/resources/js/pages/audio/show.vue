@@ -139,10 +139,6 @@ export default {
   background: #F6F6F4;
 }
 
-.audio_head h1 {
-  font-weight: bold;
-}
-
 .card {
   text-align: center;
 }
@@ -192,5 +188,21 @@ export default {
 }
 .titles {
   padding-bottom: 0;
+}
+
+@media screen and (max-width:767px) {
+    /*画面サイズが767px以下の場合読み込む（スマホ）*/
+
+    .audio_head h1 {
+      font-weight: bold;
+      font-size: 30px
+    }
+}
+@media screen and (min-width:768px){
+    /*画面サイズが768px以上の場合読み込む（PC）*/
+
+    .audio_head h1 {
+      font-weight: bold;
+    }
 }
 </style>
