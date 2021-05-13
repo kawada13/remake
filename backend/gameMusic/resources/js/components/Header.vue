@@ -13,7 +13,7 @@
               <i class="fas fa-user-alt text-white"></i>
             </a>
             <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-              <a class="dropdown-item">マイページ</a>
+              <a class="dropdown-item" @click="$router.push({ name: 'my-page' })">マイページ</a>
               <a class="dropdown-item">ログアウト</a>
             </div>
           </li>
@@ -24,7 +24,22 @@
     </nav>
   </div>
 </template>
+
+
+
 <script>
+export default {
+  data() {
+    return {
+    }
+  },
+  methods: {
+    a() {
+      console.log(12)
+    }
+  },
+
+}
 </script>
 
 
