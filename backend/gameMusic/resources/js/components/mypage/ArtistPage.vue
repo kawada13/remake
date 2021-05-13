@@ -3,28 +3,22 @@
     <div class="container">
       <div class="row my-3">
 
-        <!-- 検索(左側) -->
+        <!-- (左側) -->
         <div class="col-sm-3 col-xs-12">
+          <div class="artist_image d-flex justify-content-center mb-3">
+            <img src="/images/498467_s.jpg" class="rounded-circle">
+          </div>
+          <h3>Artist Name</h3>
           <div class="card">
-            <div class="card-body">
-              <input type="text" class="form-control py-4" placeholder="キーワードを入力してください">
-              <select class="custom-select select-music mt-3" id="inputGroupSelect">
-                <option></option>
-              </select>
-              <select class="custom-select mt-3" id="inputGroupSelect">
-                <option selected>イメージ</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-              <div class="buttn mt-4">
-                <button class="btn btn-primary" type="submit">検索する</button>
-              </div>
-            </div>
+            <ul class="list-group list-group-flush accout_setting">
+              <li class="list-group-item">アーティスト情報設定</li>
+              <li class="list-group-item">振込口座設定</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
           </div>
         </div>
 
-        <!-- 検索結果一覧(右側) -->
+        <!-- (右側) -->
         <div class="col-sm-9 col-xs-12">
           <h2 class="search_result_title">検索結果：<span class="text-primary">全オーディオ一覧</span></h2>
           <hr>
@@ -62,6 +56,18 @@ export default {
 .artist_mypage {
   height: auto;
   background: #F6F6F4;
+}
+.artist_image img {
+  height: 160px;
+  cursor: pointer;
+}
+
+.accout_setting li:hover {
+  cursor: pointer;
+  color: #58BDF0;
+}
+h3 {
+  text-align: center;
 }
 
 </style>
