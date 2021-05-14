@@ -30,7 +30,6 @@
             <audio controls controlslist="nodownload">
               <source :src="audio.sound">
             </audio>
-
         </div>
       </div>
     </div>
