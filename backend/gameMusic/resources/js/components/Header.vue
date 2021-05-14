@@ -13,7 +13,7 @@
               <i class="fas fa-user-alt text-white"></i>
             </a>
             <div class="dropdown-menu " aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" @click="$router.push({ name: 'my-page' })">マイページ</a>
+              <a class="dropdown-item" @click="$router.push({ name: 'purchase-history' })">マイページ</a>
               <a class="dropdown-item">ログアウト</a>
             </div>
           </li>

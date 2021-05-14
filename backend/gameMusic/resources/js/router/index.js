@@ -17,8 +17,31 @@ import AudioShow from '../pages/audio/show.vue'
 import Login from '../pages/auth/login.vue'
 import Register from '../pages/auth/register.vue'
 
-// マイページ
+// マイページ(大)
 import MyPage from '../pages/mypage.vue'
+
+
+// クリエイターページ(中)
+import CreaterPage from '../pages/mypage/CreaterPage.vue'
+// クリエイターページ(小)
+import ExhibitedProducts from '../pages/mypage/Creater/ExhibitedProducts.vue'
+import CreaterInfoEdit from '../pages/mypage/Creater/info.vue'
+
+
+
+
+// ユーザーぺーじ(中)
+import CreaterPage from '../pages/mypage/CreaterPage.vue'
+// ユーザーぺーじ(小)
+import PurchaseHistory from '../pages/mypage/User/PurchaseHistory.vue'
+
+
+
+
+
+
+
+
 
 
 
@@ -38,6 +61,30 @@ const routes = new VueRouter({
       path: '/mypage',
       component: MyPage,
       name:'my-page',
+      children:[
+        {
+          path: 'user',
+          component: PurchaseHistory,
+          name:'purchase-history'
+        },
+        {
+          path: 'creater',
+          component: CreaterPage,
+          name:'creater-page',
+          children:[
+            {
+              path: 'exhibitedproducts',
+              component: ExhibitedProducts,
+              name:'exhibited-products'
+            },
+            {
+              path: 'profile/edit',
+              component: CreaterInfoEdit,
+              name:'creater-info-edit'
+            },
+          ]
+        }
+      ]
     },
     {
       path: '/audios',

@@ -7,30 +7,30 @@
       <button type="button" class="btn btn-secondary btn-lg text-white" :class="classColorSetArtist" @click="artistClassActive()"><i class="fas fa-music mr-2"></i>出品者メニュー</button>
     </div>
 
-    <div v-if="userClass">
+    <!-- <div v-if="userClass">
       <user-page />
     </div>
-    <div v-if="artistClass">
-      <artist-page />
-    </div>
+    <div v-if="createrClass">
+      <creater-page />
+    </div> -->
+    <router-view></router-view>
 
   </div>
 </div>
 </template>
 
 <script>
-import ArtistPage from '../components/mypage/ArtistPage'
-import UserPage from '../components/mypage/UserPage'
 
 export default {
   components: {
-    ArtistPage,
-    UserPage
   },
   data() {
     return {
-      userClass: true,
-      artistClass: false
+      userClass: false,
+      createrClass: false,
+
+      isUser:false,
+      isCreater:false
     }
   },
   methods: {
@@ -39,32 +39,59 @@ export default {
     userClassActive() {
       // 初期化
       this.userClass = false
-      this.artistClass = false
+      this.createrClass = false
 
       this.userClass = true
+      this.isUser=true,
+      this.$router.push({ name: 'purchase-history' })
     },
     artistClassActive() {
       // 初期化
       this.userClass = false
       this.artistClass = false
 
-      this.artistClass = true
+      this.createrClass = true
+      this.isCreater = true
+
+      this.$router.push({ name: 'exhibited-products' })
     },
 
   },
   computed: {
     // タブ切り替えのためのcomputed
     classColorSetUser() {
-      return {
-        user:this.userClass,
+      if(this.$route.name == 'purchase-history') {
+        console.log(1);
+        this.isUser=true
+        return {
+          user: this.userClass
+        }
       }
     },
     classColorSetArtist() {
+      if(this.$route.name == 'exhibited-products') {
+        console.log(2);
+        this.isCreater = true
+      }
       return {
-        artist:this.artistClass,
+        user: this.createrClass
       }
     },
   },
+
+  created() {
+    // console.log(this.$route.name);
+    // if(this.$route.name == 'purchase-history') {
+    //   console.log(1);
+    //   this.isUser=true
+    // }
+    // if(this.$route.name == 'exhibited-products') {
+    //   console.log(2);
+    //   this.isCreater = true
+    // }
+
+  },
+
 
 }
 </script>
