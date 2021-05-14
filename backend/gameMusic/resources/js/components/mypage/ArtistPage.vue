@@ -5,10 +5,16 @@
 
         <!-- (左側) -->
         <div class="col-sm-3 col-xs-12">
+
+          <!-- アイコン -->
           <div class="artist_image d-flex justify-content-center mb-3">
             <img src="/images/498467_s.jpg" class="rounded-circle">
           </div>
+
+          <!-- アーティスト名 -->
           <h3>Artist Name</h3>
+
+          <!-- いろんな選択肢 -->
           <div class="card my-3">
             <ul class="list-group list-group-flush listing">
               <li class="list-group-item">出品する<i class="fas fa-chevron-right pl-2"></i></li>
@@ -25,22 +31,38 @@
 
         <!-- (右側) -->
         <div class="col-sm-9 col-xs-12">
-          <h2 class="search_result_title">検索結果：<span class="text-primary">全オーディオ一覧</span></h2>
-          <hr>
-          <p class="search_result_text">検索に一致するオーディオがOO件ありました。</p>
 
+          <!-- 売上金とか(右上) -->
+          <div class="card-group">
+            <div class="card text-center">
+              <div class="card-body earnings">
+                <h5 class="card-title">売上金額合計</h5>
+                <h1><i class="fas fa-yen-sign"></i>{{ earning | comma }}</h1>
+              </div>
+            </div>
+            <div class="card text-center">
+              <div class="card-body cumulative">
+                <h5 class="card-title">累計の売上金額</h5>
+                <h1><i class="fas fa-yen-sign"></i>{{ cumulative | comma }}</h1>
+              </div>
+            </div>
+          </div>
+
+          <!-- 右下 -->
           <div class="mt-5">
-            <div class="card-deck row">
-              <div class="col-sm-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title" @click="$router.push({ name: 'audio-show' })">fsdfsd</h5>
-                    <audio controls controlslist="nodownload">
-                      <source>
-                    </audio>
-                    <p class="card-text"><small class="text-muted">fsdfsd</small></p>
-                  </div>
-                </div>
+            <div class="card listing_audio">
+              <h2 class="card-header">
+                出品作品
+              </h2>
+              <div class="card-body" v-for="(audio, i) in audios" :key="i">
+                  <h5 class="card-title">{{audio.title}}</h5>
+                  <p>
+                    <button type="button" class="btn btn-outline-info ml-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</button>
+                  </p>
+                  <audio controls controlslist="nodownload">
+                    <source :src="audio.sound">
+                  </audio>
+
               </div>
             </div>
           </div>
@@ -53,6 +75,36 @@
 
 <script>
 export default {
+  data() {
+    return {
+      earning: 3000,
+      cumulative: 6000,
+      audios:[
+        {
+          title:'生演奏！アコースティックギターのポップス',
+          sound: '/images/Closed_Case.mp3',
+          price: 3000
+        },
+        {
+          title:'生演奏！アコースティックギターのポップス',
+          sound: '/images/Closed_Case.mp3',
+          price: 3000
+        },
+        {
+          title:'生演奏！アコースティックギターのポップス',
+          sound: '/images/Closed_Case.mp3',
+          price: 3000
+        },
+        {
+          title:'生演奏！アコースティックギターのポップス',
+          sound: '/images/Closed_Case.mp3',
+          price: 3000
+        },
+      ]
+    }
+  },
+  computed: {
+  },
 
 }
 </script>
@@ -80,6 +132,25 @@ export default {
 }
 h3 {
   text-align: center;
+}
+.border_s {
+  text-align: center;
+}
+
+.earnings h1 {
+  font-weight: bold;
+  color: #FF6E3B;
+}
+.cumulative h1 {
+  font-weight: bold;
+  color: black;
+}
+
+.listing_audio .card-header {
+  font-weight: bold;
+}
+.listing_audio button {
+  margin: 0!important;
 }
 
 

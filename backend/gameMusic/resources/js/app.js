@@ -1,10 +1,12 @@
 import './bootstrap'
 import Vue from 'vue';
-import Vuetify from './plugins/vuetify' // vuetify.jsを読み込み
+import Vuetify from './plugins/vuetify'
+import FilterPlugin from './plugins/Filter.js'
 import '@mdi/font/css/materialdesignicons.css'
 import routes from './router/index'
 import store from './store' 
- 
+
+Vue.use(FilterPlugin)
 
 Vue.component('app-header', require('./components/Header.vue').default);
 Vue.component('app-footer', require('./components/Footer.vue').default);

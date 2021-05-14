@@ -70,7 +70,7 @@
             <p class="purchase_title">購入：</p>
             <div class="card">
               <ul class="list-group list-group-flush">
-                <li class="list-group-item price py-4">4000円</li>
+                <li class="list-group-item price py-4"><i class="fas fa-yen-sign"></i>{{ price | comma }}</li>
                 <li class="list-group-item purchase_btn"><button type="button" class="btn btn-warning py-3 px-5">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
               </ul>
             </div>
@@ -104,6 +104,7 @@
 export default {
   data() {
     return {
+      price: 4000,
       audio: {
           sound: '/images/Closed_Case.mp3',
           title: '生演奏！アコースティックギターのポップス',
