@@ -82,7 +82,7 @@
             <p class="purchase_title">アーティスト：</p>
             <div class="card">
               <div class="card-header">
-                <p>Artist Name</p>
+                <p>Creater Name</p>
                 <img src="/images/498467_s.jpg" class="rounded-circle">
               </div>
               <div class="card-body pt-5">

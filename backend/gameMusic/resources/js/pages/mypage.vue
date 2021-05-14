@@ -7,12 +7,6 @@
       <button type="button" class="btn btn-secondary btn-lg text-white" :class="classColorSetArtist" @click="artistClassActive()"><i class="fas fa-music mr-2"></i>出品者メニュー</button>
     </div>
 
-    <!-- <div v-if="userClass">
-      <user-page />
-    </div>
-    <div v-if="createrClass">
-      <creater-page />
-    </div> -->
     <router-view></router-view>
 
   </div>
@@ -29,8 +23,6 @@ export default {
       userClass: false,
       createrClass: false,
 
-      isUser:false,
-      isCreater:false
     }
   },
   methods: {
@@ -42,17 +34,14 @@ export default {
       this.createrClass = false
 
       this.userClass = true
-      this.isUser=true,
       this.$router.push({ name: 'purchase-history' })
     },
     artistClassActive() {
       // 初期化
       this.userClass = false
-      this.artistClass = false
+      this.createrClass = false
 
       this.createrClass = true
-      this.isCreater = true
-
       this.$router.push({ name: 'exhibited-products' })
     },
 
@@ -60,35 +49,26 @@ export default {
   computed: {
     // タブ切り替えのためのcomputed
     classColorSetUser() {
-      if(this.$route.name == 'purchase-history') {
-        console.log(1);
-        this.isUser=true
-        return {
-          user: this.userClass
-        }
+      return {
+        user: this.userClass
       }
     },
     classColorSetArtist() {
-      if(this.$route.name == 'exhibited-products') {
-        console.log(2);
-        this.isCreater = true
-      }
       return {
-        user: this.createrClass
+        creater: this.createrClass
       }
     },
   },
 
   created() {
-    // console.log(this.$route.name);
-    // if(this.$route.name == 'purchase-history') {
-    //   console.log(1);
-    //   this.isUser=true
-    // }
-    // if(this.$route.name == 'exhibited-products') {
-    //   console.log(2);
-    //   this.isCreater = true
-    // }
+    if(this.$route.name == 'exhibited-products')
+    {
+      this.createrClass = true
+    }
+    if(this.$route.name == 'purchase-history')
+    {
+      this.userClass = true
+    }
 
   },
 
@@ -102,15 +82,10 @@ export default {
   background: #F6F6F4;
 }
 
-
-.select_btn {
-  font-size: 13px;
-}
-
 .select_btn .user {
   background: #58BDF0;
 }
-.select_btn .artist {
+.select_btn .creater {
   background: #FF6E3B;
 }
 
