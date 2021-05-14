@@ -61,11 +61,11 @@ export default {
   },
 
   created() {
-    if(this.$route.name == 'exhibited-products')
+    if(this.$route.name == 'exhibited-products' || this.$route.name == 'creater-info-edit')
     {
       this.createrClass = true
     }
-    if(this.$route.name == 'purchase-history')
+    if(this.$route.name == 'purchase-history' || this.$route.name == 'favorite-audios')
     {
       this.userClass = true
     }
@@ -86,7 +86,7 @@ export default {
   background: #58BDF0;
 }
 .select_btn .creater {
-  background: #FF6E3B;
+  background: #58BDF0;
 }
 
 @media screen and (max-width:767px) {

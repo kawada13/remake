@@ -146,7 +146,7 @@ export default {
 .card .price{
   font-weight: 700;
   font-size: 36px;
-  color: #334e6f;
+  color: hsla(357, 100%, 37%, 0.979);;
 }
 .card .purchase_btn button{
   background: #F2C963;

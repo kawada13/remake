@@ -85,4 +85,17 @@ h3 {
   text-align: center;
 }
 
+@media screen and (max-width:767px) {
+    /*画面サイズが767px以下の場合読み込む（スマホ）*/
+    .listing i {
+      margin-left: 210px;
+    }
+}
+@media screen and (min-width:768px){
+    /*画面サイズが768px以上の場合読み込む（PC）*/
+    .listing i {
+      margin-left: 149px;
+    }
+}
+
 </style>

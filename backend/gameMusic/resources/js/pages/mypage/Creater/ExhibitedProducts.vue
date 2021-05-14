@@ -74,7 +74,7 @@ export default {
 <style scoped>
 .earnings h1 {
   font-weight: bold;
-  color: #FF6E3B;
+  color: hsla(357, 100%, 37%, 0.979);
 }
 .cumulative h1 {
   font-weight: bold;
