@@ -17,7 +17,8 @@
           <!-- いろんな選択肢 -->
           <div class="card my-3">
             <ul class="list-group list-group-flush accout_setting">
-              <li class="list-group-item">お気に入り作品一覧</li>
+              <li class="list-group-item" @click="$router.push({ name: 'purchase-history'})">購入履歴</li>
+              <li class="list-group-item" @click="$router.push({ name: 'favorite-audios'})">お気に入り作品一覧</li>
               <li class="list-group-item">フォローしているクリエイター</li>
               <li class="list-group-item">購入者情報設定</li>
             </ul>
@@ -26,24 +27,8 @@
 
         <!-- (右側) -->
         <div class="col-sm-9 col-xs-12">
-
-
-          <div class="mt-5">
-            <div class="card listing_audio">
-              <h2 class="card-header">
-                購入した作品：{{audios.length}}件
-              </h2>
-              <div class="card-body" v-for="(audio, i) in audios" :key="i">
-                  <h5 class="card-title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
-                  <p>
-                    <button type="button" class="btn btn-outline-info ml-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</button>
-                  </p>
-                  <audio controls controlslist="nodownload">
-                    <source :src="audio.sound">
-                  </audio>
-
-              </div>
-            </div>
+          <div>
+            <router-view />
           </div>
         </div>
 

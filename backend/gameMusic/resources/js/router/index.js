@@ -31,9 +31,10 @@ import CreaterInfoEdit from '../pages/mypage/Creater/info.vue'
 
 
 // ユーザーぺーじ(中)
-import CreaterPage from '../pages/mypage/CreaterPage.vue'
+import UserPage from '../pages/mypage/UserPage.vue'
 // ユーザーぺーじ(小)
 import PurchaseHistory from '../pages/mypage/User/PurchaseHistory.vue'
+import FavoriteAudios from '../pages/mypage/User/FavoriteAudios.vue'
 
 
 
@@ -64,8 +65,20 @@ const routes = new VueRouter({
       children:[
         {
           path: 'user',
-          component: PurchaseHistory,
-          name:'purchase-history'
+          component: UserPage,
+          name:'user-page',
+          children:[
+            {
+              path: 'purchasehistory',
+              component: PurchaseHistory,
+              name:'purchase-history'
+            },
+            {
+              path: 'favoriteaudios',
+              component: FavoriteAudios,
+              name:'favorite-audios'
+            },
+          ]
         },
         {
           path: 'creater',
