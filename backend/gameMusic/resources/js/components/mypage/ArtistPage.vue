@@ -55,7 +55,7 @@
                 出品作品
               </h2>
               <div class="card-body" v-for="(audio, i) in audios" :key="i">
-                  <h5 class="card-title">{{audio.title}}</h5>
+                  <h5 class="card-title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
                   <p>
                     <button type="button" class="btn btn-outline-info ml-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</button>
                   </p>
@@ -151,6 +151,13 @@ h3 {
 }
 .listing_audio button {
   margin: 0!important;
+}
+.card .card-title:hover {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 
