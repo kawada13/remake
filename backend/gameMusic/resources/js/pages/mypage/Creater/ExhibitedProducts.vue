@@ -1,6 +1,6 @@
 <template>
   <div class="exhibited_products">
-    <!-- 売上金とか(右上) -->
+    <!-- 売上金とか(上) -->
     <div class="card-group">
       <div class="card text-center">
         <div class="card-body earnings">
@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <!-- 右下 -->
+    <!-- 下 -->
     <div class="mt-5">
       <div class="card listing_audio">
         <h2 class="card-header">
