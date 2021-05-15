@@ -39,7 +39,7 @@
                     <audio controls controlslist="nodownload">
                       <source :src="audio.sound">
                     </audio>
-                    <p class="card-text"><small class="text-muted">{{audio.artist}}</small></p>
+                    <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'creater-show' })">{{audio.artist}}</small></p>
                   </div>
                 </div>
               </div>
@@ -194,6 +194,10 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.card .card-text:hover {
     text-decoration: underline;
     cursor: pointer;
 }

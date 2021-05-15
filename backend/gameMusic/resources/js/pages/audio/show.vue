@@ -82,7 +82,7 @@
             <p class="purchase_title">アーティスト：</p>
             <div class="card">
               <div class="card-header">
-                <p>Creater Name</p>
+                <p @click="$router.push({ name: 'creater-show' })">Creater Name</p>
                 <img src="/images/498467_s.jpg" class="rounded-circle">
               </div>
               <div class="card-body pt-5">
@@ -142,6 +142,10 @@ export default {
 
 .card {
   text-align: center;
+}
+.card .card-header p:hover{
+  cursor: pointer;
+  text-decoration: underline;
 }
 .card .price{
   font-weight: 700;

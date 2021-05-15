@@ -17,9 +17,17 @@ import AudioShow from '../pages/audio/show.vue'
 import Login from '../pages/auth/login.vue'
 import Register from '../pages/auth/register.vue'
 
-// マイページ(大)
-import MyPage from '../pages/mypage.vue'
 
+// クリエイター詳細ページ
+import CreaterShow from '../pages/creater/show.vue'
+
+
+
+
+
+
+// 以下マイページ関連
+import MyPage from '../pages/mypage.vue'
 
 // クリエイターページ(中)
 import CreaterPage from '../pages/mypage/CreaterPage.vue'
@@ -27,9 +35,6 @@ import CreaterPage from '../pages/mypage/CreaterPage.vue'
 import ExhibitedProducts from '../pages/mypage/Creater/ExhibitedProducts.vue'
 import CreaterInfoEdit from '../pages/mypage/Creater/info.vue'
 import TransferAccountSetting from '../pages/mypage/Creater/TransferAccountSetting.vue'
-
-
-
 
 // ユーザーぺーじ(中)
 import UserPage from '../pages/mypage/UserPage.vue'
@@ -104,6 +109,11 @@ const routes = new VueRouter({
           ]
         }
       ]
+    },
+    {
+      path: '/creater/1',
+      component: CreaterShow,
+      name:'creater-show',
     },
     {
       path: '/audios',
