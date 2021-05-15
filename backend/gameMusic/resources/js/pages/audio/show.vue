@@ -9,9 +9,12 @@
        <!-- 左上 -->
         <div class="audio_head">
           <h1>{{ audio.title }}</h1>
-           <audio controls controlslist="nodownload">
+           <audio controls controlslist="nodownload" class="my-3">
             <source :src="audio.sound">
            </audio>
+            <p>
+              <button type="button" class="btn btn-outline-primary">この曲をお気に入りに登録</button>
+            </p>
         </div>
 
          <!-- 左下 -->
@@ -108,7 +111,8 @@ export default {
       audio: {
           sound: '/images/Closed_Case.mp3',
           title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1'
+          artist: 'rokedt1',
+          price: 4000
       },
       junnes: [
         {
@@ -140,6 +144,12 @@ export default {
   background: #F6F6F4;
 }
 
+.audio_head button {
+  color: #4DB7FE;
+}
+.audio_head button:hover {
+  color: white;
+}
 .card {
   text-align: center;
 }
