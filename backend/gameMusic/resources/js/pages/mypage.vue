@@ -61,7 +61,7 @@ export default {
   },
 
   created() {
-    if(this.$route.name == 'exhibited-products' || this.$route.name == 'creater-info-edit')
+    if(this.$route.name == 'exhibited-products' || this.$route.name == 'creater-info-edit' || this.$route.name == 'transfer-account-setting')
     {
       this.createrClass = true
     }

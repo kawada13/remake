@@ -26,6 +26,7 @@ import CreaterPage from '../pages/mypage/CreaterPage.vue'
 // クリエイターページ(小)
 import ExhibitedProducts from '../pages/mypage/Creater/ExhibitedProducts.vue'
 import CreaterInfoEdit from '../pages/mypage/Creater/info.vue'
+import TransferAccountSetting from '../pages/mypage/Creater/TransferAccountSetting.vue'
 
 
 
@@ -69,12 +70,12 @@ const routes = new VueRouter({
           name:'user-page',
           children:[
             {
-              path: 'purchasehistory',
+              path: 'purchase_history',
               component: PurchaseHistory,
               name:'purchase-history'
             },
             {
-              path: 'favoriteaudios',
+              path: 'favorite_audios',
               component: FavoriteAudios,
               name:'favorite-audios'
             },
@@ -86,7 +87,7 @@ const routes = new VueRouter({
           name:'creater-page',
           children:[
             {
-              path: 'exhibitedproducts',
+              path: 'exhibited_products',
               component: ExhibitedProducts,
               name:'exhibited-products'
             },
@@ -94,6 +95,11 @@ const routes = new VueRouter({
               path: 'profile/edit',
               component: CreaterInfoEdit,
               name:'creater-info-edit'
+            },
+            {
+              path: 'transfer_account_setting',
+              component: TransferAccountSetting,
+              name:'transfer-account-setting'
             },
           ]
         }

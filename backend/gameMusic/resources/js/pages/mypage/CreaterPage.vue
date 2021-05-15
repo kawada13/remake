@@ -24,7 +24,7 @@
             <ul class="list-group list-group-flush accout_setting">
               <li class="list-group-item" @click="$router.push({ name: 'exhibited-products' })">出品作品</li>
               <li class="list-group-item" @click="$router.push({ name: 'creater-info-edit' })">クリエイター情報設定</li>
-              <li class="list-group-item">振込口座設定</li>
+              <li class="list-group-item" @click="$router.push({ name: 'transfer-account-setting' })">振込口座設定</li>
               <li class="list-group-item">Vestibulum at eros</li>
             </ul>
           </div>
