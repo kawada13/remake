@@ -12,11 +12,11 @@
           <div class="col-sm-4" v-for="(audio, i) in audios" :key="i">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title" @click="$router.push({ name: 'audio-show' })">{{ audio.title }}</h5>
+                <h5 class="card-title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h5>
                 <audio controls controlslist="nodownload">
                   <source :src="audio.sound">
                 </audio>
-                <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'creater-show' })">{{audio.artist}}</small></p>
+                <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'creater-show', params: { id: `${audio.id}` }})">{{audio.artist}}</small></p>
               </div>
             </div>
           </div>
@@ -40,34 +40,40 @@ export default {
     return {
       audios: [
         {
+          id: 1,
           sound: 'images/Closed_Case.mp3',
           title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt'
+          artist: 'rokedt1'
         },
         {
+          id: 2,
           sound: 'images/Closed_Case.mp3',
           title: '生演奏ギターの爽やか明るい疾走感ポップス',
-          artist: 'rokedt'
+          artist: 'rokedt2'
         },
         {
+          id: 3,
           sound: 'images/Closed_Case.mp3',
           title: '明るいEDM テクノ ポップ ダンス曲',
-          artist: 'rokedt'
+          artist: 'rokedt3'
         },
         {
+          id: 4,
           sound: 'images/Closed_Case.mp3',
           title: '企業VPに爽やかアコースティックギター',
-          artist: 'rokedt'
+          artist: 'rokedt4'
         },
         {
+          id: 5,
           sound: 'images/Closed_Case.mp3',
           title: 'ほのぼのした日常曲です。',
-          artist: 'rokedt'
+          artist: 'rokedt5'
         },
         {
+          id: 6,
           sound: 'images/Closed_Case.mp3',
           title: '運動会に使われるテンポの良いクラシック',
-          artist: 'rokedt'
+          artist: 'rokedt6'
         },
       ]
     }

@@ -18,8 +18,10 @@ import Login from '../pages/auth/login.vue'
 import Register from '../pages/auth/register.vue'
 
 
-// クリエイター詳細ページ
+// クリエイターページ
+import Creater from '../pages/creater/main.vue'
 import CreaterShow from '../pages/creater/show.vue'
+import CreaterAudios from '../pages/creater/audioIndex.vue'
 
 
 
@@ -111,9 +113,21 @@ const routes = new VueRouter({
       ]
     },
     {
-      path: '/creater/1',
-      component: CreaterShow,
-      name:'creater-show',
+      path: '/creater',
+      component: Creater,
+      name:'creater',
+      children:[
+        {
+          path: ':id',
+          component: CreaterShow,
+          name:'creater-show'
+        },
+        {
+          path: ':id/audios',
+          component: CreaterAudios,
+          name:'creater-audios'
+        },
+      ]
     },
     {
       path: '/audios',
@@ -121,7 +135,7 @@ const routes = new VueRouter({
       name:'audio-index',
     },
     {
-      path: '/audios/1',
+      path: '/audios/:id',
       component: AudioShow,
       name:'audio-show',
     },
