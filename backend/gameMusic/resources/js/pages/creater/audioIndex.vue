@@ -42,8 +42,8 @@
             </ul>
           </nav>
         </div>
-
       </div>
+      
   </div>
 </template>
 
