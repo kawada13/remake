@@ -30,7 +30,7 @@
           新着オーディオ
         </div>
         <div class="audios ml-4 my-3" v-for="(audio,i) in audios" :key="i">
-          <h4>{{ audio.title }}</h4>
+          <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
           <audio controls controlslist="nodownload" class="my-3">
             <source :src="audio.sound">
           </audio>
@@ -41,7 +41,7 @@
 
         <div class="button my-3 more">
           <button 
-            type="button" 
+            type="button"
             class="btn btn-primary"
             @click="$router.push({ name: 'creater-audios', params: { id: `${$route.params.id}` }})"
             >
@@ -69,18 +69,21 @@ export default {
 `,
       audios:[
         {
+          id: 1,
           sound: '/images/Closed_Case.mp3',
           title: '生演奏！アコースティックギターのポップス',
           artist: 'rokedt1',
           price: 4000
         },
         {
+           id: 2,
           sound: '/images/Closed_Case.mp3',
           title: '生演奏！アコースティックギターのポップス',
           artist: 'rokedt1',
           price: 4000
         },
         {
+          id: 3,
           sound: '/images/Closed_Case.mp3',
           title: '生演奏！アコースティックギターのポップス',
           artist: 'rokedt1',
@@ -110,4 +113,22 @@ export default {
   border-radius: 20px;
 }
 
+.audio_title:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+@media screen and (max-width:767px) {
+    /*画面サイズが767px以下の場合読み込む（スマホ）*/
+
+    .button button {
+      font-size: 14px;
+    }
+
+}
+@media screen and (min-width:768px){
+    /*画面サイズが768px以上の場合読み込む（PC）*/
+
+}
 </style>
