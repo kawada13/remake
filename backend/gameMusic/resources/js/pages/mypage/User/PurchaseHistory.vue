@@ -13,7 +13,7 @@
             <audio controls controlslist="nodownload">
               <source :src="audio.sound">
             </audio>
-
+            <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'creater-show', params: { id: `${audio.id}` }})">{{audio.artist}}</small></p>
         </div>
       </div>
     </div>
@@ -26,24 +26,32 @@ export default {
     return {
       audios:[
         {
+          id: 1,
           title:'生演奏！アコースティックギターのポップス',
           sound: '/images/Closed_Case.mp3',
-          price: 3000
+          price: 3000,
+          artist: 'dsfa1'
         },
         {
+          id: 2,
           title:'生演奏！アコースティックギターのポップス',
           sound: '/images/Closed_Case.mp3',
-          price: 3000
+          price: 3000,
+          artist: 'dsfa2'
         },
         {
+          id: 3,
           title:'生演奏！アコースティックギターのポップス',
           sound: '/images/Closed_Case.mp3',
-          price: 3000
+          price: 3000,
+          artist: 'dsfa3'
         },
         {
+          id: 4,
           title:'生演奏！アコースティックギターのポップス',
           sound: '/images/Closed_Case.mp3',
-          price: 3000
+          price: 3000,
+          artist: 'dsfa4'
         },
       ]
     }
@@ -61,6 +69,10 @@ export default {
 }
 
 .purchase_audio_body .audio_title:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.creater_name:hover {
   cursor: pointer;
   text-decoration: underline;
 }
