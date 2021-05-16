@@ -9,13 +9,16 @@
             <div class="card-body">
               <input type="text" class="form-control py-4" placeholder="キーワードを入力してください">
               <select class="custom-select select-music mt-3" id="inputGroupSelect">
-                <option v-for="(junne,i) in junnes" :key="i" :value="junne.value">{{junne.text}}</option>
+                <option v-for="(sound,i) in sounds" :key="i" :value="sound.value">{{sound.text}}</option>
               </select>
               <select class="custom-select mt-3" id="inputGroupSelect">
-                <option selected>イメージ</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option v-for="(understanding,i) in understandings" :key="i" :value="understanding.value">{{understanding.text}}</option>
+              </select>
+              <select class="custom-select mt-3" id="inputGroupSelect">
+                <option v-for="(use,i) in uses" :key="i" :value="use.value">{{use.text}}</option>
+              </select>
+              <select class="custom-select mt-3" id="inputGroupSelect">
+                <option v-for="(instrument,i) in instruments" :key="i" :value="instrument.value">{{instrument.text}}</option>
               </select>
               <div class="buttn mt-4">
                 <button class="btn btn-primary" type="submit">検索する</button>
@@ -80,22 +83,80 @@
 export default {
   data() {
     return {
-      junnes: [
+      sounds: [
         {
           value: 'sound_effect',
           text: 'BGM',
         },
         {
-          value: 'pops',
-          text: '効果音',
+          value: 'SE',
+          text: 'SE',
+        },
+        {
+          value: 'jingle',
+          text: 'ジングル',
         },
         {
           value: 'voice',
           text: '声',
         },
+      ],
+      understandings: [
         {
-          value: 'song',
-          text: '歌',
+          value: 'gorgeous',
+          text: '華やか',
+        },
+        {
+          value: 'sad',
+          text: '悲しい',
+        },
+        {
+          value: 'pleasant',
+          text: '楽しい',
+        },
+        {
+          value: 'horror',
+          text: 'ホラー',
+        },
+      ],
+      uses: [
+        {
+          value: 'battle',
+          text: 'バトル',
+        },
+        {
+          value: 'love',
+          text: '恋愛',
+        },
+        {
+          value: 'past',
+          text: '過去',
+        },
+        {
+          value: 'future',
+          text: '未来',
+        },
+        {
+          value: 'everyday',
+          text: '日常',
+        },
+      ],
+      instruments: [
+        {
+          value: 'guitar',
+          text: 'ギター',
+        },
+        {
+          value: 'bass',
+          text: 'ベース',
+        },
+        {
+          value: 'drums',
+          text: 'ドラム',
+        },
+        {
+          value: 'synth',
+          text: 'シンセ',
         },
       ],
       audios: [

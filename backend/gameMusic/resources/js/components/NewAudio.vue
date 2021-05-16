@@ -5,7 +5,6 @@
       <div class="content-top-title">
         <h1>新着オーディオ</h1>
       </div>
-      
       <audio controls controlslist="nodownload">
         <source :src="mp3">
       </audio>
@@ -26,15 +25,32 @@ export default {
 
 <style scoped>
 .new-audio {
-  height: 600px;
+  height: auto;
   background: #F6F6F4;
 }
-.content-top-title {
-  text-align: center;
-  margin-top: 60px;
-}
+
 .content-top-title h1{
   font-weight: bold;
   color: #566985;
+}
+
+
+@media screen and (max-width:767px) {
+    /*画面サイズが767px以下の場合読み込む（スマホ）*/
+
+    .content-top-title {
+      text-align: center;
+      margin-top: 215px;
+    }
+
+}
+@media screen and (min-width:768px){
+    /*画面サイズが768px以上の場合読み込む（PC）*/
+
+    .content-top-title {
+      text-align: center;
+      margin-top: 210px;
+    }
+
 }
 </style>
