@@ -65,7 +65,7 @@ export default {
     {
       this.createrClass = true
     }
-    if(this.$route.name == 'purchase-history' || this.$route.name == 'favorite-audios' || this.$route.name == 'follows')
+    if(this.$route.name == 'purchase-history' || this.$route.name == 'favorite-audios' || this.$route.name == 'follows' || this.$route.name == 'profile-setting' || this.$route.name == 'buyer_setteing')
     {
       this.userClass = true
     }

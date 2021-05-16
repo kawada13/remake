@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="title">
-      <h4>クリエイター情報編集</h4>
+      <h4>クリエイター情報設定</h4>
     </div>
 
 
@@ -75,6 +75,9 @@ export default {
 </script>
 
 <style scoped>
+.title h4 {
+  font-weight: bold;
+}
 .store{
   color: white;
   font-weight: bold;

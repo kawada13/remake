@@ -44,6 +44,8 @@ import UserPage from '../pages/mypage/UserPage.vue'
 import PurchaseHistory from '../pages/mypage/User/PurchaseHistory.vue'
 import FavoriteAudios from '../pages/mypage/User/FavoriteAudios.vue'
 import Follows from '../pages/mypage/User/Follows.vue'
+import ProfileSetting from '../pages/mypage/User/ProfileSetting.vue'
+import BuyerSetteing from '../pages/mypage/User/BuyerSetteing.vue'
 
 
 
@@ -91,6 +93,16 @@ const routes = new VueRouter({
               path: 'follows',
               component: Follows,
               name:'follows'
+            },
+            {
+              path: 'profile_setting',
+              component: ProfileSetting,
+              name:'profile-setting'
+            },
+            {
+              path: 'buyer_setteing',
+              component: BuyerSetteing,
+              name:'buyer_setteing'
             },
           ]
         },

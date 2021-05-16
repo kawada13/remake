@@ -8,7 +8,7 @@
 
           <!-- アイコン -->
           <div class="artist_image d-flex justify-content-center mb-3">
-            <img src="/images/498467_s.jpg" class="rounded-circle">
+            <img src="/images/498467_s.jpg" class="rounded-circle" @click="$router.push({ name: 'profile-setting'})">
           </div>
 
           <!-- ユーザー名 -->
@@ -20,7 +20,8 @@
               <li class="list-group-item" @click="$router.push({ name: 'purchase-history'})">購入作品</li>
               <li class="list-group-item" @click="$router.push({ name: 'favorite-audios'})">お気に入り作品一覧</li>
               <li class="list-group-item" @click="$router.push({ name: 'follows'})">フォローしているクリエイター</li>
-              <li class="list-group-item">購入者情報設定</li>
+              <li class="list-group-item" @click="$router.push({ name: 'profile-setting'})">ユーザー情報設定</li>
+              <li class="list-group-item" @click="$router.push({ name: 'buyer_setteing'})">購入者情報設定</li>
             </ul>
           </div>
         </div>
