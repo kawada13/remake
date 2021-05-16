@@ -61,9 +61,7 @@ export default {
 </script>
 
 <style scoped>
-.purchase_audio_title h3 {
-  font-weight: bold;
-}
+
 .purchase_audio_body button {
   margin: 0!important;
 }
@@ -75,6 +73,26 @@ export default {
 .creater_name:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+@media screen and (max-width:767px) {
+    /*画面サイズが767px以下の場合読み込む（スマホ）*/
+
+    .purchase_audio_title h3 {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+
+
+}
+@media screen and (min-width:768px){
+    /*画面サイズが768px以上の場合読み込む（PC）*/
+
+    .purchase_audio_title h3 {
+      font-weight: bold;
+    }
+
 }
 
 

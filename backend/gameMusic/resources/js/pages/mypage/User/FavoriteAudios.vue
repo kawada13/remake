@@ -86,7 +86,6 @@ audio {
 
     h3 {
       font-weight: bold;
-      font-size: 20px;
     }
 
 }
