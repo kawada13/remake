@@ -3,8 +3,9 @@
       <div class="row my-3">
 
         <!-- 左側 -->
-        <div class="col-sm-3 col-xs-12">
-          <div class="creater_image d-flex justify-content-start mb-3">
+        <div class="col-sm-3 col-xs-12 left_side_bar mb-5">
+
+          <div class="creater_image mb-3">
             <img src="/images/498467_s.jpg" class="rounded-circle">
           </div>
 
@@ -33,6 +34,10 @@ export default {
 <style scoped>
 .creater_image img {
   height: 144px;
+}
+
+.left_side_bar {
+  text-align: center;
 }
 
 
