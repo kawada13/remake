@@ -19,7 +19,7 @@
             <ul class="list-group list-group-flush accout_setting">
               <li class="list-group-item" @click="$router.push({ name: 'purchase-history'})">購入作品</li>
               <li class="list-group-item" @click="$router.push({ name: 'favorite-audios'})">お気に入り作品一覧</li>
-              <li class="list-group-item">フォローしているクリエイター</li>
+              <li class="list-group-item" @click="$router.push({ name: 'follows'})">フォローしているクリエイター</li>
               <li class="list-group-item">購入者情報設定</li>
             </ul>
           </div>

@@ -2,9 +2,9 @@
   <div>
     <div class="">
       <div class="card purchase_audio_title">
-        <h2 class="card-header">
+        <h3 class="card-header">
           購入作品
-        </h2>
+        </h3>
         <div class="card-body purchase_audio_body" v-for="(audio, i) in audios" :key="i">
             <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
             <p>
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style scoped>
-.purchase_audio_title h2 {
+.purchase_audio_title h3 {
   font-weight: bold;
 }
 .purchase_audio_body button {

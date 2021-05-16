@@ -43,6 +43,7 @@ import UserPage from '../pages/mypage/UserPage.vue'
 // ユーザーぺーじ(小)
 import PurchaseHistory from '../pages/mypage/User/PurchaseHistory.vue'
 import FavoriteAudios from '../pages/mypage/User/FavoriteAudios.vue'
+import Follows from '../pages/mypage/User/Follows.vue'
 
 
 
@@ -85,6 +86,11 @@ const routes = new VueRouter({
               path: 'favorite_audios',
               component: FavoriteAudios,
               name:'favorite-audios'
+            },
+            {
+              path: 'follows',
+              component: Follows,
+              name:'follows'
             },
           ]
         },
