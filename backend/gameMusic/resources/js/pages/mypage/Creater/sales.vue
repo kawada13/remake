@@ -16,7 +16,6 @@
           </div>
         </div>
       </div>
-      
 
 
       <div class="card purchase_audio_title">
@@ -109,16 +108,6 @@ export default {
       ]
     }
   },
-  methods: {
-    del() {
-      let result = confirm('出勤申請をしますか？');
-      if( result ) {
-          alert('申請しました');
-      } else {
-        alert('キャンセルしました。');
-      }
-    }
-  },
 
 }
 </script>
@@ -134,9 +123,6 @@ export default {
   color: black;
 }
 
-/* .purchase_audio_body button {
-  margin: 0!important;
-} */
 
 .purchase_audio_body .audio_title:hover {
   cursor: pointer;
