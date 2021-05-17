@@ -37,6 +37,7 @@ import CreaterPage from '../pages/mypage/CreaterPage.vue'
 import ExhibitedProducts from '../pages/mypage/Creater/ExhibitedProducts.vue'
 import CreaterInfoEdit from '../pages/mypage/Creater/info.vue'
 import TransferAccountSetting from '../pages/mypage/Creater/TransferAccountSetting.vue'
+import AudioCreate from '../pages/mypage/Creater/audio/create.vue'
 
 // ユーザーぺーじ(中)
 import UserPage from '../pages/mypage/UserPage.vue'
@@ -125,6 +126,11 @@ const routes = new VueRouter({
               path: 'transfer_account_setting',
               component: TransferAccountSetting,
               name:'transfer-account-setting'
+            },
+            {
+              path: 'audio/create',
+              component: AudioCreate,
+              name:'audio-create'
             },
           ]
         }

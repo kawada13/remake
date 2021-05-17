@@ -17,7 +17,7 @@
           <!-- いろんな選択肢 -->
           <div class="card my-3">
             <ul class="list-group list-group-flush listing">
-              <li class="list-group-item">出品する<i class="fas fa-chevron-right pl-2"></i></li>
+              <li class="list-group-item" @click="$router.push({ name: 'audio-create' })">出品する<i class="fas fa-chevron-right pl-2"></i></li>
             </ul>
           </div>
           <div class="card">

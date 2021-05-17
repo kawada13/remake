@@ -1,7 +1,7 @@
 <template>
-  <div class="">
-    <div class="title">
-      <h4>振込口座設定</h4>
+  <div>
+   <div class="head">
+      <h4>商品登録</h4>
     </div>
 
 
@@ -11,17 +11,17 @@
           <form @submit.prevent="update">
 
             <div class="form-group">
-              <div><label for="bank_name">銀行名<span class="badge badge-danger">必須</span></label></div>
-              <input type="text" class="form-control form-control-lg" id="bank_name" v-model="bank_name">
-              <div class="alert alert-danger mt-2" role="alert" v-if="errors.bank_name.required">
+              <div><label for="title">タイトル<span class="badge badge-danger">必須</span></label></div>
+              <input type="text" class="form-control form-control-lg" id="title" v-model="title">
+              <div class="alert alert-danger mt-2" role="alert" v-if="errors.title.required">
                 入力は必須です！
               </div>
             </div>
 
             <div class="form-group">
-              <div><label for="bank_code">銀行コード<span class="badge badge-danger">必須</span></label></div>
-              <input type="number" class="form-control form-control-lg" id="bank_code" v-model="bank_code">
-              <div class="alert alert-danger mt-2" role="alert" v-if="errors.bank_code.required">
+              <div><label for="price">価格<span class="badge badge-danger">必須</span></label></div>
+              <input type="number" class="form-control form-control-lg" id="price" v-model="price">
+              <div class="alert alert-danger mt-2" role="alert" v-if="errors.price.required">
                 入力は必須です！
               </div>
             </div>
@@ -92,10 +92,10 @@ export default {
   data() {
     return {
       errors: {
-        bank_name: {
+        title: {
           required: false,
         },
-        bank_code: {
+        price: {
           required: false,
         },
         branch_name: {
@@ -115,8 +115,8 @@ export default {
           katakana: false
         },
       },
-      bank_name: '',
-      bank_code: '',
+      title: '',
+      price: '',
       branch_name: '',
       branch_code: '',
       deposit_type: '',
@@ -124,75 +124,13 @@ export default {
       account_holder: '',
     }
   },
-  methods: {
-    update() {
-      this.validate();
-    },
-    validate() {
-
-      // 一旦初期化
-      this.errors = {
-        bank_name: {
-          required: false,
-        },
-        bank_code: {
-          required: false,
-        },
-        branch_name: {
-          required: false,
-        },
-        branch_code: {
-          required: false,
-        },
-        deposit_type: {
-          required: false,
-        },
-        account_number: {
-          required: false,
-        },
-        account_holder: {
-          required: false,
-          katakana: false
-        }
-      }
-
-      // 必須チェック
-      if (!this.bank_name) {
-        this.errors.bank_name.required = true
-      }
-      if (!this.bank_code) {
-        this.errors.bank_code.required = true
-      }
-      if (!this.branch_name) {
-        this.errors.branch_name.required = true
-      }
-      if (!this.branch_code) {
-        this.errors.branch_code.required = true
-      }
-      if (!this.deposit_type) {
-        this.errors.deposit_type.required = true
-      }
-      if (!this.account_number) {
-        this.errors.account_number.required = true
-      }
-      if (!this.account_holder) {
-        this.errors.account_holder.required = true
-      }
-
-      // 全角カタカナチェック
-      if (this.account_holder.match(/^[ァ-ヶー　]+$/)) {
-        this.errors.account_holder.katakana = false
-      } else {
-        this.errors.account_holder.katakana = true
-      }
-    }
-  },
 
 }
 </script>
 
+
 <style scoped>
-.title h4 {
+.head h4 {
   font-weight: bold;
 }
 .store{
