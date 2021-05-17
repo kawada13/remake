@@ -87,6 +87,10 @@ export default {
       margin-left: 209px;
     }
 
+    .card-header {
+      font-size: 25px;
+    }
+
 }
 @media screen and (min-width:768px){
     /*画面サイズが768px以上の場合読み込む（PC）*/
