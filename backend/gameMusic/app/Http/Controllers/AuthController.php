@@ -6,17 +6,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+// リクエスト
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+
 // モデル
 use App\User;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => ['required'],
-            'password' => ['required'],
-        ]);
 
         $credentials = $request->only('email', 'password');
 
@@ -33,14 +33,8 @@ class AuthController extends Controller
 
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'name' => ['required'],
-            'email' => ['required'],
-            'password' => ['required'],
-        ]);
-
         DB::beginTransaction();
         try {
             User::create([
