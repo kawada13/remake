@@ -11,7 +11,7 @@
           <form @submit.prevent="update">
 
             <div class="form-group">
-              <div><label for="bank_name">銀行名<span class="badge badge-danger">必須</span></label></div>
+              <div><label for="bank_name">銀行名<span class="badge badge-danger ml-2">必須</span></label></div>
               <input type="text" class="form-control form-control-lg" id="bank_name" v-model="bank_name">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.bank_name.required">
                 入力は必須です！
@@ -19,7 +19,7 @@
             </div>
 
             <div class="form-group">
-              <div><label for="bank_code">銀行コード<span class="badge badge-danger">必須</span></label></div>
+              <div><label for="bank_code">銀行コード<span class="badge badge-danger ml-2">必須</span></label></div>
               <input type="number" class="form-control form-control-lg" id="bank_code" v-model="bank_code">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.bank_code.required">
                 入力は必須です！
@@ -27,7 +27,7 @@
             </div>
 
             <div class="form-group">
-              <div><label for="branch_name">支店名<span class="badge badge-danger">必須</span></label></div>
+              <div><label for="branch_name">支店名<span class="badge badge-danger ml-2">必須</span></label></div>
               <input type="text" class="form-control form-control-lg" id="branch_name" v-model="branch_name">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.branch_name.required">
                 入力は必須です！
@@ -35,7 +35,7 @@
             </div>
 
             <div class="form-group">
-              <div><label for="branch_code">支店コード<span class="badge badge-danger">必須</span></label></div>
+              <div><label for="branch_code">支店コード<span class="badge badge-danger ml-2">必須</span></label></div>
               <input type="number" class="form-control form-control-lg" id="branch_code" v-model="branch_code">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.branch_code.required">
                 入力は必須です！
@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-group">
-              <div><label>預金種別<span class="badge badge-danger">必須</span></label></div>
+              <div><label>預金種別<span class="badge badge-danger ml-2">必須</span></label></div>
               <div class="d-flex justify-content-start">
                 <div class="form-check mr-2">
                 <input class="form-check-input" type="radio" name="radio1" id="radio1a" checked v-model="deposit_type" value="普通">
@@ -60,7 +60,7 @@
             </div>
 
             <div class="form-group">
-              <div><label for="account_number">口座番号<span class="badge badge-danger">必須</span></label></div>
+              <div><label for="account_number">口座番号<span class="badge badge-danger ml-2">必須</span></label></div>
               <input type="number" class="form-control form-control-lg" id="account_number" v-model="account_number">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.account_number.required">
                 入力は必須です！
@@ -68,7 +68,7 @@
             </div>
 
             <div class="form-group">
-              <div><label for="account_holder">口座名義（全角カタカナ）<span class="badge badge-danger">必須</span></label></div>
+              <div><label for="account_holder">口座名義（全角カタカナ）<span class="badge badge-danger ml-2">必須</span></label></div>
               <input type="text" class="form-control form-control-lg" id="account_holder" v-model="account_holder">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.account_holder.required">
                 入力は必須です！
@@ -79,7 +79,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
-            <button type="submit" class="btn btn-primary my-4 cancel">キャンセル</button>
+            <button type="button" class="btn btn-primary my-4 cancel">キャンセル</button>
           </form>
         </div>
       </div>

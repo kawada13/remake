@@ -25,6 +25,7 @@
                 <span class="btn btn-secondary">
                     ファイルを選択<input type="file" style="display:none" @change="fileSelected">
                 </span>
+                <span>{{image_ulr}}</span>
               </label>
 
               <div class="d-flex justify-content-start"><small class="form-text text-muted">画像は jpg, png 画像のみアップロードできます。</small></div>
@@ -33,8 +34,9 @@
               </div>
 
             </div>
+
             <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
-            <button type="submit" class="btn btn-primary my-4 cancel">キャンセル</button>
+            <button type="button" class="btn btn-primary my-4 cancel">キャンセル</button>
           </form>
         </div>
       </div>
@@ -48,20 +50,23 @@ export default {
     return {
       errors: {
         image: {
-          isFile: false
+          isFile: false,
         }
       },
+      image_ulr: '',
     }
   },
 
   methods: {
     fileSelected(e) {
       // jpg, pngのみを許可するバリデーション
+      console.log(e.target.files[0].type);
       this.errors.image.isFile = false
+      this.image_ulr = e.target.files[0].name
       if (e.target.files[0].type != 'image/jpeg' && e.target.files[0].type != 'image/png') {
         this.errors.image.isFile = true
       }
-    }
+    },
   },
 
 }

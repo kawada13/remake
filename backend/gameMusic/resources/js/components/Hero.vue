@@ -24,9 +24,9 @@
             <div class="card-body sound_title d-flex title justify-content-start">
               <p class="">サウンド：</p>
             </div>
-            <div class="card-body detail sound_content content buttons">
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(sound,i) in sounds" :key="i">{{sound.text}}</button>
-            </div>
+            <select class="custom-select select_sound mt-3" id="inputGroupSelect">
+              <option v-for="(sound,i) in sounds" :key="i" :value="sound.value">{{sound.text}}</option>
+            </select>
 
             <!-- イメージ -->
             <div class="card-body sound_title d-flex title justify-content-start">
@@ -154,6 +154,10 @@ export default {
 .btn {
   color: white;
   font-weight: bold;
+}
+
+.select_sound {
+  margin: 0!important;
 }
 
 @media screen and (max-width:767px) {
