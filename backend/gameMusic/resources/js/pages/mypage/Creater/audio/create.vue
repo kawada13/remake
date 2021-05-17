@@ -61,6 +61,28 @@
               </div>
             </div>
 
+            <div class="form-group">
+              <div class="types">
+                <div class="card-body sound_title d-flex title justify-content-start">
+                <p class="">シーン(複数選択できます)</p>
+                </div>
+                <div class="card-body detail sound_content content buttons">
+                  <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(use,i) in uses" :key="i">{{use.text}}</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="types">
+                <div class="card-body sound_title d-flex title justify-content-start">
+                <p class="">使用機材(複数選択できます)</p>
+                </div>
+                <div class="card-body detail sound_content content buttons">
+                  <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(instrument,i) in instruments" :key="i">{{instrument.text}}</button>
+                </div>
+              </div>
+            </div>
+
 
 
             <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
