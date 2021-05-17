@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     del() {
-      alert('本当に削除しますか？');
+      confirm('本当に削除しますか？');
     }
   },
 
