@@ -74,7 +74,7 @@
             <div class="card">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item price py-4"><i class="fas fa-yen-sign"></i>{{ price | comma }}</li>
-                <li class="list-group-item purchase_btn"><button type="button" class="btn btn-warning py-3 px-5">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
+                <li class="list-group-item purchase_btn"><button type="button" class="btn btn-warning py-3 px-5" data-toggle="modal" data-target="#exampleModal">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
               </ul>
             </div>
           </div>
@@ -96,6 +96,28 @@
             </div>
           </div>
 
+        </div>
+
+
+        <!-- 購入Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">{{ audio.title }}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>合計：<i class="fas fa-yen-sign"></i>{{ price | comma }}</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">キャンセル</button>
+                <button type="button" class="btn btn-primary text-white">購入申請する</button>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -139,6 +161,15 @@ export default {
 </script>
 
 <style scoped>
+.modal-body p {
+  margin-bottom: 0;
+  font-size: 23px;
+  color: hsla(357, 100%, 37%, 0.979);
+  font-weight: bold;
+}
+.modal-title {
+  font-weight: bold;
+}
 .new-audio {
   height: auto;
   background: #F6F6F4;
@@ -160,7 +191,7 @@ export default {
 .card .price{
   font-weight: 700;
   font-size: 36px;
-  color: hsla(357, 100%, 37%, 0.979);;
+  color: hsla(357, 100%, 37%, 0.979);
 }
 .card .purchase_btn button{
   background: #F2C963;
