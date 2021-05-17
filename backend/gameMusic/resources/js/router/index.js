@@ -38,6 +38,7 @@ import ExhibitedProducts from '../pages/mypage/Creater/ExhibitedProducts.vue'
 import CreaterInfoEdit from '../pages/mypage/Creater/info.vue'
 import TransferAccountSetting from '../pages/mypage/Creater/TransferAccountSetting.vue'
 import AudioCreate from '../pages/mypage/Creater/audio/create.vue'
+import AudioEdit from '../pages/mypage/Creater/audio/edit.vue'
 
 // ユーザーぺーじ(中)
 import UserPage from '../pages/mypage/UserPage.vue'
@@ -131,6 +132,11 @@ const routes = new VueRouter({
               path: 'audio/create',
               component: AudioCreate,
               name:'audio-create'
+            },
+            {
+              path: 'audio/:id/edit',
+              component: AudioEdit,
+              name:'audio-edit'
             },
           ]
         }

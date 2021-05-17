@@ -26,6 +26,8 @@
             <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
             <p>
               <button type="button" class="btn btn-outline-info ml-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</button>
+              <button type="button" class="btn btn-success text-white" @click="$router.push({ name: 'audio-edit', params: { id: `${audio.id}` }})">編集</button>
+              <button type="button" class="btn btn-danger text-white" @click="del">削除</button>
             </p>
             <audio controls controlslist="nodownload">
               <source :src="audio.sound">
@@ -44,26 +46,35 @@ export default {
       cumulative: 6000,
       audios:[
         {
+          id: 1,
           title:'生演奏！アコースティックギターのポップス',
           sound: '/images/Closed_Case.mp3',
           price: 3000
         },
         {
+          id: 2,
           title:'生演奏！アコースティックギターのポップス',
           sound: '/images/Closed_Case.mp3',
           price: 3000
         },
         {
+          id: 3,
           title:'生演奏！アコースティックギターのポップス',
           sound: '/images/Closed_Case.mp3',
           price: 3000
         },
         {
+          id: 4,
           title:'生演奏！アコースティックギターのポップス',
           sound: '/images/Closed_Case.mp3',
           price: 3000
         },
       ]
+    }
+  },
+  methods: {
+    del() {
+      alert('本当に削除しますか？');
     }
   },
 

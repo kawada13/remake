@@ -86,7 +86,7 @@
 
 
             <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
-            <button type="button" class="btn btn-primary my-4 cancel">キャンセル</button>
+            <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">キャンセル</button>
           </form>
         </div>
       </div>
@@ -229,6 +229,9 @@ export default {
         this.errors.audio_url.required = true
       }
 
+    },
+    cancel() {
+      this.$router.go(-1)
     }
   },
 
