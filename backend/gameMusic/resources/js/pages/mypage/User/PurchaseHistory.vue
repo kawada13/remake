@@ -3,8 +3,9 @@
     <div class="">
       <div class="card purchase_audio_title">
         <h3 class="card-header">
-          購入作品
+          購入履歴
         </h3>
+
         <div class="card-body purchase_audio_body" v-for="(audio, i) in audios" :key="i">
             <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
             <p>
@@ -13,8 +14,10 @@
             <audio controls controlslist="nodownload">
               <source :src="audio.sound">
             </audio>
-            <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'creater-show', params: { id: `${audio.id}` }})">{{audio.artist}}</small></p>
+            <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'creater-show', params: { id: `${audio.id}` }})">クリエイター名：{{audio.artist}}</small></p>
         </div>
+
+        
       </div>
     </div>
   </div>
