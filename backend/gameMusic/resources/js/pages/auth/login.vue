@@ -95,7 +95,7 @@ export default {
           this.$store.dispatch('auth/setUser', response.data.user)
 
           // エラーメッセージ非表示
-          this.errors.isLogin = true
+          this.errors.isLogin = false
 
           // 最後にリダイレクト
           this.$router.push("/");

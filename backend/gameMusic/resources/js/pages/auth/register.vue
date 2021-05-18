@@ -12,6 +12,9 @@
           <div class="card-body">
             <form @submit.prevent="register">
               <div class="form-group">
+                <div class="alert alert-danger mt-2" role="alert" v-if="errors.email.isSame">
+                  そのメールアドレスはすでに登録済です！
+                </div>
                 <div class="d-flex justify-content-start"><label for="name">お名前</label></div>
                 <input type="text" class="form-control form-control-lg" id="name" v-model="form.name">
                 <div class="d-flex justify-content-start"><small class="form-text text-muted">登録後変更可能です。</small></div>
@@ -58,6 +61,7 @@ export default {
         },
         email: {
           required: false,
+          isSame: false
         },
         password: {
           required: false,
@@ -78,16 +82,56 @@ export default {
       {
         return
       }
-      console.log('登録する');
-      this.$store.dispatch('auth/register', this.form)
+
+      // サンクタム処理
+       await axios.get('/sanctum/csrf-cookie')
+
+      //  登録処理
+       axios.post('/api/register', {
+          name: this.form.name,
+          email: this.form.email,
+          password: this.form.password,
+        })
+        .then(response => {
+          // ローカルストレージにログイン状態かどうかを保存
+          localStorage.setItem("auth", "true");
+
+          // storeにもログイン状態を保存
+          this.$store.dispatch('auth/SET_IS_AUTH', true)
+
+          // storeにユーザーデータを保存
+          this.$store.dispatch('auth/setUser', response.data.user)
+
+          // エラーメッセージ非表示
+          this.errors.email.isSame = false
+
+          // 最後にリダイレクト
+          this.$router.push("/");
+        })
+        .catch(error => {
+          // storeにもログイン状態を保存
+          this.$store.dispatch('auth/SET_IS_AUTH', false)
+
+          // storeにユーザーデータを保存
+          this.$store.dispatch('auth/setUser', null)
+
+          // エラーメッセージ表示
+          this.errors.email.isSame = true
+
+          // アラート
+          alert('新規登録に失敗しました。');
+        });
+
     },
     validate() {
+      // 初期化
       this.errors = {
         name: {
           required: false,
         },
         email: {
           required: false,
+          isSame: false
         },
         password: {
           required: false,

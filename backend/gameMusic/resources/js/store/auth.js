@@ -18,27 +18,6 @@ const mutations = {
 
 const actions = {
 
-
-  // 登録
-  async register({commit}, formInfo) {
-    await axios.get('/sanctum/csrf-cookie')
-    axios.post('/api/register', {
-      name: formInfo.name,
-      email: formInfo.email,
-      password: formInfo.password,
-    })
-    .then(response => {
-      // console.log(response)
-      localStorage.setItem("auth", "ture");
-      router.push("/");
-   })
-   .catch(error => {
-    commit('setUser', null);
-    commit('SET_IS_AUTH', false);
-    alert('登録に失敗しました。');
-    });
-  },
-
   // ログアウト
   logout({commit}) {
     axios.post('/api/logout')
@@ -64,12 +43,6 @@ const actions = {
       commit('SET_IS_AUTH', false);
     })
   },
-
-
-
-
-
-
 
   // ログインしているかどうかを保存
   SET_IS_AUTH({ commit }, status) {
