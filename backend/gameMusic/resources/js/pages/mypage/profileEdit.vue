@@ -1,7 +1,7 @@
 <template>
-  <div class="">
+  <div class="mt-5">
     <div class="title">
-      <h4>クリエイター情報設定</h4>
+      <h4>プロフィール編集</h4>
     </div>
 
 
@@ -42,7 +42,7 @@
 
             </div>
             <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
-            <button type="button" class="btn btn-primary my-4 cancel">キャンセル</button>
+            <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">キャンセル</button>
           </form>
         </div>
       </div>
@@ -68,6 +68,9 @@ export default {
       if (e.target.files[0].type != 'image/jpeg' && e.target.files[0].type != 'image/png') {
         this.errors.image.isFile = true
       }
+    },
+    cancel() {
+      this.$router.go(-1)
     }
   },
 
