@@ -2,7 +2,7 @@
   <div class="new-audio">
 
     <div class="container">
-      
+
       <div class="content-top-title">
         <h1>新規登録</h1>
       </div>
@@ -13,7 +13,7 @@
             <form @submit.prevent="register">
               <div class="form-group">
                 <div class="d-flex justify-content-start"><label for="name">お名前</label></div>
-                <input type="text" class="form-control form-control-lg" id="name" v-model="name">
+                <input type="text" class="form-control form-control-lg" id="name" v-model="form.name">
                 <div class="d-flex justify-content-start"><small class="form-text text-muted">登録後変更可能です。</small></div>
                 <div class="alert alert-danger mt-2" role="alert" v-if="errors.name.required">
                   お名前の入力は必須です！
@@ -21,14 +21,14 @@
               </div>
               <div class="form-group">
                 <div class="d-flex justify-content-start"><label for="email">メールアドレス</label></div>
-                <input type="email" class="form-control form-control-lg" id="email" v-model="email">
+                <input type="email" class="form-control form-control-lg" id="email" v-model="form.email">
                 <div class="alert alert-danger mt-2" role="alert" v-if="errors.email.required">
                   メールアドレスの入力は必須です！
                 </div>
               </div>
               <div class="form-group">
                 <div class="d-flex justify-content-start"><label for="password">パスワード</label></div>
-                <input type="password" class="form-control form-control-lg" id="passsword" v-model="password">
+                <input type="password" class="form-control form-control-lg" id="passsword" v-model="form.password">
                 <div class="d-flex justify-content-start"><small class="form-text text-muted">6文字以上で入力してください。</small></div>
                 <div class="alert alert-danger mt-2" role="alert" v-if="errors.password.required">
                   パスワードの入力は必須です！
@@ -64,14 +64,22 @@ export default {
           size: false,
         },
       },
-      name: '',
-      email: '',
-      password: '',
+      form: {
+        name: '',
+        email: '',
+        password: '',
+      }
     }
   },
   methods: {
-    register() {
-      this.validate();
+    async register() {
+      await this.validate();
+      if(this.errors.name.required || this.errors.email.required || this.errors.password.required || this.errors.password.size)
+      {
+        return
+      }
+      console.log('登録する');
+      this.$store.dispatch('auth/register', this.form)
     },
     validate() {
       this.errors = {
@@ -87,16 +95,16 @@ export default {
         },
       }
 
-      if (!this.name) {
+      if (!this.form.name) {
         this.errors.name.required = true
       }
-      if (!this.email) {
+      if (!this.form.email) {
         this.errors.email.required = true
       }
-      if (!this.password) {
+      if (!this.form.password) {
         this.errors.password.required = true
       }
-      if (this.password.length < 6) {
+      if (this.form.password.length < 6) {
         this.errors.password.size = true
       }
 

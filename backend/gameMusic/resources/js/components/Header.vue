@@ -14,7 +14,7 @@
             </a>
             <div class="dropdown-menu " aria-labelledby="navbarDropdown">
               <a class="dropdown-item" @click="$router.push({ name: 'purchase-history' })">マイページ</a>
-              <a class="dropdown-item">ログアウト</a>
+              <a class="dropdown-item" @click="logout()">ログアウト</a>
             </div>
           </li>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'register' })">会員登録</a>
@@ -34,8 +34,8 @@ export default {
     }
   },
   methods: {
-    a() {
-      console.log(12)
+    logout() {
+      this.$store.dispatch('auth/logout')
     }
   },
 

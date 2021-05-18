@@ -29,7 +29,17 @@ export default {
     NewAudio,
     AudioIndex,
     HowTo
-    }
+  },
+  methods: {
+    async getUser() {
+       await this.$store.dispatch('auth/getUser')
+    },
+  },
+  created() {
+    Promise.all([
+      this.getUser()
+    ])
+  },
 }
 </script>
 
