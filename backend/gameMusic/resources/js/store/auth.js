@@ -18,24 +18,6 @@ const mutations = {
 
 const actions = {
 
-  // ログイン
-  async login({commit}, formInfo) {
-    await axios.get('/sanctum/csrf-cookie')
-    axios.post('/api/login', {
-      email: formInfo.email,
-      password: formInfo.password,
-    })
-    .then(response => {
-      console.log(response)
-      localStorage.setItem("auth", "ture");
-      commit('setUser', response.data.user);
-      commit('SET_IS_AUTH', true);
-      router.push("/");
-   })
-   .catch(error => {
-    alert('ログインに失敗しました。');
-    });
-  },
 
   // 登録
   async register({commit}, formInfo) {
@@ -46,12 +28,14 @@ const actions = {
       password: formInfo.password,
     })
     .then(response => {
-      console.log(response)
+      // console.log(response)
       localStorage.setItem("auth", "ture");
       router.push("/");
    })
    .catch(error => {
-    alert('ログインに失敗しました。');
+    commit('setUser', null);
+    commit('SET_IS_AUTH', false);
+    alert('登録に失敗しました。');
     });
   },
 
@@ -70,16 +54,31 @@ const actions = {
   getUser({ commit }) {
     axios.get('/api/user')
     .then(res => {
-      console.log(res);
+      // console.log(res);
       commit('setUser', res.data);
       commit('SET_IS_AUTH', true);
     })
     .catch(e => {
-      console.log(e.response);
+      // console.log(e.response);
       commit('setUser', null);
       commit('SET_IS_AUTH', false);
     })
   },
+
+
+
+
+
+
+
+  // ログインしているかどうかを保存
+  SET_IS_AUTH({ commit }, status) {
+    commit('SET_IS_AUTH', status);
+  },
+  // ログインしたユーザーをセット
+  setUser({ commit }, user) {
+    commit('setUser', user);
+  }
 }
 
 function isLoggedIn() {

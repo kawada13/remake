@@ -11,6 +11,9 @@
         <div class="card-body">
           <form @submit.prevent="login">
             <div class="form-group">
+              <div class="alert alert-danger mt-2" role="alert" v-if="errors.isLogin">
+                登録したメールアドレスまたはパスワードが間違っています！
+              </div>
               <div class="d-flex justify-content-start"><label for="email">メールアドレス</label></div>
               <input type="email" class="form-control form-control-lg" id="email" v-model="form.email">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.email.required">
@@ -33,7 +36,6 @@
         </div>
       </div>
     </div>
-      
 
 
     </div>
@@ -53,6 +55,7 @@ export default {
           required: false,
           size: false,
         },
+        isLogin: false
       },
       form: {
         email: '',
@@ -62,14 +65,61 @@ export default {
   },
   methods: {
     async login() {
+
+      // auth処理だけはstoreを使わずAPI通信をする。
+      // ⇨エラーメッセージ表示をうまく表示させるため。
+
+      // フォームバリデーション
       await this.validate();
       if(this.errors.email.required || this.errors.password.required || this.errors.password.size)
       {
         return
       }
-      this.$store.dispatch('auth/login', this.form)
+
+      // サンクタム処理
+       await axios.get('/sanctum/csrf-cookie')
+
+      //  ログイン処理
+       axios.post('/api/login', {
+          email: this.form.email,
+          password: this.form.password,
+        })
+        .then(response => {
+          // ローカルストレージにログイン状態かどうかを保存
+          localStorage.setItem("auth", "true");
+
+          // storeにもログイン状態を保存
+          this.$store.dispatch('auth/SET_IS_AUTH', true)
+
+          // storeにユーザーデータを保存
+          this.$store.dispatch('auth/setUser', response.data.user)
+
+          // エラーメッセージ非表示
+          this.errors.isLogin = true
+
+          // 最後にリダイレクト
+          this.$router.push("/");
+        })
+        .catch(error => {
+          // storeにもログイン状態を保存
+          this.$store.dispatch('auth/SET_IS_AUTH', false)
+
+          // storeにユーザーデータを保存
+          this.$store.dispatch('auth/setUser', null)
+
+          // エラーメッセージ表示
+          this.errors.isLogin = true
+
+          // アラート
+          alert('ログインに失敗しました。');
+        });
+
+
+
     },
     validate() {
+      
+      // 初期化
       this.errors = {
         email: {
           required: false,
@@ -78,6 +128,7 @@ export default {
           required: false,
           size: false,
         },
+        isLogin: false
       }
 
       if (!this.form.email) {

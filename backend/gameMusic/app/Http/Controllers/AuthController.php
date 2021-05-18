@@ -55,7 +55,8 @@ class AuthController extends Controller
         catch (\Exception $e) {
             DB::rollback();
             return response()->json([
-                'message' => '失敗'
+                'message' => '失敗',
+                'errorInfo' => $e
             ],500);
         }
     }
