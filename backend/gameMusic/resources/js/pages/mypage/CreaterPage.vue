@@ -8,11 +8,11 @@
 
           <!-- アイコン -->
           <div class="artist_image d-flex justify-content-center mb-3">
-            <img src="/images/498467_s.jpg" class="rounded-circle" @click="$router.push({ name: 'creater-info-edit' })">
+            <img src="/images/498467_s.jpg" class="rounded-circle" @click="$router.push({ name: 'profile-edit' })">
           </div>
 
-          <!-- クリエイター名 -->
-          <h3>Creater Name</h3>
+          <!-- ユーザー名 -->
+          <h3>User Name</h3>
 
           <!-- いろんな選択肢 -->
           <div class="card my-3">
@@ -22,8 +22,9 @@
           </div>
           <div class="card">
             <ul class="list-group list-group-flush accout_setting">
+              <li class="list-group-item">プロフィール</li>
+              <li class="list-group-item" @click="$router.push({ name: 'profile-edit' })">プロフィール編集</li>
               <li class="list-group-item" @click="$router.push({ name: 'exhibited-products' })">出品作品</li>
-              <li class="list-group-item" @click="$router.push({ name: 'creater-info-edit' })">クリエイター情報設定</li>
               <li class="list-group-item" @click="$router.push({ name: 'transfer-account-setting' })">振込口座設定</li>
               <li class="list-group-item" @click="$router.push({ name: 'sales' })">売上履歴</li>
             </ul>

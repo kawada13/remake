@@ -30,12 +30,12 @@ import CreaterAudios from '../pages/creater/audioIndex.vue'
 
 // 以下マイページ関連
 import MyPage from '../pages/mypage.vue'
+import profileEdit from '../pages/mypage/profileEdit.vue'
 
 // クリエイターページ(中)
 import CreaterPage from '../pages/mypage/CreaterPage.vue'
 // クリエイターページ(小)
 import ExhibitedProducts from '../pages/mypage/Creater/ExhibitedProducts.vue'
-import CreaterInfoEdit from '../pages/mypage/Creater/info.vue'
 import TransferAccountSetting from '../pages/mypage/Creater/TransferAccountSetting.vue'
 import AudioCreate from '../pages/mypage/Creater/audio/create.vue'
 import AudioEdit from '../pages/mypage/Creater/audio/edit.vue'
@@ -79,6 +79,11 @@ const routes = new VueRouter({
       meta: { authOnly: true },
       children:[
         {
+          path: 'profile/edit',
+          component: profileEdit,
+          name:'profile-edit'
+        },
+        {
           path: 'user',
           component: UserPage,
           name:'user-page',
@@ -119,11 +124,6 @@ const routes = new VueRouter({
               path: 'exhibited_products',
               component: ExhibitedProducts,
               name:'exhibited-products'
-            },
-            {
-              path: 'profile/edit',
-              component: CreaterInfoEdit,
-              name:'creater-info-edit'
             },
             {
               path: 'transfer_account_setting',

@@ -17,6 +17,8 @@
           <!-- いろんな選択肢 -->
           <div class="card my-3">
             <ul class="list-group list-group-flush accout_setting">
+              <li class="list-group-item">プロフィール編集</li>
+              <li class="list-group-item" @click="$router.push({ name: 'profile-edit' })">プロフィール編集</li>
               <li class="list-group-item" @click="$router.push({ name: 'purchase-history'})">購入履歴</li>
               <li class="list-group-item" @click="$router.push({ name: 'favorite-audios'})">お気に入り作品一覧</li>
               <li class="list-group-item" @click="$router.push({ name: 'follows'})">フォローしているクリエイター</li>
