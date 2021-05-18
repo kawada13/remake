@@ -9,7 +9,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <div class="navbar-nav navlink">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-if="isLogined">
               <i class="fas fa-user-alt text-white"></i>
             </a>
             <div class="dropdown-menu " aria-labelledby="navbarDropdown">
@@ -17,14 +17,15 @@
               <a class="dropdown-item" @click="logout()">ログアウト</a>
             </div>
           </li>
-          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'register' })">会員登録</a>
-          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'login' })">ログイン</a>
+          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'favorite-audios' })" v-if="isLogined"><i class="far fa-star text-white mr-2"></i>お気に入り</a>
+          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'audio-create' })" v-if="isLogined"><i class="fas fa-music mr-2 text-white"></i>出品する</a>
+          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'register' })" v-if="!isLogined">会員登録</a>
+          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'login' })" v-if="!isLogined">ログイン</a>
         </div>
       </div>
     </nav>
   </div>
 </template>
-
 
 
 <script>
@@ -38,6 +39,18 @@ export default {
       this.$store.dispatch('auth/logout')
     }
   },
+  computed: {
+    isLogined() {
+      return localStorage.getItem("auth");
+    }
+  },
+
+  // ページが変わるたびにサイレンダリング
+  watch: {
+  '$route': function (to, from) {
+    this.$router.go({path: this.$router.currentRoute.path, force: true})
+  }
+}
 
 }
 </script>
@@ -53,4 +66,4 @@ export default {
   font-weight: bold;
   cursor: pointer;
 }
-</style>>
+</style>

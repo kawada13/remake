@@ -76,6 +76,7 @@ const routes = new VueRouter({
       path: '/mypage',
       component: MyPage,
       name:'my-page',
+      meta: { authOnly: true },
       children:[
         {
           path: 'user',
@@ -132,7 +133,8 @@ const routes = new VueRouter({
             {
               path: 'audio/create',
               component: AudioCreate,
-              name:'audio-create'
+              name:'audio-create',
+              meta: { authOnly: true }
             },
             {
               path: 'audio/:id/edit',
@@ -179,11 +181,13 @@ const routes = new VueRouter({
       path: '/login',
       component: Login,
       name:'login',
+      meta: { guestOnly: true }
     },
     {
       path: '/register',
       component: Register,
       name:'register',
+      meta: { guestOnly: true }
     },
     {
       path: '*',
@@ -192,6 +196,28 @@ const routes = new VueRouter({
     },
   ]
 })
+
+function isLoggedIn() {
+  return localStorage.getItem("auth");
+}
+
+routes.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.authOnly)) {
+      if (!isLoggedIn()) {
+          next("/login");
+      } else {
+          next();
+      }
+  } else if (to.matched.some(record => record.meta.guestOnly)) {
+      if (isLoggedIn()) {
+          next("/");
+      } else {
+          next();
+      }
+  } else {
+      next();
+  }
+});
 
 
 export default routes;
