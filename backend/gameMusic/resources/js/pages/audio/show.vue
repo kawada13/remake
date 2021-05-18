@@ -82,7 +82,7 @@
 
           <!-- 右下 -->
           <div class="right_down mt-5">
-            <p class="purchase_title">アーティスト：</p>
+            <p class="purchase_title">クリエイター：</p>
             <div class="card">
               <div class="card-header">
                 <p @click="$router.push({ name: 'creater-show' })">Creater Name</p>
@@ -91,7 +91,7 @@
               <div class="card-body pt-5">
                 <h5 class="card-title">紹介文</h5>
                 <p class="card-text">446 点の作品を登録しています。よろしくお願いいたします。</p>
-                <a class="btn btn-outline-primary">このアーティストをフォロー</a>
+                <a class="btn btn-outline-primary">このクリエイターをフォロー</a>
               </div>
             </div>
           </div>

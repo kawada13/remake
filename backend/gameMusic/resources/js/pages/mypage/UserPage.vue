@@ -8,7 +8,7 @@
 
           <!-- アイコン -->
           <div class="artist_image d-flex justify-content-center mb-3">
-            <img src="/images/498467_s.jpg" class="rounded-circle" @click="$router.push({ name: 'profile-setting'})">
+            <img src="/images/default_img.png" class="rounded-circle" @click="$router.push({ name: 'profile-setting'})">
           </div>
 
           <!-- ユーザー名 -->
