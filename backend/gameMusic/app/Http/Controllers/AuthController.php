@@ -12,6 +12,7 @@ use App\Http\Requests\RegisterRequest;
 
 // モデル
 use App\User;
+use App\UserInformation;
 
 class AuthController extends Controller
 {
@@ -37,11 +38,17 @@ class AuthController extends Controller
     {
         DB::beginTransaction();
         try {
-            User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password)
-            ]);
+
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            $user_information = new UserInformation;
+            $user_information->user_id = $user->id;
+            $user_information->save();
+
             DB::commit();
 
             $credentials = $request->only('email', 'password');

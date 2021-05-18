@@ -18,7 +18,7 @@ class CreateUserInformationsTable extends Migration
             $table->foreignId('user_id')->constrained()->comment('外部キー');
             $table->string('profile_image')->default('default_img.png')->comment('プロフィール画像');
             $table->text('introduce')->nullable()->comment('自己紹介文');
-            $table->text('instrument')->nullable()->comment('使用がっき');
+            $table->text('instrument')->nullable()->comment('使用楽器');
             $table->timestamps();
         });
     }
