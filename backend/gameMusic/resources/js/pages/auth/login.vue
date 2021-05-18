@@ -9,17 +9,17 @@
     <div class="form_register d-flex justify-content-center my-5">
       <div class="card" style="width: 24rem;">
         <div class="card-body">
-          <form @submit.prevent="register">
+          <form @submit.prevent="login">
             <div class="form-group">
               <div class="d-flex justify-content-start"><label for="email">メールアドレス</label></div>
-              <input type="email" class="form-control form-control-lg" id="email" v-model="email">
+              <input type="email" class="form-control form-control-lg" id="email" v-model="form.email">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.email.required">
                 メールアドレスの入力は必須です！
               </div>
             </div>
             <div class="form-group">
               <div class="d-flex justify-content-start"><label for="password">パスワード</label></div>
-              <input type="password" class="form-control form-control-lg" id="passsword" v-model="password">
+              <input type="password" class="form-control form-control-lg" id="passsword" v-model="form.password">
               <div class="d-flex justify-content-start"><small class="form-text text-muted">6文字以上で入力してください。</small></div>
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.password.required">
                 パスワードの入力は必須です！
@@ -54,13 +54,20 @@ export default {
           size: false,
         },
       },
-      email: '',
-      password: '',
+      form: {
+        email: '',
+        password: '',
+      }
     }
   },
   methods: {
-    register() {
-      this.validate();
+    async login() {
+      await this.validate();
+      if(this.errors.email.required || this.errors.password.required || this.errors.password.size)
+      {
+        return
+      }
+      this.$store.dispatch('auth/login', this.form)
     },
     validate() {
       this.errors = {
@@ -73,13 +80,13 @@ export default {
         },
       }
 
-      if (!this.email) {
+      if (!this.form.email) {
         this.errors.email.required = true
       }
-      if (!this.password) {
+      if (!this.form.password) {
         this.errors.password.required = true
       }
-      if (this.password.length < 6) {
+      if (this.form.password.length < 6) {
         this.errors.password.size = true
       }
 

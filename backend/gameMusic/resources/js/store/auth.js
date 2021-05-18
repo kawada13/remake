@@ -18,6 +18,25 @@ const mutations = {
 
 const actions = {
 
+  // ログイン
+  async login({commit}, formInfo) {
+    await axios.get('/sanctum/csrf-cookie')
+    axios.post('/api/login', {
+      email: formInfo.email,
+      password: formInfo.password,
+    })
+    .then(response => {
+      console.log(response)
+      localStorage.setItem("auth", "ture");
+      commit('setUser', response.data.user);
+      commit('SET_IS_AUTH', true);
+      router.push("/");
+   })
+   .catch(error => {
+    alert('ログインに失敗しました。');
+    });
+  },
+
   // 登録
   async register({commit}, formInfo) {
     await axios.get('/sanctum/csrf-cookie')
