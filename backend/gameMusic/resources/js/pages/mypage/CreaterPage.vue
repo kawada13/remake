@@ -16,9 +16,12 @@
         <!-- (左側) -->
         <div class="col-sm-3 col-xs-12">
 
-          <!-- アイコン -->
-          <div class="artist_image d-flex justify-content-center mb-3">
-            <img src="/images/498467_s.jpg" class="rounded-circle" @click="$router.push({ name: 'profile-edit' })">
+          <!-- アイコン(登録されてなければデフォルト画像) -->
+          <div class="user_image d-flex justify-content-center mb-3" v-if="userInformation.user_information.profile_image">
+            <img :src="userInformation.user_information.profile_image" class="rounded-circle" @click="$router.push({ name: 'profile-edit' })">
+          </div>
+          <div class="user_image d-flex justify-content-center mb-3" v-else>
+            <img src="/images/default_img.png" class="rounded-circle" @click="$router.push({ name: 'profile-edit' })">
           </div>
 
           <!-- ユーザー名 -->
@@ -96,7 +99,7 @@ export default {
   height: auto;
   background: #F6F6F4;
 }
-.artist_image img {
+.user_image img {
   height: 160px;
   cursor: pointer;
 }
