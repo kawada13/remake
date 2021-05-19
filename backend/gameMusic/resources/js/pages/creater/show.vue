@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="profile_title">
-        <h2>Creater Nameさんのプロフィール</h2>
+        <h2>User Nameさんのプロフィール</h2>
       </div>
 
       <!-- 自己紹介 -->
@@ -46,7 +46,7 @@
             @click="$router.push({ name: 'creater-audios', params: { id: `${$route.params.id}` }})"
             >
             <i class="fas fa-arrow-right mr-2"></i>
-            このクリエイターの作品をもっと見る</button>
+            作品をもっと見る</button>
         </div>
 
       </div>

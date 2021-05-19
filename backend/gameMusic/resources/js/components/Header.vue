@@ -41,6 +41,7 @@ export default {
   },
   computed: {
     isAuth() {
+      // リロード対策
       if(this.$store.state.auth.isAuth || localStorage.getItem("auth"))
       {
         return true
