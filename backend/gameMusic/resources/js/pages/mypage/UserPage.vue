@@ -12,12 +12,13 @@
           </div>
 
           <!-- ユーザー名 -->
-          <h3>User Name</h3>
+          <!-- v-ifをつけたのはレンダリングする順番によって読み込みエラーが出てしまうから -->
+          <h3 v-if="userInformation.user">{{ userInformation.user.name }}</h3>
 
           <!-- いろんな選択肢 -->
           <div class="card my-3">
             <ul class="list-group list-group-flush accout_setting">
-              <li class="list-group-item">プロフィール</li>
+              <li class="list-group-item" @click="$router.push({ name: 'profile' })">プロフィール</li>
               <li class="list-group-item" @click="$router.push({ name: 'profile-edit' })">プロフィール編集</li>
               <li class="list-group-item" @click="$router.push({ name: 'purchase-history'})">購入履歴</li>
               <li class="list-group-item" @click="$router.push({ name: 'favorite-audios'})">お気に入り作品一覧</li>
@@ -44,9 +45,21 @@
 export default {
   data() {
     return {
+      userInformation: {}
     }
   },
-  computed: {
+  methods: {
+    async getUserData() {
+      await this.$store.dispatch('auth/getUserInformation')
+
+      // api通信でとってきたデータを代入
+      this.userInformation = this.$store.state.auth.user
+    }
+  },
+  created() {
+    Promise.all([
+      this.getUserData(),
+    ])
   },
 
 }

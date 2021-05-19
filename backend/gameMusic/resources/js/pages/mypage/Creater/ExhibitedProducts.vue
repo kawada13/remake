@@ -23,6 +23,7 @@
 export default {
   data() {
     return {
+      userInfo: {},
       earning: 3000,
       cumulative: 6000,
       audios:[
@@ -56,7 +57,7 @@ export default {
   methods: {
     del() {
       confirm('本当に削除しますか？');
-    }
+    },
   },
 
 }

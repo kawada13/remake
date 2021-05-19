@@ -30,6 +30,7 @@ import CreaterAudios from '../pages/creater/audioIndex.vue'
 
 // 以下マイページ関連
 import MyPage from '../pages/mypage.vue'
+import profile from '../pages/mypage/profile.vue'
 import profileEdit from '../pages/mypage/profileEdit.vue'
 
 // クリエイターページ(中)
@@ -78,6 +79,11 @@ const routes = new VueRouter({
       name:'my-page',
       meta: { authOnly: true },
       children:[
+        {
+          path: 'profile',
+          component: profile,
+          name:'profile'
+        },
         {
           path: 'profile/edit',
           component: profileEdit,
