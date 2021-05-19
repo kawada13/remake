@@ -8,8 +8,10 @@ import store from './store'
 
 Vue.use(FilterPlugin)
 
+// グローバルコンポーネント
 Vue.component('app-header', require('./components/Header.vue').default);
 Vue.component('app-footer', require('./components/Footer.vue').default);
+Vue.component('Loader', require('./components/Loader.vue').default);
 
 
 
