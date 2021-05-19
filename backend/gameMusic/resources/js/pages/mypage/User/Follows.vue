@@ -13,7 +13,7 @@
                 <div class="d-flex justify-content-start">
                   <img :src="creater.img" class="rounded-circle">
                   <div class="d-flex align-items-center ml-2">
-                    <span class="creater_name" @click="$router.push({ name: 'creater-show', params: { id: `${creater.id}` }})">{{ creater.name }}</span>
+                    <span class="creater_name" @click="$router.push({ name: 'user-show', params: { id: `${creater.id}` }})">{{ creater.name }}</span>
                   </div>
                 </div>
               </div>

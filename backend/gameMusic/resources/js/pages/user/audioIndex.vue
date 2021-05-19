@@ -14,7 +14,7 @@
           <audio controls controlslist="nodownload" class="my-3">
             <source :src="audio.sound">
           </audio>
-          <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'creater-show', params: { id: `${audio.id}` }})">{{audio.artist}}</small></p>
+          <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">{{audio.artist}}</small></p>
           <p>
             <a class="btn btn-outline-primary">この曲をお気に入りに登録</a>
           </p>

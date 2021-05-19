@@ -10,7 +10,7 @@
           </div>
 
           <h3>Creater Name</h3>
-          <a class="btn btn-outline-primary mt-2">このアーティストをフォロー</a>
+          <a class="btn btn-outline-primary mt-2">このクリエイターをフォロー</a>
         </div>
 
 

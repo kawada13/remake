@@ -85,7 +85,7 @@
             <p class="purchase_title">クリエイター：</p>
             <div class="card">
               <div class="card-header">
-                <p @click="$router.push({ name: 'creater-show' })">Creater Name</p>
+                <p @click="$router.push({ name: 'user-show' })">Creater Name</p>
                 <img src="/images/498467_s.jpg" class="rounded-circle">
               </div>
               <div class="card-body pt-5">

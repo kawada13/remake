@@ -43,7 +43,7 @@
           <button 
             type="button"
             class="btn btn-primary"
-            @click="$router.push({ name: 'creater-audios', params: { id: `${$route.params.id}` }})"
+            @click="$router.push({ name: 'user-audios', params: { id: `${$route.params.id}` }})"
             >
             <i class="fas fa-arrow-right mr-2"></i>
             作品をもっと見る</button>
