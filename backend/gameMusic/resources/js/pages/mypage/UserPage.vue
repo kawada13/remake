@@ -8,14 +8,14 @@
 
 
    <!-- ローディング終わったら表示 -->
-    <div class="artist_mypage" v-if="!loading">
+    <div class="mypage" v-if="!loading">
         <div class="row my-3">
 
           <!-- (左側) -->
           <div class="col-sm-3 col-xs-12">
 
             <!-- アイコン -->
-            <div class="artist_image d-flex justify-content-center mb-3">
+            <div class="user_image d-flex justify-content-center mb-3">
               <img src="/images/default_img.png" class="rounded-circle" @click="$router.push({ name: 'profile-setting'})">
             </div>
 
@@ -87,11 +87,11 @@ export default {
 </script>
 
 <style scoped>
-.artist_mypage {
+.mypage {
   height: auto;
   background: #F6F6F4;
 }
-.artist_image img {
+.user_image img {
   height: 160px;
   cursor: pointer;
 }

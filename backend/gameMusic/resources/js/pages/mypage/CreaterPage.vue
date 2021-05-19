@@ -1,6 +1,16 @@
 <template>
-  <div class="artist_mypage">
-    <div class="container">
+  <div class="container">
+
+
+
+     <!-- ローディング中 -->
+    <div class="mt-5" v-if="loading">
+      <Loader />
+    </div>
+
+
+     <!-- ローディング終わったら表示 -->
+    <div class="artist_mypage" v-if="!loading">
       <div class="row my-3">
 
         <!-- (左側) -->
@@ -12,7 +22,7 @@
           </div>
 
           <!-- ユーザー名 -->
-          <h3>User Name</h3>
+          <h3>{{ userInformation.user.name }}</h3>
 
           <!-- いろんな選択肢 -->
           <div class="card my-3">
@@ -50,9 +60,32 @@ export default {
   },
   data() {
     return {
+      userInformation: {},
+      loading: false
     }
   },
-  computed: {
+  methods: {
+    async getUserData() {
+
+      try{
+        this.loading = true
+        await this.$store.dispatch('auth/getUserInformation')
+
+        // api通信でとってきたデータを代入
+        this.userInformation = this.$store.state.auth.user
+      }
+      catch(e){
+        console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    }
+  },
+  created() {
+    Promise.all([
+      this.getUserData(),
+    ])
   },
 
 }
