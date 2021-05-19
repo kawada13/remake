@@ -97,6 +97,9 @@ export default {
           // エラーメッセージ非表示
           this.errors.isLogin = false
 
+          // ヘッダーの表示を変えるためにサイレンダリング
+          // this.$router.go({path: this.$router.currentRoute.path, force: true})
+
           // 最後にリダイレクト
           this.$router.push("/");
         })
@@ -118,7 +121,6 @@ export default {
 
     },
     validate() {
-      
       // 初期化
       this.errors = {
         email: {
@@ -140,8 +142,17 @@ export default {
       if (this.form.password.length < 6) {
         this.errors.password.size = true
       }
-
+    },
+    isAuth() {
+      if(!localStorage.getItem("auth")) {
+        this.$store.dispatch('auth/SET_IS_AUTH', false)
+        this.$store.dispatch('auth/setUser', null)
+      }
     }
+  },
+
+  created() {
+    this.isAuth()
   },
 
 }

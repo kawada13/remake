@@ -11,8 +11,6 @@
       <audio-index />
       <how-to />
     </div>
-    
-
 
   </div>
 </template>
@@ -39,6 +37,7 @@ export default {
     Promise.all([
       this.getUser()
     ])
+    // this.$router.go({path: this.$router.currentRoute.path, force: true})
   },
 }
 </script>
