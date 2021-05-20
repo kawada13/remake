@@ -40,14 +40,14 @@
               <div class="alert alert-danger" role="alert" v-if="errors.image.isFile">
                 画像は jpg, pngファイルのみです!
               </div>
-              <div class="alert alert-danger" role="alert" v-if="errors.image.size">
-                画像ファイルの縦横幅それぞれは、700 px を超えることはできません。!
-              </div>
 
               <div class="creater_image mt-5 mb-3" v-if="confirmedImage">
                 <hr>
                 <p>アップロード画像確認</p>
-                  <img :src="confirmedImage" />
+                <img :src="confirmedImage" />
+                <div class="alert alert-danger mt-3" role="alert" v-if="errors.image.size">
+                  画像ファイルの縦横幅それぞれは、700 px を超えることはできません。!
+                </div>
               </div>
 
             </div>
