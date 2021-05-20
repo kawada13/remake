@@ -1,59 +1,69 @@
 <template>
-  <div class="mt-5">
-    <div class="title">
-      <h4>プロフィール編集</h4>
+  <div>
+     <!-- ローディング中 -->
+    <div class="mt-5" v-if="loading">
+      <Loader />
     </div>
 
+    <div class="mt-5 profile_edit" v-if="!loading">
+      <div class="title">
+        <h4>プロフィール編集</h4>
+      </div>
 
-    <div class="form_creater_edit my-5">
-      <div class="card">
-        <div class="card-body">
-          <form @submit.prevent="upload">
-            <div class="form-group">
-              <div><label for="creater_name">ユーザー名</label></div>
-              <input type="text" class="form-control form-control-lg" id="creater_name">
-            </div>
-            <div class="form-group">
-              <label for="introduce">自己紹介</label>
-              <textarea class="form-control" id="introduce" placeholder="よろしくお願いします。"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="instruments">使用機材</label>
-              <textarea class="form-control" id="instruments" placeholder="ギター、ベース"></textarea>
-            </div>
-            <div class="form-group">
-
-              <div><label>プロフィール画像</label></div>
-
-              <div class="creater_image mt-5 mb-3">
-                <img src="/images/498467_s.jpg" class="rounded-circle">
+      <div class="form_creater_edit my-5">
+        <div class="card">
+          <div class="card-body">
+            <form @submit.prevent="upload">
+              <div class="form-group">
+                <div><label for="creater_name">ユーザー名</label></div>
+                <input type="text" class="form-control form-control-lg" id="creater_name" v-model="userInformation.user.name">
               </div>
-
-              <label class="input-group-btn">
-                <span class="btn btn-secondary">
-                    ファイルを選択<input type="file" style="display:none" @change="fileSelected">
-                </span>
-                <span></span>
-              </label>
-
-              <div class="d-flex justify-content-start"><small class="form-text text-muted">画像は jpg, png 画像のみアップロードできます。</small></div>
-              <div class="alert alert-danger" role="alert" v-if="errors.image.isFile">
-                画像は jpg, pngファイルのみです!
+              <div class="form-group">
+                <label for="introduce">自己紹介</label>
+                <textarea class="form-control" id="introduce" placeholder="よろしくお願いします。" v-model="userInformation.user_information.introduce"></textarea>
               </div>
+              <div class="form-group">
+                <label for="instruments">使用機材</label>
+                <textarea class="form-control" id="instruments" placeholder="ギター、ベース" v-model="userInformation.user_information.instrument"></textarea>
+              </div>
+              <div class="form-group">
 
-              <div class="creater_image mt-5 mb-3" v-if="confirmedImage">
-                <hr>
-                <p>アップロード画像確認</p>
-                <img :src="confirmedImage" />
-                <div class="alert alert-danger mt-3" role="alert" v-if="errors.image.size">
-                  画像ファイルの縦横幅それぞれは、700 px を超えることはできません。!
+                <div><label>プロフィール画像</label></div>
+                
+                <!-- アイコン(登録されてなければデフォルト画像) -->
+                <div class="creater_image mt-5 mb-3" v-if="userInformation.user_information.profile_image">
+                  <img :src="userInformation.user_information.profile_image" class="rounded-circle">
                 </div>
-              </div>
+                <div class="creater_image mt-5 mb-3" v-else>
+                  <img src="/images/498467_s.jpg" class="rounded-circle">
+                </div>
 
-            </div>
-            <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
-            <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">キャンセル</button>
-          </form>
+                <label class="input-group-btn">
+                  <span class="btn btn-secondary">
+                      ファイルを選択<input type="file" style="display:none" @change="fileSelected">
+                  </span>
+                  <span></span>
+                </label>
+
+                <div class="d-flex justify-content-start"><small class="form-text text-muted">画像は jpg, png 画像のみアップロードできます。</small></div>
+                <div class="alert alert-danger" role="alert" v-if="errors.image.isFile">
+                  画像は jpg, pngファイルのみです!
+                </div>
+
+                <div class="creater_image mt-5 mb-3" v-if="confirmedImage">
+                  <hr>
+                  <p>アップロード画像確認</p>
+                  <img :src="confirmedImage" />
+                  <div class="alert alert-danger mt-3" role="alert" v-if="errors.image.size">
+                    画像ファイルの縦横幅それぞれは、700 px を超えることはできません。!
+                  </div>
+                </div>
+
+              </div>
+              <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
+              <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">キャンセル</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -64,18 +74,25 @@
 export default {
   data() {
     return {
+      userInformation: {},
+      loading: false,
       errors: {
         image: {
           isFile: false,
           size: false
         }
       },
-      file: '',
       confirmedImage: '',
       size: {
         width: '',
         height: ''
-      }
+      },
+      // formInfo: {
+      //   userName: '',
+      //   introduce: '',
+      //   instrument: '',
+      //   profile_image: ''
+      // }
     }
   },
   methods: {
@@ -96,13 +113,11 @@ export default {
       // そのイメージpathをもとに画像サイズを取得
       this.loadImage(image.src)
       .then(res => {
-        // console.log(res.width, res.height);
         this.size.width = res.width
         this.size.height = res.height
 
        // 縦横サイズを取得できたので、縦横サイズそれぞれ700px以内にするバリデーション
         this.errors.image.size = false
-        console.log(this.size.width);
         if(this.size.width > 700 || this.size.height > 700) {
           this.errors.image.size = true
         }
@@ -140,7 +155,28 @@ export default {
     },
     cancel() {
       this.$router.go(-1)
+    },
+    async getUserData() {
+
+      try{
+        this.loading = true
+        await this.$store.dispatch('auth/getUserInformation')
+
+        // api通信でとってきたデータを代入
+        this.userInformation = this.$store.state.auth.user
+      }
+      catch(e){
+        console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
     }
+  },
+  created() {
+    Promise.all([
+      this.getUserData(),
+    ])
   },
 
 }
