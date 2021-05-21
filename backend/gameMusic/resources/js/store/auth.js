@@ -19,8 +19,8 @@ const mutations = {
 const actions = {
 
   // ログアウト
-  logout({commit}) {
-    axios.post('/api/logout')
+  async logout({commit}) {
+    await axios.post('/api/logout')
     .then(res => {
       localStorage.removeItem("auth");
       commit('setUser', null);

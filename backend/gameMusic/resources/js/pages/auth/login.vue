@@ -47,6 +47,10 @@
 export default {
   data() {
     return {
+      options: { //トースト用オプション
+          duration: 1500,
+          type: 'info'
+      },
       errors: {
         email: {
           required: false,
@@ -102,6 +106,9 @@ export default {
 
           // 最後にリダイレクト
           this.$router.push("/");
+
+          // トースト表示
+          this.toasted();
         })
         .catch(error => {
           // storeにもログイン状態を保存
@@ -117,8 +124,9 @@ export default {
           alert('ログインに失敗しました。');
         });
 
-
-
+    },
+    toasted() {
+      this.$toasted.show('ログインしました', this.options);
     },
     validate() {
       // 初期化

@@ -74,6 +74,10 @@
 export default {
   data() {
     return {
+      options: { //トースト用オプション
+          duration: 1500,
+          type: 'success'
+      },
       userInformation: {},
       loading: false,
       errors: {
@@ -171,11 +175,15 @@ export default {
         this.getUserData()
         this.confirmedImage = ''
         this.loading = false
+        this.toasted()
       }
 
     },
     cancel() {
       this.$router.go(-1)
+    },
+    toasted() {
+      this.$toasted.show('保存しました', this.options);
     },
     async getUserData() {
 

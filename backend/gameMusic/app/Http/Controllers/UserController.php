@@ -50,8 +50,8 @@ class UserController extends Controller
             // インスタンスか
             $user = User::find($request->user_id);
             $userInformation = UserInformation::select('*')
-            ->where('user_id', $request->user_id)
-            ->first();
+                            ->where('user_id', $request->user_id)
+                            ->first();
 
             // 画像アップロードされてたら以下
             if ($request->file('profile_image')) {
@@ -65,7 +65,7 @@ class UserController extends Controller
                 }
 
                 // 新しくアップロードされた画像をS3にアップロード
-                $path = Storage::disk('s3')->put('/development/image', $image, 'public');
+                $path = Storage::disk('s3')->put('/images', $image, 'public');
 
                 // カラムにフルパスを代入
                 $userInformation->profile_image = Storage::disk('s3')->url($path);

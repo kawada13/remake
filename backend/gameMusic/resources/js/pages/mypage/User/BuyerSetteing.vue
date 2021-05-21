@@ -13,16 +13,15 @@ export default {
     data() {
         return {
             options: {
-                position: 'top-center',
-                duration: 5000,
+                duration: 1500,
                 fullWidth: true,
-                type: 'error'
+                type: 'success'
             }
         }
     },
     methods: {
         doClick(){
-        this.$toasted.show('hello billo', this.options);
+        this.$toasted.show('ログアウトしました', this.options);
         }
     },
 

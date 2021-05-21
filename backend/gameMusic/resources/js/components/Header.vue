@@ -32,12 +32,27 @@
 export default {
   data() {
     return {
+      options: {
+          duration: 1500,
+          type: 'info'
+      }
     }
   },
   methods: {
     async logout() {
-      await this.$store.dispatch('auth/logout')
+      try{
+        await this.$store.dispatch('auth/logout')
+      }
+      catch(e) {
+        console.log(e);
+      }
+      finally{
+        this.toasted()
+      }
     },
+    toasted() {
+      this.$toasted.show('ログアウトしました', this.options);
+    }
   },
   computed: {
     isAuth() {
