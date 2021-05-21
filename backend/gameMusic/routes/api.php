@@ -23,4 +23,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return $request->user();
     });
     Route::get('/user_information', 'UserController@loginUserInformation')->name('loginUserInformation');
+    Route::post('/user_information', 'UserController@profileEdit')->name('profileEdit');
 });

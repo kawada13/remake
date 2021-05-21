@@ -40,7 +40,7 @@
 
                 <label class="input-group-btn">
                   <span class="btn btn-secondary">
-                      ファイルを選択<input type="file" style="display:none" @change="fileSelected">
+                      ファイルを選択<input type="file" style="display:none" @change="fileSelected" accept="image/*">
                   </span>
                   <span></span>
                 </label>
@@ -82,23 +82,23 @@ export default {
           size: false
         }
       },
+      file: '', //アップロードするつもりのファイル
       confirmedImage: '',
       size: {
         width: '',
         height: ''
       },
-      // formInfo: {
-      //   userName: '',
-      //   introduce: '',
-      //   instrument: '',
-      //   profile_image: ''
-      // }
     }
   },
   methods: {
      fileSelected(e) {
+      //  初期化
       this.errors.image.isFile = false
+      this.errors.image.size = false
+      this.confirmedImage = ''
+
       this.file = e.target.files[0]
+
 
       // jpg, pngのみを許可するバリデーション
       if (this.file.type != 'image/jpeg' && this.file.type != 'image/png') {
@@ -145,13 +145,33 @@ export default {
         img.src = src;
       });
     },
-    upload() {
+    async upload() {
       // エラーが残ってないかチェック
       if(this.errors.image.isFile || this.errors.image.size )
       {
         return
       }
       console.log('アップロード！');
+      let data = new FormData();
+      data.append("user_id", this.userInformation.user.id);
+      data.append("name", this.userInformation.user.name);
+      data.append("profile_image", this.file);
+      data.append("introduce", this.userInformation.user_information.introduce);
+      data.append("instrument", this.userInformation.user_information.instrument);
+
+      try {
+        this.loading = true
+        await this.$store.dispatch('user/profileEdit', data)
+      }
+      catch(e){
+        console.log(e);
+      }
+      finally{
+        this.getUserData()
+        this.confirmedImage = ''
+        this.loading = false
+      }
+
     },
     cancel() {
       this.$router.go(-1)
