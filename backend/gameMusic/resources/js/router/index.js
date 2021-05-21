@@ -74,21 +74,23 @@ const routes = new VueRouter({
       name:'home',
     },
     {
+      path: '/profile',
+      component: profile,
+      name:'profile',
+      meta: { authOnly: true }
+    },
+    {
+      path: '/profile/edit',
+      component: profileEdit,
+      name:'profile-edit',
+      meta: { authOnly: true }
+    },
+    {
       path: '/mypage',
       component: MyPage,
       name:'my-page',
       meta: { authOnly: true },
       children:[
-        {
-          path: 'profile',
-          component: profile,
-          name:'profile'
-        },
-        {
-          path: 'profile/edit',
-          component: profileEdit,
-          name:'profile-edit'
-        },
         {
           path: 'user',
           component: UserPage,

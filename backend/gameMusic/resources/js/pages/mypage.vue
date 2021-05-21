@@ -69,6 +69,11 @@ export default {
     {
       this.userClass = true
     }
+    if(this.$route.name == 'profile' || this.$route.name == 'profile-edit')
+    {
+      this.createrClass = false
+      this.userClass = false
+    }
 
   },
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container mt-5">
 
     <!-- ローディング中 -->
     <div class="mt-5" v-if="loading">
@@ -78,15 +78,6 @@ export default {
     return {
       userInformation: {},
       loading: false,
-//       introduce:`株式会社テックミーのCTOを務めております。
-// フロントエンドとバックエンド、どちらも実務経験があります。特にLaravelやVue.jsでの開発を得意としています。
-
-// また、WordPressでのWeb制作も経験してきましたので、HTML/CSSコーディングや、WordPressオリジナルテーマ構築といった分野でもお役に立てます。
-
-// あと、得意分野というわけではありませんが、linuxやAWSに関してもある程度知見がありますので、お役に立てるかもしれません。`,
-//       instrument:`DAW：Studio One 4 Professional
-// オーディオインターフェイス：UNIVERSAL AUDIO APOLLO TWIN MKII QUAD
-// `,
     }
   },
   methods: {

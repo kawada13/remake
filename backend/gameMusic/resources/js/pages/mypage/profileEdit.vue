@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container mt-5">
      <!-- ローディング中 -->
     <div class="mt-5" v-if="loading">
       <Loader />
@@ -165,6 +165,7 @@ export default {
       }
       catch(e){
         console.log(e);
+        this.loading = false
       }
       finally{
         this.getUserData()
@@ -187,6 +188,7 @@ export default {
       }
       catch(e){
         console.log(e);
+        this.loading = false
       }
       finally{
         this.loading = false
