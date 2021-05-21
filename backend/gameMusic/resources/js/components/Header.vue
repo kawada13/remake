@@ -47,6 +47,7 @@ export default {
         console.log(e);
       }
       finally{
+        // トースト表示
         this.toasted()
       }
     },
