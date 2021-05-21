@@ -29,7 +29,7 @@
               <div class="form-group">
 
                 <div><label>プロフィール画像</label></div>
-                
+
                 <!-- アイコン(登録されてなければデフォルト画像) -->
                 <div class="creater_image mt-5 mb-3" v-if="userInformation.user_information.profile_image">
                   <img :src="userInformation.user_information.profile_image" class="rounded-circle">
@@ -55,7 +55,7 @@
                   <p>アップロード画像確認</p>
                   <img :src="confirmedImage" />
                   <div class="alert alert-danger mt-3" role="alert" v-if="errors.image.size">
-                    画像ファイルの縦横幅それぞれは、700 px を超えることはできません。!
+                    画像ファイルの縦横幅それぞれは、700 px を超えることはできません!
                   </div>
                 </div>
 

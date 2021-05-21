@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+// リクエスト
+use App\Http\Requests\UserInformationRequest;
+
 // モデル
 use App\UserInformation;
 use App\User;
@@ -33,6 +36,18 @@ class UserController extends Controller
                 'message' => '失敗',
                 'errorInfo' => $e
             ],500);
+        }
+
+    }
+
+    public function profileEdit(UserInformationRequest $request)
+    {
+
+        try{
+
+        }
+        catch (\Exception $e) {
+
         }
 
     }
