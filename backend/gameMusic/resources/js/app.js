@@ -5,8 +5,10 @@ import FilterPlugin from './plugins/Filter.js'
 import '@mdi/font/css/materialdesignicons.css'
 import routes from './router/index'
 import store from './store' 
+import Toasted from 'vue-toasted';
 
 Vue.use(FilterPlugin)
+Vue.use(Toasted)
 
 // グローバルコンポーネント
 Vue.component('app-header', require('./components/Header.vue').default);
