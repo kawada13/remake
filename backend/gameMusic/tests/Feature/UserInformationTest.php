@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 // モデル
 use App\User;
@@ -58,6 +60,34 @@ class UserInformationTest extends TestCase
         // actingAsでログイン認証したのちAPI通信
         $response = $this->actingAs($user)
                          ->json('GET', route('loginUserInformation'));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功',]);
+    }
+
+    public function testprofileEdit()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        // ユーザーインフォ作成
+        $userInformation = factory(UserInformation::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        // S3ではなくテスト用のストレージを使用する
+        // → storage/framework/testing
+        Storage::fake('s3');
+
+
+        // actingAsでログイン認証したのちAPI通信
+        $response = $this->actingAs($user)
+                         ->json('POST', route('profileEdit'),[
+                             'name' => $user->name,
+                             'user_id' => $user->id,
+                             'profile_image' => UploadedFile::fake()->image('photo.jpg'),
+                         ]);
 
         $response
             ->assertStatus(200)

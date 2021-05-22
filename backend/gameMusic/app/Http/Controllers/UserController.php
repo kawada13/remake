@@ -54,10 +54,10 @@ class UserController extends Controller
                             ->first();
 
             // 画像アップロードされてたら以下
-            if ($request->file('profile_image')) {
+            if ($request->profile_image) {
 
                 //送られてきた画像を取得
-                $image = $request->file('profile_image');
+                $image = $request->profile_image;
 
                 // すでに画像変更したことがある場合、既存のS3に入ってる画像を削除
                 if($userInformation->profile_image) {
