@@ -81,17 +81,25 @@ class UserInformationTest extends TestCase
         Storage::fake('s3');
 
 
-        // actingAsでログイン認証したのちAPI通信
+        // ダミーアップロードファイル作成
+        $uploadedFile = UploadedFile::fake()->image('photo.jpg');
+
+        // actingAsでログイン認証したのちAPI通信(データベースに保存)
         $response = $this->actingAs($user)
                          ->json('POST', route('profileEdit'),[
                              'name' => $user->name,
                              'user_id' => $user->id,
-                             'profile_image' => UploadedFile::fake()->image('photo.jpg'),
+                             'profile_image' => $uploadedFile,
                          ]);
 
         $response
             ->assertStatus(200)
             ->assertJson(['message' => '成功',]);
+
+        // 作成した画像がテスト用S3にあるのかを確認
+        $uploadedFile->move('storage/framework/testing/disks/s3');
+        Storage::disk('s3')->assertExists($uploadedFile->getFilename());
+
     }
 
 
