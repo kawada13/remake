@@ -12,7 +12,7 @@
 
             <div class="form-group">
               <div><label for="title" class="weight">タイトル<span class="badge badge-danger ml-2">必須</span></label></div>
-              <input type="text" class="form-control form-control-lg" id="title" v-model="title">
+              <input type="text" class="form-control form-control-lg" id="title" v-model="formInfo.title">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.title.required">
                 入力は必須です！
               </div>
@@ -20,7 +20,7 @@
 
             <div class="form-group">
               <div><label for="price" class="weight">価格<span class="badge badge-danger ml-2">必須</span></label></div>
-              <input type="number" class="form-control form-control-lg" id="price" v-model="price">
+              <input type="number" class="form-control form-control-lg" id="price" v-model="formInfo.price">
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.price.required">
                 入力は必須です！
               </div>
@@ -32,7 +32,7 @@
                 <span class="btn btn-secondary">
                     ファイルを選択<input type="file" style="display:none" @change="fileSelected" accept="audio/*">
                 </span>
-                <span>{{audio.url}}</span>
+                <span>{{formInfo.audio.url}}</span>
               </label>
               <div class="d-flex justify-content-start"><small class="form-text text-muted">ファイル形式は MP3 のみアップロードできます。</small></div>
               <div class="alert alert-danger" role="alert" v-if="errors.audio_url.required">
@@ -45,9 +45,12 @@
 
             <div class="form-group select">
               <div><label for="sound" class="weight">サウンド<span class="badge badge-danger ml-2">必須</span></label></div>
-              <select class="custom-select select-music mt-3" id="inputGroupSelect">
+              <select class="custom-select select-music" id="inputGroupSelect" v-model="formInfo.sound">
                 <option v-for="(sound,i) in sounds" :key="i" :value="sound.value">{{sound.text}}</option>
               </select>
+              <div class="alert alert-danger mt-2" role="alert" v-if="errors.sound.required">
+                選択は必須です！
+              </div>
             </div>
 
             <div class="form-group">
@@ -55,8 +58,8 @@
                 <div class="card-body sound_title d-flex title justify-content-start">
                 <p class="">イメージ(複数選択できます)</p>
                 </div>
-                <div class="card-body detail sound_content content buttons">
-                  <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(understanding,i) in understandings" :key="i">{{understanding.text}}</button>
+                <div class="card-body detail">
+                  <label v-for="(understanding,i) in understandings" :key="i"><input type="checkbox" :value="understanding.value" v-model="formInfo.understanding"><span>{{understanding.text}}</span></label>
                 </div>
               </div>
             </div>
@@ -66,8 +69,8 @@
                 <div class="card-body sound_title d-flex title justify-content-start">
                 <p class="">シーン(複数選択できます)</p>
                 </div>
-                <div class="card-body detail sound_content content buttons">
-                  <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(use,i) in uses" :key="i">{{use.text}}</button>
+                <div class="card-body detail">
+                  <label v-for="(use,i) in uses" :key="i"><input type="checkbox" :value="use.value" v-model="formInfo.use"><span>{{use.text}}</span></label>
                 </div>
               </div>
             </div>
@@ -77,14 +80,11 @@
                 <div class="card-body sound_title d-flex title justify-content-start">
                 <p class="">使用機材(複数選択できます)</p>
                 </div>
-                <div class="card-body detail sound_content content buttons">
-                  <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(instrument,i) in instruments" :key="i">{{instrument.text}}</button>
+                <div class="card-body detail">
+                  <label v-for="(instrument,i) in instruments" :key="i"><input type="checkbox" :value="instrument.value" v-model="formInfo.instrument"><span>{{instrument.text}}</span></label>
                 </div>
               </div>
             </div>
-
-
-
             <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
             <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">戻る</button>
           </form>
@@ -109,18 +109,28 @@ export default {
           required: false,
           isFlie: false
         },
+        sound: {
+          required: false
+        }
       },
-      title: '',
-      price: '',
-      audio:{
-        url: '',
-        file_info:''
+      formInfo: {
+        title: '',
+        price: '',
+        audio:{
+          url: '', //ファイル名
+          file_info:'' //ファイル情報
+        },
+        sound:[],
+        understanding:[],
+        use: [],
+        instrument: []
       },
+
 
 
       sounds: [
         {
-          value: 'sound_effect',
+          value: 'BGM',
           text: 'BGM',
         },
         {
@@ -201,32 +211,49 @@ export default {
       // ログ
       console.log(e.target.files[0]);
       // エラー初期化
+
+
+      this.formInfo.audio.file_info = e.target.files[0]
+
       this.errors.audio_url.isFile = false
       // 代入(名前表示のためのみ)
-      this.audio.url = e.target.files[0].name
+      this.formInfo.audio.url = this.formInfo.audio.file_info.name
 
       // mp3のみを許可するバリデーション
-      if (e.target.files[0].type != 'audio/mpeg') {
+      if (this.formInfo.audio.file_info.type != 'audio/mpeg') {
         this.errors.audio_url.isFile = true
       }
-      // データベースに保存するインフォを代入
-      this.audio.file_info = event.target.files[0]
     },
     upload() {
+
+      // 初期化
+      this.errors.title.required = false
+      this.errors.price.required = false
+      this.errors.audio_url.required = false
+      this.errors.sound.required = false
+
       // バリデーション
       this.validate();
+      if(this.errors.title.required || this.errors.price.required || this.errors.audio_url.required || this.errors.audio_url.isFile )
+      {
+        return
+      }
+      console.log('アップロード！');
 
     },
     validate() {
 
-      if (!this.title) {
+      if (!this.formInfo.title) {
         this.errors.title.required = true
       }
-      if (!this.price) {
+      if (!this.formInfo.price) {
         this.errors.price.required = true
       }
-      if (!this.audio.url) {
+      if (!this.formInfo.audio.url) {
         this.errors.audio_url.required = true
+      }
+      if (!this.formInfo.sound.length) {
+        this.errors.sound.required = true
       }
 
     },
@@ -260,9 +287,9 @@ export default {
   font-weight: bold;
 }
 
-.select select {
+/* .select select {
   margin: 0!important;
-}
+} */
 
 .types .title {
   padding: 10px 0 0 0;
@@ -271,7 +298,7 @@ export default {
   font-weight: bold;
 }
 
-.types .content {
+/* .types .content {
   padding-top: 0!important;
   padding-right: 0!important;
   padding-bottom: 10px!important;
@@ -279,6 +306,35 @@ export default {
 }
 .types .content button:hover{
    color: white!important;
+} */
+
+
+
+.detail {
+  padding-left: 0;
+  padding-bottom: 0;
+
+}
+.detail label {
+    margin-right: 5px; /* ボタン同士の間隔 */
+    margin-bottom: 20px;
+}
+.detail label input {
+    display: none; /* デフォルトのinputは非表示にする */
+}
+.detail label span {
+    color: #333; /* 文字色を黒に */
+    font-size: 14px; /* 文字サイズを14pxに */
+    border: 1px solid #333; /* 淵の線を指定 */
+    border-radius: 20px; /* 角丸を入れて、左右が丸いボタンにする */
+    padding: 5px 20px; /* 上下左右に余白をトル */
+    cursor: pointer;
+}
+.detail label input:checked + span {
+    color: #FFF; /* 文字色を白に */
+    background: #333; /* 背景色を薄い赤に */
+    border: 1px solid #333; /* 淵の線を薄い赤に */
+    cursor: pointer;
 }
 
 </style>
