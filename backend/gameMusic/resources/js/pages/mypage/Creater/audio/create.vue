@@ -30,7 +30,7 @@
               <div><label class="weight">オーディオをアップロード</label><span class="badge badge-danger ml-2">必須</span></div>
               <label class="input-group-btn">
                 <span class="btn btn-secondary">
-                    ファイルを選択<input type="file" style="display:none" @change="fileSelected">
+                    ファイルを選択<input type="file" style="display:none" @change="fileSelected" accept="audio/*">
                 </span>
                 <span>{{audio.url}}</span>
               </label>
@@ -86,7 +86,7 @@
 
 
             <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
-            <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">キャンセル</button>
+            <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">戻る</button>
           </form>
         </div>
       </div>
@@ -231,7 +231,7 @@ export default {
 
     },
     cancel() {
-      this.$router.go(-1)
+      this.$router.push({ name: 'purchase-history'})
     }
   },
 
