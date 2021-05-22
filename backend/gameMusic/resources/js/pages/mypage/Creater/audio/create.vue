@@ -258,7 +258,7 @@ export default {
 
     },
     cancel() {
-      this.$router.push({ name: 'purchase-history'})
+      this.$router.push({ name: 'exhibited-products'})
     }
   },
 
@@ -297,17 +297,6 @@ export default {
 .types .title p{
   font-weight: bold;
 }
-
-/* .types .content {
-  padding-top: 0!important;
-  padding-right: 0!important;
-  padding-bottom: 10px!important;
-  padding-left: 0!important;
-}
-.types .content button:hover{
-   color: white!important;
-} */
-
 
 
 .detail {
