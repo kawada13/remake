@@ -24,7 +24,6 @@ class AudioRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'required',
             'sound_id' => 'required',
             'title' => 'required',
             'price' => 'required|integer',

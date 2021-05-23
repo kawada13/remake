@@ -16,6 +16,8 @@ use App\Audio;
 
 class AudioController extends Controller
 {
+
+    // オーディオ作成
     public function store(AudioRequest $request) {
 
         DB::beginTransaction();
@@ -36,9 +38,15 @@ class AudioController extends Controller
             $path = Storage::disk('s3')->put('/audios', $audioFile, 'public');
             // カラムにフルパスを代入
             $audio->audio_file = Storage::disk('s3')->url($path);
+
+             // イメージ(understanding)、用途(use)、使用機材(instrument)関連
+
+
+
+
             $audio->save();
 
-            // イメージ(understanding)、用途(use)、使用機材(instrument)関連
+            DB::commit();
 
 
             return response()->json([
@@ -60,4 +68,17 @@ class AudioController extends Controller
         }
 
     }
+
+    // ログインユーザーのオーディオ一覧
+    public function loginUserAudios() {
+
+        try {
+
+        }
+        catch (\Exception $e) {
+            
+        }
+    }
+
+
 }

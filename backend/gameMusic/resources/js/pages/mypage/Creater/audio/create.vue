@@ -120,7 +120,7 @@ export default {
           url: '', //ファイル名
           file_info:'' //ファイル情報
         },
-        sound:[],
+        sound:'',
         understanding:[],
         use: [],
         instrument: []
@@ -204,7 +204,7 @@ export default {
         this.errors.audio_url.isFile = true
       }
     },
-    upload() {
+    async upload() {
 
       // 初期化
       this.errors.title.required = false
@@ -221,10 +221,26 @@ export default {
       console.log('アップロード！');
 
       let data = new FormData();
-      data.append("sound_id", this.userInformation.user.name);
-      data.append("title", this.file);
-      data.append("price", this.userInformation.user_information.introduce);
-      data.append("audio_file", this.userInformation.user_information.instrument);
+      data.append("title", this.formInfo.title);
+      data.append("price", this.formInfo.price);
+      data.append("audio_file", this.formInfo.audio.file_info);
+      data.append("sound_id", this.formInfo.sound);
+
+
+      try {
+        this.loading = true
+        await this.$store.dispatch('audio/createAudio', data)
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        // this.getUserData()
+        // this.confirmedImage = ''
+        this.loading = false
+        // this.toasted()
+      }
 
 
     },
@@ -239,7 +255,7 @@ export default {
       if (!this.formInfo.audio.url) {
         this.errors.audio_url.required = true
       }
-      if (!this.formInfo.sound.length) {
+      if (!this.formInfo.sound) {
         this.errors.sound.required = true
       }
 
