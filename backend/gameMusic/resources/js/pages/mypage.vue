@@ -42,7 +42,7 @@ export default {
       this.createrClass = false
 
       this.createrClass = true
-      this.$router.push({ name: 'exhibited-products' })
+      this.$router.push({ name: 'exhibited-audios' })
     },
 
   },
@@ -61,7 +61,7 @@ export default {
   },
 
   created() {
-    if(this.$route.name == 'exhibited-products' || this.$route.name == 'transfer-account-setting' || this.$route.name == 'audio-create' || this.$route.name == 'audio-edit' || this.$route.name == 'sales')
+    if(this.$route.name == 'exhibited-audios' || this.$route.name == 'transfer-account-setting' || this.$route.name == 'audio-create' || this.$route.name == 'audio-edit' || this.$route.name == 'sales')
     {
       this.createrClass = true
     }

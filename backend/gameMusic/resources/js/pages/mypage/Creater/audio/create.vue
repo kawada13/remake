@@ -261,7 +261,7 @@ export default {
 
     },
     cancel() {
-      this.$router.push({ name: 'exhibited-products'})
+      this.$router.push({ name: 'exhibited-audios'})
     },
     async getSoundData() {
       try{

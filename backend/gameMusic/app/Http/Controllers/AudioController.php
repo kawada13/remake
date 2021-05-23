@@ -70,13 +70,23 @@ class AudioController extends Controller
     }
 
     // ログインユーザーのオーディオ一覧
-    public function loginUserAudios() {
+    public function exhibitedAudios() {
 
         try {
+            $audios = Audio::select('*')
+            ->where('user_id', Auth::id())
+            ->get();
 
+            return response()->json([
+                'message' => '成功',
+                'audios' => $audios
+            ], 200);
         }
         catch (\Exception $e) {
-            
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
         }
     }
 

@@ -2,7 +2,7 @@
     <div class="">
       <div class="card listing_audio">
         <h2 class="card-header">
-          出品作品
+          出品オーディオ
         </h2>
         <div class="card-body" v-for="(audio, i) in audios" :key="i">
             <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>

@@ -37,7 +37,7 @@
             <ul class="list-group list-group-flush accout_setting">
               <li class="list-group-item" @click="$router.push({ name: 'profile' })">プロフィール</li>
               <li class="list-group-item" @click="$router.push({ name: 'profile-edit' })">プロフィール編集</li>
-              <li class="list-group-item" @click="$router.push({ name: 'exhibited-products' })">出品作品</li>
+              <li class="list-group-item" @click="$router.push({ name: 'exhibited-audios' })">出品オーディオ</li>
               <li class="list-group-item" @click="$router.push({ name: 'transfer-account-setting' })">振込口座設定</li>
               <li class="list-group-item" @click="$router.push({ name: 'sales' })">売上履歴</li>
             </ul>

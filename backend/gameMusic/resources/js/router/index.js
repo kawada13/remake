@@ -36,7 +36,7 @@ import profileEdit from '../pages/mypage/profileEdit.vue'
 // クリエイターページ(中)
 import CreaterPage from '../pages/mypage/CreaterPage.vue'
 // クリエイターページ(小)
-import ExhibitedProducts from '../pages/mypage/Creater/ExhibitedProducts.vue'
+import ExhibitedAudios from '../pages/mypage/Creater/ExhibitedAudios.vue'
 import TransferAccountSetting from '../pages/mypage/Creater/TransferAccountSetting.vue'
 import AudioCreate from '../pages/mypage/Creater/audio/create.vue'
 import AudioEdit from '../pages/mypage/Creater/audio/edit.vue'
@@ -129,9 +129,9 @@ const routes = new VueRouter({
           name:'creater-page',
           children:[
             {
-              path: 'exhibited_products',
-              component: ExhibitedProducts,
-              name:'exhibited-products'
+              path: 'exhibited_audios',
+              component: ExhibitedAudios,
+              name:'exhibited-audios'
             },
             {
               path: 'transfer_account_setting',
