@@ -240,6 +240,13 @@ export default {
       }
       console.log('アップロード！');
 
+      let data = new FormData();
+      data.append("sound_id", this.userInformation.user.name);
+      data.append("title", this.file);
+      data.append("price", this.userInformation.user_information.introduce);
+      data.append("audio_file", this.userInformation.user_information.instrument);
+
+
     },
     validate() {
 
