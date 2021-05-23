@@ -34,6 +34,11 @@ class User extends Authenticatable
     return $this->hasOne('App\UserInformation');
   }
 
+    public function audios()
+  {
+      return $this->hasMany('App\Audio');
+  }
+
 
 
 }
