@@ -129,22 +129,6 @@ export default {
 
 
       sounds: [
-        {
-          value: 'BGM',
-          text: 'BGM',
-        },
-        {
-          value: 'SE',
-          text: 'SE',
-        },
-        {
-          value: 'jingle',
-          text: 'ジングル',
-        },
-        {
-          value: 'voice',
-          text: '声',
-        },
       ],
       understandings: [
         {
@@ -266,7 +250,26 @@ export default {
     },
     cancel() {
       this.$router.push({ name: 'exhibited-products'})
-    }
+    },
+    async getSoundData() {
+      console.log(124);
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getSound')
+      }
+      catch(e){
+        console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+
+    },
+  },
+  created() {
+    Promise.all([
+      this.getSoundData(),
+    ])
   },
 
 }

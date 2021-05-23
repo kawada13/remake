@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import error from './error'
 import auth from './auth'
 import user from './user'
-import sound from './sound'
+import soundType from './soundType'
 
 
 Vue.use(Vuex)
@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     error,
     auth,
     user,
-    sound
+    soundType
   }
 })
 

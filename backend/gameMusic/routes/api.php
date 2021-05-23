@@ -22,6 +22,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    // ユーザー関連
     Route::get('/user_information', 'UserController@loginUserInformation')->name('loginUserInformation');
     Route::post('/user_information', 'UserController@profileEdit')->name('profileEdit');
+
+    // マスターテーブル関連
+    Route::get('/sound_type', 'SoundTypeController@sound')->name('type.sound');
+
 });
