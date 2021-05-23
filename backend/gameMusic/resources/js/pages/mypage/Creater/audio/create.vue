@@ -98,7 +98,7 @@
 export default {
   data() {
     return {
-      errors: {
+      errors: { //バリデーションエラー
         title: {
           required: false,
         },
@@ -128,7 +128,7 @@ export default {
 
 
 
-      sounds: [
+      sounds: [ //サウンド選択肢
       ],
       understandings: [
         {
@@ -192,13 +192,9 @@ export default {
   },
   methods: {
     fileSelected(e) {
-      // ログ
-      console.log(e.target.files[0]);
-      // エラー初期化
-
-
       this.formInfo.audio.file_info = e.target.files[0]
 
+      // エラー初期化
       this.errors.audio_url.isFile = false
       // 代入(名前表示のためのみ)
       this.formInfo.audio.url = this.formInfo.audio.file_info.name
@@ -252,15 +248,13 @@ export default {
       this.$router.push({ name: 'exhibited-products'})
     },
     async getSoundData() {
-      console.log(124);
       try{
         this.loading = true
         await this.$store.dispatch('soundType/getSound')
-        console.log(this.$store.state.soundType.sound);
         this.sounds = this.$store.state.soundType.sound;
       }
       catch(e){
-        console.log(e);
+        // console.log(e);
       }
       finally{
         this.loading = false
@@ -298,10 +292,6 @@ export default {
 .weight {
   font-weight: bold;
 }
-
-/* .select select {
-  margin: 0!important;
-} */
 
 .types .title {
   padding: 10px 0 0 0;
