@@ -46,7 +46,7 @@
             <div class="form-group select">
               <div><label for="sound" class="weight">サウンド<span class="badge badge-danger ml-2">必須</span></label></div>
               <select class="custom-select select-music" id="inputGroupSelect" v-model="formInfo.sound">
-                <option v-for="(sound,i) in sounds" :key="i" :value="sound.value">{{sound.text}}</option>
+                <option v-for="(sound,i) in sounds" :key="i" :value="sound.id">{{sound.name}}</option>
               </select>
               <div class="alert alert-danger mt-2" role="alert" v-if="errors.sound.required">
                 選択は必須です！
@@ -256,6 +256,8 @@ export default {
       try{
         this.loading = true
         await this.$store.dispatch('soundType/getSound')
+        console.log(this.$store.state.soundType.sound);
+        this.sounds = this.$store.state.soundType.sound;
       }
       catch(e){
         console.log(e);
