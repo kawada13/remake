@@ -13,15 +13,15 @@ use App\Http\Requests\AudioRequest;
 // モデル
 use App\User;
 use App\Audio;
+use App\AudioInstrument;
+use App\AudioUnderstanding;
+use App\AudioUse;
 
 class AudioController extends Controller
 {
 
     // オーディオ作成
     public function store(AudioRequest $request) {
-
-
-        dd(explode(",", $request->instrument));
 
         DB::beginTransaction();
 
@@ -42,16 +42,51 @@ class AudioController extends Controller
             // カラムにフルパスを代入
             $audio->audio_file = Storage::disk('s3')->url($path);
 
-             // イメージ(understanding)、用途(use)、使用機材(instrument)関連
-             
-
-
-
-
             $audio->save();
 
-            DB::commit();
+             // イメージ(understanding)、用途(use)、使用機材(instrument)関連
 
+             if($request->understanding) {
+                //  送られてきたデータを配列化
+                $understandings = explode(",", $request->understanding);
+
+                // 中間テーブルに値を代入
+                foreach($understandings as $understanding){
+                    $audio_understanding = new AudioUnderstanding;
+                    $audio_understanding->audio_id = $audio->id;
+                    $audio_understanding->understanding_id = $understanding;
+                    $audio_understanding->save();
+                 }
+             }
+
+             if($request->use) {
+                 //  送られてきたデータを配列化
+                $uses = explode(",", $request->use);
+
+                // 中間テーブルに値を代入
+                foreach($uses as $use){
+                    $audio_use = new AudioUse;
+                    $audio_use->audio_id = $audio->id;
+                    $audio_use->use_id = $use;
+                    $audio_use->save();
+                 }
+             }
+             if($request->instrument) {
+                 //  送られてきたデータを配列化
+                $instruments = explode(",", $request->instrument);
+
+                // 中間テーブルに値を代入
+                foreach($instruments as $instrument){
+                    $audio_instrument = new AudioInstrument;
+                    $audio_instrument->audio_id = $audio->id;
+                    $audio_instrument->instrument_id = $instrument;
+                    $audio_instrument->save();
+                 }
+
+             }
+
+            //  コミット
+            DB::commit();
 
             return response()->json([
                 'message' => '成功'
