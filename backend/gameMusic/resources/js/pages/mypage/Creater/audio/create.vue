@@ -59,7 +59,7 @@
                 <p class="">イメージ(複数選択できます)</p>
                 </div>
                 <div class="card-body detail">
-                  <label v-for="(understanding,i) in understandings" :key="i"><input type="checkbox" :value="understanding.value" v-model="formInfo.understanding"><span>{{understanding.text}}</span></label>
+                  <label v-for="(understanding,i) in understandings" :key="i"><input type="checkbox" :value="understanding.id" v-model="formInfo.understanding"><span>{{understanding.name}}</span></label>
                 </div>
               </div>
             </div>
@@ -130,24 +130,7 @@ export default {
 
       sounds: [ //サウンド選択肢
       ],
-      understandings: [
-        {
-          value: 'gorgeous',
-          text: '華やか',
-        },
-        {
-          value: 'sad',
-          text: '悲しい',
-        },
-        {
-          value: 'pleasant',
-          text: '楽しい',
-        },
-        {
-          value: 'horror',
-          text: 'ホラー',
-        },
-      ],
+      understandings: [], //understandings関連選択肢
       uses: [
         {
           value: 'battle',
@@ -275,12 +258,25 @@ export default {
       finally{
         this.loading = false
       }
-
+    },
+    async getUnderstandingData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getUnderstanding')
+        this.understandings = this.$store.state.soundType.understanding;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
     },
   },
   created() {
     Promise.all([
       this.getSoundData(),
+      this.getUnderstandingData(),
     ])
   },
 

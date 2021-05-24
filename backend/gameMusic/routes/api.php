@@ -28,7 +28,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/user_information', 'UserController@profileEdit')->name('profileEdit');
 
     // マスターテーブル関連
-    Route::get('/sound_type', 'SoundTypeController@sound')->name('type.sound');
+    Route::get('/sound_type/sound', 'SoundTypeController@sound')->name('type.sound');
+    Route::get('/sound_type/understanding', 'SoundTypeController@understanding')->name('type.understanding');
 
     // オーディオ関連
 

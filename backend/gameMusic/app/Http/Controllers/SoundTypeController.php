@@ -33,4 +33,21 @@ class SoundTypeController extends Controller
             ],500);
         }
     }
+    // イメージ一覧を取得
+    public function understanding() {
+        try{
+            $understandings = UnderstaindingMaster::all();
+
+            return response()->json([
+                'message' => '成功',
+                'understandings' => $understandings
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
 }
