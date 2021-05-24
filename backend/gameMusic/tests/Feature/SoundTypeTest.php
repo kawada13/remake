@@ -12,7 +12,6 @@ use App\UseMaster;
 use App\InstrumentMaster;
 use App\SoundMaster;
 use App\UnderstaindingMaster;
-use UnderstandingSeeder;
 
 class SoundTypeTest extends TestCase
 {
