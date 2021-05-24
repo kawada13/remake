@@ -105,6 +105,10 @@
 export default {
   data() {
     return {
+      options: { //トーストオプション
+          duration: 1500,
+          type: 'success'
+      },
       loading: false,
       errors: { //バリデーションエラー
         title: {
@@ -188,14 +192,12 @@ export default {
         await this.$store.dispatch('audio/createAudio', data)
       }
       catch(e){
-        // console.log(e);
         this.loading = false
       }
       finally{
-        // this.getUserData()
-        // this.confirmedImage = ''
+        this.toasted();
+        this.$router.push({ name: 'exhibited-audios' })
         this.loading = false
-        // this.toasted()
       }
 
 
@@ -271,6 +273,9 @@ export default {
         this.loading = false
       }
     },
+    toasted(){
+      this.$toasted.show('保存しました', this.options);
+    }
   },
   created() {
     Promise.all([

@@ -14,14 +14,13 @@ export default {
         return {
             options: {
                 duration: 1500,
-                fullWidth: true,
                 type: 'success'
             }
         }
     },
     methods: {
         doClick(){
-        this.$toasted.show('ログアウトしました', this.options);
+        this.$toasted.show('保存しました', this.options);
         }
     },
 
