@@ -41,11 +41,15 @@
                 <span>{{formInfo.audio.url}}</span>
               </label>
               <div class="d-flex justify-content-start"><small class="form-text text-muted">ファイル形式は MP3 のみアップロードできます。</small></div>
+              <div class="d-flex justify-content-start"><small class="form-text text-muted">ファイルの上限サイズは5MBです。</small></div>
               <div class="alert alert-danger" role="alert" v-if="errors.audio_url.required">
                 ファイルが選択されていません!
               </div>
               <div class="alert alert-danger" role="alert" v-if="errors.audio_url.isFile">
                 ファイル形式は MP3 ファイルのみです!
+              </div>
+              <div class="alert alert-danger" role="alert" v-if="errors.audio_url.size">
+                ファイルの上限サイズ5MBを超えています!
               </div>
             </div>
 
@@ -119,7 +123,8 @@ export default {
         },
         audio_url: {
           required: false,
-          isFlie: false
+          isFlie: false,
+          size: false
         },
         sound: {
           required: false
@@ -160,6 +165,10 @@ export default {
       if (this.formInfo.audio.file_info.type != 'audio/mpeg') {
         this.errors.audio_url.isFile = true
       }
+      // ファイルサイズ5MB以下のみを許可するバリデーション
+      if (this.formInfo.audio.file_info.size > 5000000) {
+        this.errors.audio_url.size = true
+      }
     },
     async upload() {
 
@@ -167,11 +176,13 @@ export default {
       this.errors.title.required = false
       this.errors.price.required = false
       this.errors.audio_url.required = false
+      this.errors.audio_url.isFlie = false
+      this.errors.audio_url.size = false
       this.errors.sound.required = false
 
       // バリデーション
       this.validate();
-      if(this.errors.title.required || this.errors.price.required || this.errors.audio_url.required || this.errors.audio_url.isFile )
+      if(this.errors.title.required || this.errors.price.required || this.errors.audio_url.required || this.errors.audio_url.isFile || this.errors.audio_url.size)
       {
         return
       }
