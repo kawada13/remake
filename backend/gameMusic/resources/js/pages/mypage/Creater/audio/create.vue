@@ -9,7 +9,7 @@
 
   <div v-if="!loading">
    <div class="head">
-      <h4>商品登録</h4>
+      <h4>オーディオ商品登録</h4>
     </div>
     <div class="form_creater_edit my-5">
       <div class="card">
