@@ -30,6 +30,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // マスターテーブル関連
     Route::get('/sound_type/sound', 'SoundTypeController@sound')->name('type.sound');
     Route::get('/sound_type/understanding', 'SoundTypeController@understanding')->name('type.understanding');
+    Route::get('/sound_type/use', 'SoundTypeController@use')->name('type.use');
+    Route::get('/sound_type/instrument', 'SoundTypeController@instrument')->name('type.instrument');
 
     // オーディオ関連
 

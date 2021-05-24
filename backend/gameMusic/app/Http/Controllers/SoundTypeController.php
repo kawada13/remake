@@ -50,4 +50,38 @@ class SoundTypeController extends Controller
             ],500);
         }
     }
+    // use一覧を取得
+    public function use() {
+        try{
+            $uses = UseMaster::all();
+
+            return response()->json([
+                'message' => '成功',
+                'uses' => $uses
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+    // instrument一覧を取得
+    public function instrument() {
+        try{
+            $instruments = InstrumentMaster::all();
+
+            return response()->json([
+                'message' => '成功',
+                'instruments' => $instruments
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
 }

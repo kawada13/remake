@@ -1,10 +1,16 @@
 <template>
-  <div>
+
+<div>
+
+  <!-- ローディング中 -->
+  <div class="mt-5" v-if="loading">
+    <Loader />
+  </div>
+
+  <div v-if="!loading">
    <div class="head">
       <h4>商品登録</h4>
     </div>
-
-
     <div class="form_creater_edit my-5">
       <div class="card">
         <div class="card-body">
@@ -70,7 +76,7 @@
                 <p class="">シーン(複数選択できます)</p>
                 </div>
                 <div class="card-body detail">
-                  <label v-for="(use,i) in uses" :key="i"><input type="checkbox" :value="use.value" v-model="formInfo.use"><span>{{use.text}}</span></label>
+                  <label v-for="(use,i) in uses" :key="i"><input type="checkbox" :value="use.id" v-model="formInfo.use"><span>{{use.name}}</span></label>
                 </div>
               </div>
             </div>
@@ -81,7 +87,7 @@
                 <p class="">使用機材(複数選択できます)</p>
                 </div>
                 <div class="card-body detail">
-                  <label v-for="(instrument,i) in instruments" :key="i"><input type="checkbox" :value="instrument.value" v-model="formInfo.instrument"><span>{{instrument.text}}</span></label>
+                  <label v-for="(instrument,i) in instruments" :key="i"><input type="checkbox" :value="instrument.id" v-model="formInfo.instrument"><span>{{instrument.name}}</span></label>
                 </div>
               </div>
             </div>
@@ -92,12 +98,14 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      loading: false,
       errors: { //バリデーションエラー
         title: {
           required: false,
@@ -131,46 +139,8 @@ export default {
       sounds: [ //サウンド選択肢
       ],
       understandings: [], //understandings関連選択肢
-      uses: [
-        {
-          value: 'battle',
-          text: 'バトル',
-        },
-        {
-          value: 'love',
-          text: '恋愛',
-        },
-        {
-          value: 'past',
-          text: '過去',
-        },
-        {
-          value: 'future',
-          text: '未来',
-        },
-        {
-          value: 'everyday',
-          text: '日常',
-        },
-      ],
-      instruments: [
-        {
-          value: 'guitar',
-          text: 'ギター',
-        },
-        {
-          value: 'bass',
-          text: 'ベース',
-        },
-        {
-          value: 'drums',
-          text: 'ドラム',
-        },
-        {
-          value: 'synth',
-          text: 'シンセ',
-        },
-      ],
+      uses: [],
+      instruments: [],
     }
   },
   methods: {
@@ -272,11 +242,39 @@ export default {
         this.loading = false
       }
     },
+    async getUseData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getUse')
+        this.uses = this.$store.state.soundType.use;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+    async getInstrumentData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getInstrument')
+        this.instruments = this.$store.state.soundType.instrument;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
   },
   created() {
     Promise.all([
       this.getSoundData(),
       this.getUnderstandingData(),
+      this.getUseData(),
+      this.getInstrumentData(),
     ])
   },
 

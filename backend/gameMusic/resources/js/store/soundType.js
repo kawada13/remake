@@ -2,7 +2,9 @@ import router from '../router/index';
 
 const state = {
   sound: [],
-  understanding: []
+  understanding: [],
+  use: [],
+  instrument: [],
 }
 
 const getters = {}
@@ -12,10 +14,18 @@ const mutations = {
   setSound(state, data) {
     state.sound = data.sounds
   },
-  // セットunderstanding
+  // セットuse
   setUnderstanding(state, data) {
     state.understanding = data.understandings
-  }
+  },
+  // セットunderstanding
+  setUse(state, data) {
+    state.use = data.uses
+  },
+  // セットinstrument
+  setInstrument(state, data) {
+    state.instrument = data.instruments
+  },
 }
 
 const actions = {
@@ -29,7 +39,6 @@ const actions = {
     .catch(e => {
       console.log(e);
     })
-
   },
   // understandingマスターテーブルからデータを取得
   async getUnderstanding({ commit }) {
@@ -41,8 +50,29 @@ const actions = {
     .catch(e => {
       console.log(e);
     })
-
-  }
+  },
+  // useマスターテーブルからデータを取得
+  async getUse({ commit }) {
+    await axios.get('/api/sound_type/use')
+    .then(res => {
+      // console.log(res.data);
+      commit('setUse', res.data);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // instrumentマスターテーブルからデータを取得
+  async getInstrument({ commit }) {
+    await axios.get('/api/sound_type/instrument')
+    .then(res => {
+      // console.log(res.data);
+      commit('setInstrument', res.data);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
 }
 
 
