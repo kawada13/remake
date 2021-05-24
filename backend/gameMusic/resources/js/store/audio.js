@@ -1,7 +1,8 @@
 import router from '../router/index';
 
 const state = {
-  userAudios: []
+  userAudios: [],
+  audio: {},
 }
 
 const getters = {}
@@ -9,6 +10,9 @@ const getters = {}
 const mutations = {
   setUserAudios(state, audios) {
     state.userAudios = audios
+  },
+  setAudio(state, audio) {
+    state.audio = audio
   }
 }
 
@@ -30,6 +34,17 @@ const actions = {
     .then(res => {
       console.log(res.data.audios);
       commit('setUserAudios', res.data.audios);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // // ログインユーザーの特定のオーディオ取得
+  async getExhibitedAudioShow({ commit }, id) {
+    await axios.get(`/api/exhibited_audio/${id}/show`)
+    .then(res => {
+      // console.log(res.data);
+      commit('setAudio', res.data);
     })
     .catch(e => {
       console.log(e);

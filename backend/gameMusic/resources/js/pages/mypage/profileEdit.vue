@@ -35,7 +35,7 @@
                   <img :src="userInformation.user_information.profile_image" class="rounded-circle">
                 </div>
                 <div class="creater_image mt-5 mb-3" v-else>
-                  <img src="/images/498467_s.jpg" class="rounded-circle">
+                  <img src="/images/default_img.png" class="rounded-circle">
                 </div>
 
                 <label class="input-group-btn">

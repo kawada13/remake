@@ -129,5 +129,24 @@ class AudioController extends Controller
         }
     }
 
+    // ログインユーザーの特定のオーディオ取得
+    public function exhibitedAudioShow($id) {
+
+        $audio = Audio::find($id);
+        $audioInstrument = $audio->audioInstruments;
+        $audioUnderstanding = $audio->audioUnderstandings;
+        $audioUse = $audio->audioUses;
+
+
+        return response()->json([
+            'message' => '成功',
+            'audio' => $audio,
+            'audioInstrument' => $audioInstrument,
+            'audioUse' => $audioUse,
+            'audioUnderstanding' => $audioUnderstanding,
+        ], 200);
+
+    }
+
 
 }
