@@ -20,6 +20,9 @@ class AudioController extends Controller
     // オーディオ作成
     public function store(AudioRequest $request) {
 
+
+        dd(explode(",", $request->instrument));
+
         DB::beginTransaction();
 
         try {

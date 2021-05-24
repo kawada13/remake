@@ -178,6 +178,9 @@ export default {
       data.append("price", this.formInfo.price);
       data.append("audio_file", this.formInfo.audio.file_info);
       data.append("sound_id", this.formInfo.sound);
+      data.append("understanding", this.formInfo.understanding);
+      data.append("use", this.formInfo.use);
+      data.append("instrument", this.formInfo.instrument);
 
 
       try {
