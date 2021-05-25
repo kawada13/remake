@@ -26,7 +26,6 @@ class AudioController extends Controller
         DB::beginTransaction();
 
         try {
-
             // オーディオファイル以外のカラム
             $audio = new Audio;
             $audio->user_id = Auth::id();
@@ -161,6 +160,31 @@ class AudioController extends Controller
         }
     }
 
+    // 特定のオーディオ取得
+    public function audioShow($id) {
+
+        try {
+            $audio = Audio::find($id);
+            $audioInstrument = $audio->audioInstruments;
+            $audioUnderstanding = $audio->audioUnderstandings;
+            $audioUse = $audio->audioUses;
+
+            return response()->json([
+                'message' => '成功',
+                'audio' => $audio,
+                'audioInstrument' => $audioInstrument,
+                'audioUse' => $audioUse,
+                'audioUnderstanding' => $audioUnderstanding,
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+
     // ログインユーザーの特定のオーディオ編集
     public function exhibitedAudioUpdate(AudioRequest $request, $id) {
 
@@ -275,7 +299,7 @@ class AudioController extends Controller
             // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
            if (Auth::id() === $audio->user_id) {
 
-               // 関連するsoundTypeの中間テーブルのデータも削除
+               // 関連するsoundTypeの中間テーブルのデータ削除
                AudioInstrument::where('audio_id',$audio->id)->delete();
                AudioUnderstanding::where('audio_id',$audio->id)->delete();
                AudioUse::where('audio_id',$audio->id)->delete();
@@ -296,8 +320,6 @@ class AudioController extends Controller
            return response()->json([
             'isloginUserAudio' => false
           ], 200);
-
-
         }
         catch (\Exception $e) {
 
@@ -309,9 +331,6 @@ class AudioController extends Controller
                 'errorInfo' => $e
             ],500);
         }
-
-
-
     }
 
 

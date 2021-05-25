@@ -10,7 +10,7 @@
           <p>登録されているオーディオはまだありません。</p>
         </div>
         <div class="card-body" v-for="(audio, i) in audios" :key="i">
-            <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
+            <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show',  params: { id: `${audio.id}` } })">{{audio.title}}</h5>
             <p>
               <button type="button" class="btn btn-outline-info ml-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</button>
               <button type="button" class="btn btn-success text-white ml-2" @click="$router.push({ name: 'audio-edit', params: { id: `${audio.id}` }})">編集</button>

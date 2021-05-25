@@ -18,6 +18,9 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::post('/register', 'AuthController@register')->name('register');
 Route::post('/logout', 'AuthController@logout')->name('logout');
 
+// 特定のオーディオ取得
+Route::get('/audio/{id}/show', 'AudioController@audioShow')->name('audio.show');
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -38,11 +41,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/audio/create', 'AudioController@store')->name('audio.store');
     // ログインユーザーの出品オーディオ一覧
     Route::get('/exhibited_audios', 'AudioController@exhibitedAudios')->name('exhibited_audios');
-    // ログインユーザーの特定のオーディオ
+    // ログインユーザーの特定のオーディオ取得
     Route::get('/exhibited_audio/{id}/show', 'AudioController@exhibitedAudioShow')->name('exhibited_show');
     // ログインユーザーの特定のオーディオアップデート
     Route::post('/exhibited_audio/{id}/update', 'AudioController@exhibitedAudioUpdate')->name('exhibited_update');
-    // ログインユーザーの特定のオーディオアップデート
+    // ログインユーザーの特定のオーディオ削除
     Route::post('/exhibited_audio/{id}/delete', 'AudioController@exhibitedAudioDelete')->name('exhibited_delete');
 
 });

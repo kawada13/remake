@@ -2,7 +2,7 @@ import router from '../router/index';
 
 const state = {
   userAudios: [],
-  audio: {},
+  userAudio: {},
 }
 
 const getters = {}
@@ -11,8 +11,8 @@ const mutations = {
   setUserAudios(state, audios) {
     state.userAudios = audios
   },
-  setAudio(state, audio) {
-    state.audio = audio
+  setUserAudio(state, audio) {
+    state.userAudio = audio
   }
 }
 
@@ -44,7 +44,7 @@ const actions = {
     .then(res => {
       // 自身のオーディオならばセット、そうじゃなければホームへリダイレクト
       if(res.data.isloginUserAudio) {
-        commit('setAudio', res.data);
+        commit('setUserAudio', res.data);
       } else {
         router.push('/')
       }

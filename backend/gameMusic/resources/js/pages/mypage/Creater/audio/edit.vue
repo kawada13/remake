@@ -276,22 +276,19 @@ export default {
         await this.$store.dispatch('audio/getExhibitedAudioShow', this.$route.params.id)
 
         // 必要なデータだけ抜き出す
-        let audio_instruments = this.$store.state.audio.audio.audioInstrument.map(o => o.instrument_id)
-        let audio_understandings = this.$store.state.audio.audio.audioUnderstanding.map(o => o.understanding_id)
-        let audio_uses = this.$store.state.audio.audio.audioUse.map(o => o.use_id)
-
-        console.log(this.$store.state.audio.audio.audio);
-
+        let audio_instruments = this.$store.state.audio.userAudio.audioInstrument.map(o => o.instrument_id)
+        let audio_understandings = this.$store.state.audio.userAudio.audioUnderstanding.map(o => o.understanding_id)
+        let audio_uses = this.$store.state.audio.userAudio.audioUse.map(o => o.use_id)
 
         // 取得したデータを代入
         this.audio = {
           file : '',
           fileName: '',
-          id : this.$store.state.audio.audio.audio.id,
-          title : this.$store.state.audio.audio.audio.title,
-          price : this.$store.state.audio.audio.audio.price,
-          sound_id : this.$store.state.audio.audio.audio.sound_id,
-          user_id : this.$store.state.audio.audio.audio.user_id,
+          id : this.$store.state.audio.userAudio.audio.id,
+          title : this.$store.state.audio.userAudio.audio.title,
+          price : this.$store.state.audio.userAudio.audio.price,
+          sound_id : this.$store.state.audio.userAudio.audio.sound_id,
+          user_id : this.$store.state.audio.userAudio.audio.user_id,
           audio_instruments: audio_instruments,
           audio_understandings: audio_understandings,
           audio_uses: audio_uses,
