@@ -9,6 +9,8 @@ use Tests\TestCase;
 // モデル
 use App\User;
 use App\UserInformation;
+use App\Audio;
+use App\SoundMaster;
 
 class UserTest extends TestCase
 {
@@ -46,5 +48,19 @@ class UserTest extends TestCase
             'user_id' => $user->id,
         ]);
         $this->assertNotEmpty($user->user_information);
+    }
+
+    public function testUserHasManyAudios()
+    {
+        $count = 5;
+        $userEloquent = app(User::class);
+        $audioEloquent = app(Audio::class);
+        $user = factory(User::class)->create(); // ユーザーを作成
+        $sound = factory(SoundMaster::class)->create(); // サウンドマスターを作成
+        $audios = factory(Audio::class, $count)->create([
+            'user_id' => $user->id,
+            'sound_id' => $sound->id,
+        ]); // ユーザーに紐づくオーディオを作成
+        $this->assertEquals($count, count($user->refresh()->audios));
     }
 }

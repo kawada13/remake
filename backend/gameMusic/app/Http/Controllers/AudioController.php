@@ -132,13 +132,11 @@ class AudioController extends Controller
     // ログインユーザーの特定のオーディオ取得
     public function exhibitedAudioShow($id) {
 
-
         try {
             $audio = Audio::find($id);
             $audioInstrument = $audio->audioInstruments;
             $audioUnderstanding = $audio->audioUnderstandings;
             $audioUse = $audio->audioUses;
-
 
             // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
             if (Auth::id() === $audio->user_id) {
@@ -162,9 +160,6 @@ class AudioController extends Controller
                 'errorInfo' => $e
             ],500);
         }
-
-
-
     }
 
 
