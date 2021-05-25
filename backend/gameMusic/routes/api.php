@@ -33,7 +33,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/sound_type/use', 'SoundTypeController@use')->name('type.use');
     Route::get('/sound_type/instrument', 'SoundTypeController@instrument')->name('type.instrument');
 
-    // オーディオ関連
 
     // オーディオ作成
     Route::post('/audio/create', 'AudioController@store')->name('audio.store');
@@ -41,5 +40,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/exhibited_audios', 'AudioController@exhibitedAudios')->name('exhibited_audios');
     // ログインユーザーの特定のオーディオ
     Route::get('/exhibited_audio/{id}/show', 'AudioController@exhibitedAudioShow')->name('exhibited_show');
+    // ログインユーザーの特定のオーディオアップデート
+    Route::post('/exhibited_audio/{id}/update', 'AudioController@exhibitedAudioUpdate')->name('exhibited_update');
 
 });

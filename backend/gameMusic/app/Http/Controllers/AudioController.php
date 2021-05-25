@@ -26,11 +26,10 @@ class AudioController extends Controller
         DB::beginTransaction();
 
         try {
-            $user = Auth::user();
 
             // オーディオファイル以外のカラム
             $audio = new Audio;
-            $audio->user_id = $user->id;
+            $audio->user_id = Auth::id();
             $audio->sound_id = $request->sound_id;
             $audio->title = $request->title;
             $audio->price = $request->price;
@@ -97,7 +96,7 @@ class AudioController extends Controller
             // データベース巻き戻し
             DB::rollback();
 
-            // DBに合わせるため、s3ないの画像削除
+            // DBに合わせるため、s3内のオーディオ削除
             Storage::disk('s3')->delete($path);
 
             return response()->json([
@@ -155,6 +154,108 @@ class AudioController extends Controller
             ], 200);
         }
         catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+
+    // ログインユーザーの特定のオーディオ編集
+    public function exhibitedAudioUpdate(AudioRequest $request, $id) {
+
+        DB::beginTransaction();
+
+        try {
+            $audio = Audio::find($id);
+
+            // まずはオーディオテーブルを更新
+            $audio->sound_id = $request->sound_id;
+            $audio->title = $request->title;
+            $audio->price = $request->price;
+
+            // 以下オーディオファイルの保存
+            $audioFile = $request->audio_file;
+            // 既存のS3に入ってるオーディオを削除
+            Storage::disk('s3')->delete(parse_url($audio->audio_file)['path']);
+            // S3にアップロード
+            $path = Storage::disk('s3')->put('/audios', $audioFile, 'public');
+            // カラムにフルパスを代入
+            $audio->audio_file = Storage::disk('s3')->url($path);
+
+
+            // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
+            if (Auth::id() === $audio->user_id) {
+
+                // イメージ(understanding)、用途(use)、使用機材(instrument)関連を更新
+                // 一旦削除
+                AudioInstrument::where('audio_id',$audio->id)->delete();
+                AudioUnderstanding::where('audio_id',$audio->id)->delete();
+                AudioUse::where('audio_id',$audio->id)->delete();
+
+                // 保存
+                
+                // (understanding)
+                //  送られてきたデータを配列化
+                $understandings = explode(",", $request->understanding);
+
+                // 中間テーブルに値を代入
+                foreach($understandings as $understanding){
+                    $audio_understanding = new AudioUnderstanding;
+                    $audio_understanding->audio_id = $audio->id;
+                    $audio_understanding->understanding_id = $understanding;
+                    $audio_understanding->save();
+                }
+
+                // (use)
+                //  送られてきたデータを配列化
+                $uses = explode(",", $request->use);
+
+                // 中間テーブルに値を代入
+                foreach($uses as $use){
+                    $audio_use = new AudioUse;
+                    $audio_use->audio_id = $audio->id;
+                    $audio_use->use_id = $use;
+                    $audio_use->save();
+                }
+
+                // (instruments)
+                //  送られてきたデータを配列化
+                $instruments = explode(",", $request->instrument);
+
+                // 中間テーブルに値を代入
+                foreach($instruments as $instrument){
+                    $audio_instrument = new AudioInstrument;
+                    $audio_instrument->audio_id = $audio->id;
+                    $audio_instrument->instrument_id = $instrument;
+                    $audio_instrument->save();
+                }
+                
+                // セーブ
+                $audio->save();
+                //  コミット
+                DB::commit();
+
+                return response()->json([
+                    'message' => '成功',
+                    'isloginUserAudio' => true
+                ], 200);
+            }
+
+            // もしログインユーザーじゃなければ、DBに合わせるため、s3内のオーディオ削除
+            Storage::disk('s3')->delete($path);
+
+            return response()->json([
+                'isloginUserAudio' => false
+            ], 200);
+        }
+        catch (\Exception $e) {
+            // データベース巻き戻し
+            DB::rollback();
+
+            // DBに合わせるため、s3内のオーディオ削除
+            Storage::disk('s3')->delete($path);
+
             return response()->json([
                 'message' => '失敗',
                 'errorInfo' => $e

@@ -53,6 +53,21 @@ const actions = {
       console.log(e);
     })
   },
+  // // ログインユーザーの特定のオーディオアップデート
+  async getExhibitedAudioUpdate({ commit }, {id, data}) {
+    await axios.post(`/api/exhibited_audio/${id}/update`, data)
+    .then(res => {
+      // 自身のオーディオならばセット、そうじゃなければホームへリダイレクト
+      if(res.data.isloginUserAudio) {
+        console.log(res.data);
+      } else {
+        router.push('/')
+      }
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
 }
 
 

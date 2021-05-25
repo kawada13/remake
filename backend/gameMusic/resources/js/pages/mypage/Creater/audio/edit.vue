@@ -38,6 +38,7 @@
                 <span class="btn btn-secondary">
                     ファイルを選択<input type="file" style="display:none" @change="fileSelected" accept="audio/*">
                 </span>
+                <span>{{audio.fileName}}</span>
               </label>
               <div class="d-flex justify-content-start"><small class="form-text text-muted">ファイル形式は MP3 のみアップロードできます。</small></div>
               <div class="d-flex justify-content-start"><small class="form-text text-muted">ファイルの上限サイズは5MBです。</small></div>
@@ -154,19 +155,19 @@ export default {
   },
   methods: {
     fileSelected(e) {
-      this.audio.audio_file = e.target.files[0]
+      this.audio.file = e.target.files[0]
 
       // エラー初期化
       this.errors.audio_url.isFile = false
       // 代入(名前表示のためのみ)
-      this.formInfo.audio.url = this.audio.audio_file.name
+      this.audio.fileName = this.audio.file.name
 
       // mp3のみを許可するバリデーション
-      if (this.audio.audio_file.type != 'audio/mpeg') {
+      if (this.audio.file.type != 'audio/mpeg') {
         this.errors.audio_url.isFile = true
       }
       // ファイルサイズ5MB以下のみを許可するバリデーション
-      if (this.audio.audio_file.size > 5000000) {
+      if (this.audio.file.size > 5000000) {
         this.errors.audio_url.size = true
       }
     },
@@ -189,18 +190,18 @@ export default {
       console.log('アップロード！');
 
       let data = new FormData();
-      data.append("title", this.formInfo.title);
-      data.append("price", this.formInfo.price);
-      data.append("audio_file", this.audio.audio_file);
-      data.append("sound_id", this.formInfo.sound);
-      data.append("understanding", this.formInfo.understanding);
-      data.append("use", this.formInfo.use);
-      data.append("instrument", this.formInfo.instrument);
+      data.append("title", this.audio.title);
+      data.append("price", this.audio.price);
+      data.append("audio_file", this.audio.file);
+      data.append("sound_id", this.audio.sound_id);
+      data.append("understanding", this.audio.audio_understandings);
+      data.append("use", this.audio.audio_uses);
+      data.append("instrument", this.audio.audio_instruments);
 
 
       try {
         this.loading = true
-        await this.$store.dispatch('audio/createAudio', data)
+        await this.$store.dispatch('audio/getExhibitedAudioUpdate', {id: this.$route.params.id, data: data})
       }
       catch(e){
         this.loading = false
@@ -215,16 +216,16 @@ export default {
     },
     validate() {
 
-      if (!this.formInfo.title) {
+      if (!this.audio.title) {
         this.errors.title.required = true
       }
-      if (!this.formInfo.price) {
+      if (!this.audio.price) {
         this.errors.price.required = true
       }
-      if (!this.formInfo.audio.url) {
+      if (!this.audio.file) {
         this.errors.audio_url.required = true
       }
-      if (!this.formInfo.sound) {
+      if (!this.audio.sound_id) {
         this.errors.sound.required = true
       }
 
@@ -294,10 +295,13 @@ export default {
         let audio_understandings = this.$store.state.audio.audio.audioUnderstanding.map(o => o.understanding_id)
         let audio_uses = this.$store.state.audio.audio.audioUse.map(o => o.use_id)
 
+        console.log(this.$store.state.audio.audio.audio);
+
 
         // 取得したデータを代入
         this.audio = {
-          file : this.$store.state.audio.audio.audio.audio_file,
+          file : '',
+          fileName: '',
           id : this.$store.state.audio.audio.audio.id,
           title : this.$store.state.audio.audio.audio.title,
           price : this.$store.state.audio.audio.audio.price,
