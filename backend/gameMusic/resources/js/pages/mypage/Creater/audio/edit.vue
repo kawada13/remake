@@ -130,22 +130,7 @@ export default {
           required: false
         }
       },
-      formInfo: {
-        title: '',
-        price: '',
-        audio:{
-          url: '', //ファイル名
-          file_info:'' //ファイル情報
-        },
-        sound:'',
-        understanding:[],
-        use: [],
-        instrument: []
-      },
       audio: {},//取得してきたオーディオ情報
-
-
-
       sounds: [ //サウンド選択肢
       ],
       understandings: [], //understandings関連選択肢

@@ -68,6 +68,21 @@ const actions = {
       console.log(e);
     })
   },
+  // // ログインユーザーの特定のオーディオ削除
+  async getExhibitedAudioDelete({ commit }, id) {
+    await axios.post(`/api/exhibited_audio/${id}/delete`,)
+    .then(res => {
+      // 自身のオーディオならばセット、そうじゃなければホームへリダイレクト
+      if(res.data.isloginUserAudio) {
+        console.log(res.data);
+      } else {
+        router.push('/')
+      }
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
 }
 
 

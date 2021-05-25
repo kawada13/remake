@@ -275,18 +275,17 @@ class AudioController extends Controller
             // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
            if (Auth::id() === $audio->user_id) {
 
-               // ソフトデリート
-               $audio->delete();
-
-               
                // 関連するsoundTypeの中間テーブルのデータも削除
                AudioInstrument::where('audio_id',$audio->id)->delete();
                AudioUnderstanding::where('audio_id',$audio->id)->delete();
                AudioUse::where('audio_id',$audio->id)->delete();
-               
+
+               // ソフトデリート
+               $audio->delete();
+
                // s3内のオーディオ削除
                Storage::disk('s3')->delete(parse_url($audio->audio_file)['path']);
-               
+
                DB::commit();
 
                return response()->json([

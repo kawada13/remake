@@ -14,7 +14,7 @@
             <p>
               <button type="button" class="btn btn-outline-info ml-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</button>
               <button type="button" class="btn btn-success text-white ml-2" @click="$router.push({ name: 'audio-edit', params: { id: `${audio.id}` }})">編集</button>
-              <button type="button" class="btn btn-danger text-white ml-2" @click="del">削除</button>
+              <button type="button" class="btn btn-danger text-white ml-2" @click="del(audio.id)">削除</button>
             </p>
             <audio controls controlslist="nodownload">
               <source :src="audio.audio_file">
@@ -29,13 +29,37 @@
 export default {
   data() {
     return {
+      options: { //トーストオプション
+          duration: 1500,
+          type: 'success'
+      },
       loading: false,
       audios:[]
     }
   },
   methods: {
-    del() {
-      confirm('本当に削除しますか？');
+    async del(id) {
+       let conf = confirm('本当に削除しますか？');
+
+       if(conf) {
+          console.log('削除');
+          try {
+            this.loading = true
+            await this.$store.dispatch('audio/getExhibitedAudioDelete', id)
+          }
+          catch(e){
+            console.log(e);
+            this.loading = false
+          }
+          finally{
+            this.toasted();
+            this.getExhibitedAudiosData()
+            this.loading = false
+          }
+       }else {
+         return
+       }
+
     },
     async getExhibitedAudiosData() {
       try{
@@ -49,6 +73,9 @@ export default {
       finally{
         this.loading = false
       }
+    },
+    toasted(){
+      this.$toasted.show('削除しました', this.options);
     }
   },
   created() {

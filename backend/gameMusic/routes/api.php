@@ -42,5 +42,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/exhibited_audio/{id}/show', 'AudioController@exhibitedAudioShow')->name('exhibited_show');
     // ログインユーザーの特定のオーディオアップデート
     Route::post('/exhibited_audio/{id}/update', 'AudioController@exhibitedAudioUpdate')->name('exhibited_update');
+    // ログインユーザーの特定のオーディオアップデート
+    Route::post('/exhibited_audio/{id}/delete', 'AudioController@exhibitedAudioDelete')->name('exhibited_delete');
 
 });
