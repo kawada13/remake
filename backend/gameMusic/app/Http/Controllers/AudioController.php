@@ -50,10 +50,7 @@ class AudioController extends Controller
 
                 // 中間テーブルに値を代入
                 foreach($understandings as $understanding){
-                    $audio_understanding = new AudioUnderstanding;
-                    $audio_understanding->audio_id = $audio->id;
-                    $audio_understanding->understanding_id = $understanding;
-                    $audio_understanding->save();
+                    $audio->understandings()->attach($understanding);
                  }
              }
 
@@ -63,10 +60,7 @@ class AudioController extends Controller
 
                 // 中間テーブルに値を代入
                 foreach($uses as $use){
-                    $audio_use = new AudioUse;
-                    $audio_use->audio_id = $audio->id;
-                    $audio_use->use_id = $use;
-                    $audio_use->save();
+                    $audio->uses()->attach($use);
                  }
              }
              if($request->instrument) {
@@ -75,12 +69,8 @@ class AudioController extends Controller
 
                 // 中間テーブルに値を代入
                 foreach($instruments as $instrument){
-                    $audio_instrument = new AudioInstrument;
-                    $audio_instrument->audio_id = $audio->id;
-                    $audio_instrument->instrument_id = $instrument;
-                    $audio_instrument->save();
+                    $audio->instruments()->attach($instrument);
                  }
-
              }
 
             //  コミット
@@ -132,9 +122,9 @@ class AudioController extends Controller
 
         try {
             $audio = Audio::find($id);
-            $audioInstrument = $audio->audioInstruments;
-            $audioUnderstanding = $audio->audioUnderstandings;
-            $audioUse = $audio->audioUses;
+            $audioInstrument = $audio->instruments;
+            $audioUnderstanding = $audio->understandings;
+            $audioUse = $audio->uses;
 
             // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
             if (Auth::id() === $audio->user_id) {
@@ -161,29 +151,29 @@ class AudioController extends Controller
     }
 
     // 特定のオーディオ取得
-    public function audioShow($id) {
+    // public function audioShow($id) {
 
-        try {
-            $audio = Audio::find($id);
-            $audioInstrument = $audio->audioInstruments;
-            $audioUnderstanding = $audio->audioUnderstandings;
-            $audioUse = $audio->audioUses;
+    //     try {
+    //         $audio = Audio::find($id);
+    //         $audioInstrument = $audio->audioInstruments;
+    //         $audioUnderstanding = $audio->audioUnderstandings;
+    //         $audioUse = $audio->audioUses;
 
-            return response()->json([
-                'message' => '成功',
-                'audio' => $audio,
-                'audioInstrument' => $audioInstrument,
-                'audioUse' => $audioUse,
-                'audioUnderstanding' => $audioUnderstanding,
-            ], 200);
-        }
-        catch (\Exception $e) {
-            return response()->json([
-                'message' => '失敗',
-                'errorInfo' => $e
-            ],500);
-        }
-    }
+    //         return response()->json([
+    //             'message' => '成功',
+    //             'audio' => $audio,
+    //             'audioInstrument' => $audioInstrument,
+    //             'audioUse' => $audioUse,
+    //             'audioUnderstanding' => $audioUnderstanding,
+    //         ], 200);
+    //     }
+    //     catch (\Exception $e) {
+    //         return response()->json([
+    //             'message' => '失敗',
+    //             'errorInfo' => $e
+    //         ],500);
+    //     }
+    // }
 
     // ログインユーザーの特定のオーディオ編集
     public function exhibitedAudioUpdate(AudioRequest $request, $id) {
@@ -221,38 +211,41 @@ class AudioController extends Controller
 
                 // (understanding)
                 //  送られてきたデータを配列化
-                $understandings = explode(",", $request->understanding);
+                if($request->understanding) {
+                    $understandings = explode(",", $request->understanding);
 
-                // 中間テーブルに値を代入
-                foreach($understandings as $understanding){
-                    $audio_understanding = new AudioUnderstanding;
-                    $audio_understanding->audio_id = $audio->id;
-                    $audio_understanding->understanding_id = $understanding;
-                    $audio_understanding->save();
+                    // テーブルに値を代入
+                    foreach($understandings as $understanding){
+                        $audio_understanding = new AudioUnderstanding;
+                        $audio_understanding->audio_id = $audio->id;
+                        $audio_understanding->understanding_id = $understanding;
+                        $audio_understanding->save();
+                    }
                 }
 
                 // (use)
                 //  送られてきたデータを配列化
-                $uses = explode(",", $request->use);
+                if($request->use) {
+                    $uses = explode(",", $request->use);
 
-                // 中間テーブルに値を代入
-                foreach($uses as $use){
-                    $audio_use = new AudioUse;
-                    $audio_use->audio_id = $audio->id;
-                    $audio_use->use_id = $use;
-                    $audio_use->save();
+                    // テーブルに値を代入
+                    foreach($uses as $use){
+                        $audio_use = new AudioUse;
+                        $audio_use->audio_id = $audio->id;
+                        $audio_use->use_id = $use;
+                        $audio_use->save();
+                    }
                 }
 
                 // (instruments)
                 //  送られてきたデータを配列化
-                $instruments = explode(",", $request->instrument);
+                if($request->instrument) {
+                    $instruments = explode(",", $request->instrument);
 
-                // 中間テーブルに値を代入
-                foreach($instruments as $instrument){
-                    $audio_instrument = new AudioInstrument;
-                    $audio_instrument->audio_id = $audio->id;
-                    $audio_instrument->instrument_id = $instrument;
-                    $audio_instrument->save();
+                    // 中間テーブルに値を代入
+                    foreach($instruments as $instrument){
+                        $audio->instruments()->attach($instrument);
+                    }
                 }
                 // セーブ
                 $audio->save();

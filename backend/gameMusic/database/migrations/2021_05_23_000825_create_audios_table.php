@@ -20,6 +20,7 @@ class CreateAudiosTable extends Migration
             $table->string('title')->comment('オーディオタイトル');
             $table->integer('price')->comment('価格');
             $table->string('audio_file')->comment('オーディオファイル');
+            // $table->string('sample_audio_file')->comment('サンプルオーディオファイル');
             $table->timestamps();
             $table->softDeletes();
         });

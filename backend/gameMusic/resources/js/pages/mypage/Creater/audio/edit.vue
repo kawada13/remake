@@ -274,11 +274,12 @@ export default {
       try{
         this.loading = true
         await this.$store.dispatch('audio/getExhibitedAudioShow', this.$route.params.id)
+        console.log(this.$store.state.audio.userAudio);
 
         // 必要なデータだけ抜き出す
-        let audio_instruments = this.$store.state.audio.userAudio.audioInstrument.map(o => o.instrument_id)
-        let audio_understandings = this.$store.state.audio.userAudio.audioUnderstanding.map(o => o.understanding_id)
-        let audio_uses = this.$store.state.audio.userAudio.audioUse.map(o => o.use_id)
+        let audio_instruments = this.$store.state.audio.userAudio.audioInstrument.map(o => o.id)
+        let audio_understandings = this.$store.state.audio.userAudio.audioUnderstanding.map(o => o.id)
+        let audio_uses = this.$store.state.audio.userAudio.audioUse.map(o => o.id)
 
         // 取得したデータを代入
         this.audio = {
