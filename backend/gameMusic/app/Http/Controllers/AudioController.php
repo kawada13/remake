@@ -132,19 +132,38 @@ class AudioController extends Controller
     // ログインユーザーの特定のオーディオ取得
     public function exhibitedAudioShow($id) {
 
-        $audio = Audio::find($id);
-        $audioInstrument = $audio->audioInstruments;
-        $audioUnderstanding = $audio->audioUnderstandings;
-        $audioUse = $audio->audioUses;
+
+        try {
+            $audio = Audio::find($id);
+            $audioInstrument = $audio->audioInstruments;
+            $audioUnderstanding = $audio->audioUnderstandings;
+            $audioUse = $audio->audioUses;
 
 
-        return response()->json([
-            'message' => '成功',
-            'audio' => $audio,
-            'audioInstrument' => $audioInstrument,
-            'audioUse' => $audioUse,
-            'audioUnderstanding' => $audioUnderstanding,
-        ], 200);
+            // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
+            if (Auth::id() === $audio->user_id) {
+                return response()->json([
+                    'message' => '成功',
+                    'audio' => $audio,
+                    'audioInstrument' => $audioInstrument,
+                    'audioUse' => $audioUse,
+                    'audioUnderstanding' => $audioUnderstanding,
+                    'isloginUserAudio' => true
+                ], 200);
+            }
+
+            return response()->json([
+                'isloginUserAudio' => false
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
+
 
     }
 

@@ -32,7 +32,6 @@ const actions = {
   async getExhibitedAudios({ commit }) {
     await axios.get('/api/exhibited_audios')
     .then(res => {
-      console.log(res.data.audios);
       commit('setUserAudios', res.data.audios);
     })
     .catch(e => {
@@ -43,8 +42,12 @@ const actions = {
   async getExhibitedAudioShow({ commit }, id) {
     await axios.get(`/api/exhibited_audio/${id}/show`)
     .then(res => {
-      // console.log(res.data);
-      commit('setAudio', res.data);
+      // 自身のオーディオならばセット、そうじゃなければホームへリダイレクト
+      if(res.data.isloginUserAudio) {
+        commit('setAudio', res.data);
+      } else {
+        router.push('/')
+      }
     })
     .catch(e => {
       console.log(e);
