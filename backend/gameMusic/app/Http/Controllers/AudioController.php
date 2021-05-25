@@ -194,7 +194,7 @@ class AudioController extends Controller
                 AudioUse::where('audio_id',$audio->id)->delete();
 
                 // 保存
-                
+
                 // (understanding)
                 //  送られてきたデータを配列化
                 $understandings = explode(",", $request->understanding);
@@ -230,7 +230,6 @@ class AudioController extends Controller
                     $audio_instrument->instrument_id = $instrument;
                     $audio_instrument->save();
                 }
-                
                 // セーブ
                 $audio->save();
                 //  コミット
@@ -244,6 +243,9 @@ class AudioController extends Controller
 
             // もしログインユーザーじゃなければ、DBに合わせるため、s3内のオーディオ削除
             Storage::disk('s3')->delete($path);
+
+            // データベース巻き戻し
+            DB::rollback();
 
             return response()->json([
                 'isloginUserAudio' => false
@@ -261,6 +263,56 @@ class AudioController extends Controller
                 'errorInfo' => $e
             ],500);
         }
+    }
+
+    // ログインユーザーの特定のオーディオ削除
+    public function exhibitedAudioDelete($id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $audio = Audio::find($id);
+            // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
+           if (Auth::id() === $audio->user_id) {
+
+               // ソフトデリート
+               $audio->delete();
+
+               
+               // 関連するsoundTypeの中間テーブルのデータも削除
+               AudioInstrument::where('audio_id',$audio->id)->delete();
+               AudioUnderstanding::where('audio_id',$audio->id)->delete();
+               AudioUse::where('audio_id',$audio->id)->delete();
+               
+               // s3内のオーディオ削除
+               Storage::disk('s3')->delete(parse_url($audio->audio_file)['path']);
+               
+               DB::commit();
+
+               return response()->json([
+                'isloginUserAudio' => true
+              ], 200);
+           }
+
+           return response()->json([
+            'isloginUserAudio' => false
+          ], 200);
+
+
+        }
+        catch (\Exception $e) {
+
+            // データベース巻き戻し
+            DB::rollback();
+
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
+
+
     }
 
 
