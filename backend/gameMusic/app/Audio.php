@@ -17,20 +17,6 @@ class Audio extends Model
      {
        return $this->belongsTo('App\User');
      }
-    //  いるかわからないけど中間テーブル自体へのリレーション
-     public function audioInstruments()
-    {
-        return $this->hasMany('App\AudioInstrument');
-    }
-     public function audioUnderstandings()
-    {
-        return $this->hasMany('App\AudioUnderstanding');
-    }
-     public function audioUses()
-    {
-        return $this->hasMany('App\AudioUse');
-    }
-    // 多対多リレーション
      public function instruments()
     {
         return $this->belongsToMany('App\InstrumentMaster', 'audio_instrument', 'audio_id', 'instrument_id');

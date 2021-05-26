@@ -7,7 +7,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 
 RUN apt-get update && \
-  apt-get -y install git unzip libzip-dev libicu-dev libonig-dev \
+  apt-get -y install git unzip libzip-dev libicu-dev libonig-dev wget \
   # for gd
   libfreetype6-dev \
   libjpeg62-turbo-dev \
@@ -23,5 +23,10 @@ RUN apt-get update && \
 COPY ./php.ini /usr/local/etc/php/php.ini
 
 WORKDIR /work
+
+RUN wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz \
+    && tar xvfJ ffmpeg-git-amd64-static.tar.xz \
+    && cp -av ffmpeg-git-20210520-amd64-static/ffprobe /usr/local/bin/ \
+    && cp -av ffmpeg-git-20210520-amd64-static/ffmpeg /usr/local/bin/
 
 RUN apt update && apt-get -y install nodejs npm vim
