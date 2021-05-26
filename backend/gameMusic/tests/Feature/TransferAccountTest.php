@@ -8,11 +8,6 @@ use Tests\TestCase;
 
 // モデル
 use App\User;
-use App\Audio;
-use App\UseMaster;
-use App\InstrumentMaster;
-use App\SoundMaster;
-use App\UnderstaindingMaster;
 use App\TransferAccount;
 
 class TransferAccountTest extends TestCase
@@ -24,7 +19,7 @@ class TransferAccountTest extends TestCase
      */
 
     use RefreshDatabase;
-    
+
     //  モデルのテスト
     public function testFactoryable()
     {
