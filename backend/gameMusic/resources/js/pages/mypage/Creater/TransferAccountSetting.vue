@@ -127,6 +127,12 @@ export default {
   methods: {
     update() {
       this.validate();
+      // 何か一つでもバリデーションにひっかがっていたらアップデートさせない
+      if(this.errors.bank_name.required || this.errors.bank_code.required || this.errors.branch_name.required || this.errors.branch_code.required || this.errors.deposit_type.required || this.errors.account_number.required || this.errors.account_holder.required || this.errors.account_holder.katakana)
+      {
+        return
+      }
+      console.log('アップデーt');
     },
     validate() {
 
