@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
+// use FFMpeg;
 
 // リクエスト
 use App\Http\Requests\AudioRequest;
@@ -39,6 +41,30 @@ class AudioController extends Controller
             $path = Storage::disk('s3')->put('/audios', $audioFile, 'public');
             // カラムにフルパスを代入
             $audio->audio_file = Storage::disk('s3')->url($path);
+
+
+
+
+            // $start = \FFMpeg\Coordinate\TimeCode::fromSeconds(5);
+            // $clipFilter = new \FFMpeg\Filters\Video\ClipFilter($start);
+
+
+            // $file = FFMpeg::fromDisk('s3')->open($audio->audio_file);
+
+
+            // dd($file);
+
+
+
+
+
+
+
+
+
+
+
+
 
             $audio->save();
 
