@@ -46,13 +46,16 @@ class AudioController extends Controller
 
 
             // s3に保存してあるオーディオファイルパスをlaravelのストレージに保存
-            Storage::disk('public')->put('sample', $path, 'public');
+            Storage::disk('public')->put('sample', $audio->audio_file, 'public');
 
             // ストレージにあるファイルパスをsample_pathへ代入
             $sample_path = Storage::disk('public')->get('sample');
 
             // それをFFMpegにて取得しようとする
-            $file = FFMpeg::fromDisk('public')->open($path);
+            $file = FFMpeg::fromDisk('local')
+                      ->open($sample_path)
+                      ->toDisk('local')
+                      ->save();
 
             dd($file);
 

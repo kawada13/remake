@@ -6,6 +6,7 @@ import auth from './auth'
 import user from './user'
 import soundType from './soundType'
 import audio from './audio'
+import transferAccount from './transferAccount'
 
 
 Vue.use(Vuex)
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
     auth,
     user,
     soundType,
-    audio
+    audio,
+    transferAccount
   }
 })
 

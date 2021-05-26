@@ -44,4 +44,35 @@ class TransferAccountTest extends TestCase
         ]);
         $this->assertNotEmpty($transferAccount->user);
     }
+
+    // データベーステスト
+    public function testStore()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        // 振り込み口座作成
+
+        $params = [
+            'bank_name' => 'bank_name',
+            'bank_code' => 2,
+            'branch_name' => 'branch_name',
+            'branch_number' => 211,
+            'deposit_type' => 'deposit_type',
+            'account_number' => 242213,
+            'account_holder' => 'account_holder',
+        ];
+
+        $response = $this->actingAs($user)
+                         ->json('POST', route('transferAccount.store'), $params);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功']);
+
+        // 作成された情報がちゃんとデータベースに保存されているのか
+        $transferAccount = TransferAccount::first();
+        $this->assertEquals($params['bank_name'], $transferAccount->bank_name);
+
+    }
 }
