@@ -138,4 +138,29 @@ class AudioTest extends TestCase
             ->assertJson(['message' => '成功',]);
 
     }
+
+    public function test_exhibitedAudioDelete()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        // サウンドマスターを作成
+        $sound = factory(SoundMaster::class)->create();
+
+        // ユーザーに紐づくオーディオを作成
+        $audio = factory(Audio::class)->create([
+            'user_id' => $user->id,
+            'sound_id' => $sound->id,
+        ]);
+
+        $response = $this->actingAs($user)
+                          ->json('POST', route('exhibited_delete', [
+                            'id' => $audio->id,
+                        ]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['isloginUserAudio' => true]);
+
+    }
 }
