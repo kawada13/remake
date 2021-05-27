@@ -75,4 +75,36 @@ class TransferAccountTest extends TestCase
         $this->assertEquals($params['bank_name'], $transferAccount->bank_name);
 
     }
+
+    public function testUpdate()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        // 振り込み口座作成
+        $transferAccount = factory(TransferAccount::class)->create([
+            'user_id' => $user->id,
+        ]);
+        $params = [
+            'bank_name' => 'update_bank_name',
+            'bank_code' => 2,
+            'branch_name' => 'up_datebranch_name',
+            'branch_number' => 211,
+            'deposit_type' => 'up_date_deposit_type',
+            'account_number' => 242213,
+            'account_holder' => 'up_date_account_holder',
+        ];
+
+
+        $response = $this->actingAs($user)
+                         ->json('POST', route('transferAccount.update', [
+                            'id' => $transferAccount->id,
+                        ]), $params);
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功']);
+
+
+    }
 }

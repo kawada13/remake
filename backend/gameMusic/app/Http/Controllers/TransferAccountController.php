@@ -18,7 +18,6 @@ class TransferAccountController extends Controller
 {
     public function store(TransferAccountRequest $request) {
 
-        // dd($request);
 
         DB::beginTransaction();
 
@@ -38,6 +37,51 @@ class TransferAccountController extends Controller
             return response()->json([
                 'message' => '成功',
                 'transferAccount' => $transferAccount
+            ],200);
+        }
+
+        catch (\Exception $e) {
+            // データベース巻き戻し
+            DB::rollback();
+
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
+    }
+
+    public function update(TransferAccountRequest $request, $id) {
+
+
+        DB::beginTransaction();
+
+        try {
+            $transferAccount = TransferAccount::find($id);
+            $transferAccount->bank_name = $request->bank_name;
+            $transferAccount->bank_code = $request->bank_code;
+            $transferAccount->branch_name = $request->branch_name;
+            $transferAccount->branch_number = $request->branch_number;
+            $transferAccount->deposit_type = $request->deposit_type;
+            $transferAccount->account_number = $request->account_number;
+            $transferAccount->account_holder = $request->account_holder;
+
+
+            // ログインユーザーの口座じゃなければ更新できない
+            if (Auth::id() === $transferAccount->user_id) {
+                $transferAccount->save();
+
+                DB::commit();
+                return response()->json([
+                    'message' => '成功',
+                    'transferAccount' => $transferAccount,
+                    'isloginUserAudio' => true
+                ],200);
+            }
+            return response()->json([
+                'message' => 'ログインユーザーの口座じゃありません。',
+                'isloginUserAudio' => false
             ],200);
         }
 
