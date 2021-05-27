@@ -1,33 +1,70 @@
 import router from '../router/index';
 
 const state = {
+  transferAccountInformation: {
+    id: '',
+    bank_name: '',
+    bank_code: '',
+    branch_name: '',
+    branch_number: '',
+    deposit_type: '',
+    account_number: '',
+    account_holder: ''
+  }
 }
 
 const getters = {}
 
 const mutations = {
+  setAccountId(state, id) {
+    state.transferAccountInformation.id = id
+  },
+  setAccount(state, transferAccount) {
+    state.transferAccountInformation = {
+      id: transferAccount.id,
+      bank_name: transferAccount.bank_name,
+      bank_code: transferAccount.bank_code,
+      branch_name: transferAccount.branch_name,
+      branch_number: transferAccount.branch_number,
+      deposit_type: transferAccount.deposit_type,
+      account_number: transferAccount.account_number,
+      account_holder: transferAccount.account_holder,
+    }
+  },
 }
 
 const actions = {
 
    // 口座作成
    async create({ commit }, data) {
-     console.log(data);
-    // await axios.post('/api/transferAccount/store', {
-    //   bank_name: data.bank_name,
-    //   bank_code: data.bank_code,
-    //   branch_name: data.branch_name,
-    //   branch_number: data.branch_number,
-    //   deposit_type: data.deposit_type,
-    //   account_number: data.account_number,
-    //   account_holder: data.account_holder
-    // })
     await axios.post('/api/transferAccount/store', data)
+    .then(res => {
+      console.log(res.data);
+      commit('setAccountId', res.data.transferAccount.id)
+    })
+    .catch(e => {
+      // console.log(e);
+    })
+  },
+   // 口座アップテート
+   async update({ commit }, {id, data}) {
+    await axios.post(`/api/transferAccount/${id}/update`, data)
     .then(res => {
       console.log(res.data);
     })
     .catch(e => {
-      console.log(e);
+      // console.log(e);
+    })
+  },
+   // 口座データ取得
+   async show({ commit }, id) {
+    await axios.get(`/api/transferAccount/${id}/show`)
+    .then(res => {
+      // console.log(res.data);
+      commit('setAccount', res.data.transferAccount)
+    })
+    .catch(e => {
+      // console.log(e);
     })
   },
 
