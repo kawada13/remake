@@ -1,24 +1,30 @@
 <template>
-  <div class="audio-index">
+<div>
+  
+  <!-- ローディング中 -->
+  <div class="my-5" v-if="loading">
+    <Loader />
+  </div>
+  <div class="audio-index" v-if="!loading">
     <div class="container">
       <div class="row my-3">
 
         <!-- 検索(左側) -->
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-4 col-xs-12" >
           <div class="card">
             <div class="card-body">
               <input type="text" class="form-control py-4" placeholder="キーワードを入力してください">
               <select class="custom-select select-music mt-3" id="inputGroupSelect">
-                <option v-for="(sound,i) in sounds" :key="i" :value="sound.value">{{sound.text}}</option>
+                <option v-for="(sound,i) in sounds" :key="i" :value="sound.id">{{sound.name}}</option>
               </select>
               <select class="custom-select mt-3" id="inputGroupSelect">
-                <option v-for="(understanding,i) in understandings" :key="i" :value="understanding.value">{{understanding.text}}</option>
+                <option v-for="(understanding,i) in understandings" :key="i" :value="understanding.id">{{understanding. name}}</option>
               </select>
               <select class="custom-select mt-3" id="inputGroupSelect">
-                <option v-for="(use,i) in uses" :key="i" :value="use.value">{{use.text}}</option>
+                <option v-for="(use,i) in uses" :key="i" :value="use.id">{{use.name}}</option>
               </select>
               <select class="custom-select mt-3" id="inputGroupSelect">
-                <option v-for="(instrument,i) in instruments" :key="i" :value="instrument.value">{{instrument.text}}</option>
+                <option v-for="(instrument,i) in instruments" :key="i" :value="instrument.id">{{instrument.name}}</option>
               </select>
               <div class="buttn mt-4">
                 <button class="btn btn-primary" type="submit">検索する</button>
@@ -77,88 +83,18 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      sounds: [
-        {
-          value: 'sound_effect',
-          text: 'BGM',
-        },
-        {
-          value: 'SE',
-          text: 'SE',
-        },
-        {
-          value: 'jingle',
-          text: 'ジングル',
-        },
-        {
-          value: 'voice',
-          text: '声',
-        },
-      ],
-      understandings: [
-        {
-          value: 'gorgeous',
-          text: '華やか',
-        },
-        {
-          value: 'sad',
-          text: '悲しい',
-        },
-        {
-          value: 'pleasant',
-          text: '楽しい',
-        },
-        {
-          value: 'horror',
-          text: 'ホラー',
-        },
-      ],
-      uses: [
-        {
-          value: 'battle',
-          text: 'バトル',
-        },
-        {
-          value: 'love',
-          text: '恋愛',
-        },
-        {
-          value: 'past',
-          text: '過去',
-        },
-        {
-          value: 'future',
-          text: '未来',
-        },
-        {
-          value: 'everyday',
-          text: '日常',
-        },
-      ],
-      instruments: [
-        {
-          value: 'guitar',
-          text: 'ギター',
-        },
-        {
-          value: 'bass',
-          text: 'ベース',
-        },
-        {
-          value: 'drums',
-          text: 'ドラム',
-        },
-        {
-          value: 'synth',
-          text: 'シンセ',
-        },
-      ],
+      loading: false,
+      sounds: [],
+      understandings: [],
+      uses: [],
+      instruments: [],
       audios: [
         {
           id: 1,
@@ -258,6 +194,68 @@ export default {
         },
       ]
     }
+  },
+  methods: {
+    async getSoundData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getSound')
+        this.sounds = this.$store.state.soundType.sound;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+    async getUnderstandingData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getUnderstanding')
+        this.understandings = this.$store.state.soundType.understanding;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+    async getUseData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getUse')
+        this.uses = this.$store.state.soundType.use;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+    async getInstrumentData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getInstrument')
+        this.instruments = this.$store.state.soundType.instrument;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+  },
+  created() {
+    Promise.all([
+      this.getSoundData(),
+      this.getUnderstandingData(),
+      this.getUseData(),
+      this.getInstrumentData(),
+    ])
   },
 }
 </script>
