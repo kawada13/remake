@@ -79,7 +79,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary my-4 store mr-5">{{ form.id === '' ? '保存':'更新' }}<i class="fas fa-chevron-right pl-2"></i></button>
-            <button type="button" class="btn btn-primary my-4 cancel">キャンセル</button>
+            <button type="button" class="btn btn-primary my-4 cancel" @click="$router.push({ name: 'exhibited-audios' })">戻る</button>
           </form>
         </div>
       </div>
@@ -140,20 +140,40 @@ export default {
       {
         return
       }
-      console.log('アップデーt');
-      try {
-        this.loading = true
-        await this.$store.dispatch('transferAccount/create', this.form)
-        this.getTransferAccountData()
+      // 新規作成なのかアップデートなのかを条件分岐
+      if(this.$store.state.transferAccount.transferAccountInformation)
+      {
+        console.log('更新');
+        try {
+          this.loading = true
+          await this.$store.dispatch('transferAccount/update', {id: this.form.id, data: this.form})
+          this.getTransferAccountData()
+        }
+        catch(e){
+          console.log(e);
+          this.loading = false
+        }
+        finally{
+          this.loading = false
+          this.toasted()
+        }
+      } else {
+        console.log('新規作成');
+        try {
+          this.loading = true
+          await this.$store.dispatch('transferAccount/create', this.form)
+          this.getTransferAccountData()
+        }
+        catch(e){
+          console.log(e);
+          this.loading = false
+        }
+        finally{
+          this.loading = false
+          this.toasted()
+        }
       }
-      catch(e){
-        console.log(e);
-        this.loading = false
-      }
-      finally{
-        this.loading = false
-        this.toasted()
-      }
+      
     },
     toasted() {
       this.$toasted.show('保存しました', this.options);

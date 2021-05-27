@@ -39,7 +39,6 @@ const actions = {
    async create({ commit }, data) {
     await axios.post('/api/transferAccount/store', data)
     .then(res => {
-      console.log(res.data);
       commit('setAccountId', res.data.transferAccount.id)
     })
     .catch(e => {
@@ -53,20 +52,18 @@ const actions = {
       console.log(res.data);
     })
     .catch(e => {
-      // console.log(e);
+      console.log(e);
     })
   },
    // 口座データ取得
    async show({ commit }) {
     await axios.get(`/api/transferAccount/show`)
     .then(res => {
-      console.log(res.data.transferAccount);
       if(res.data.transferAccount){
         commit('setAccount', res.data.transferAccount)
       } else {
         commit('setAccount', null)
       }
-      
     })
     .catch(e => {
       // console.log(e);

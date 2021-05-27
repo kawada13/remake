@@ -103,8 +103,7 @@ class TransferAccountController extends Controller
 
             $transferAccount = $user->transfer_account;
 
-            // dd($transferAccount);
-
+            // そもそも口座登録されているかどうかで条件分岐
             if($transferAccount) {
                 // ログインユーザーの口座じゃなければ取得できない
                 if (Auth::id() === $transferAccount->user_id) {
