@@ -57,11 +57,16 @@ const actions = {
     })
   },
    // 口座データ取得
-   async show({ commit }, id) {
-    await axios.get(`/api/transferAccount/${id}/show`)
+   async show({ commit }) {
+    await axios.get(`/api/transferAccount/show`)
     .then(res => {
-      // console.log(res.data);
-      commit('setAccount', res.data.transferAccount)
+      console.log(res.data.transferAccount);
+      if(res.data.transferAccount){
+        commit('setAccount', res.data.transferAccount)
+      } else {
+        commit('setAccount', null)
+      }
+      
     })
     .catch(e => {
       // console.log(e);

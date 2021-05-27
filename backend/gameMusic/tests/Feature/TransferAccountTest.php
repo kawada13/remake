@@ -118,12 +118,9 @@ class TransferAccountTest extends TestCase
 
         $response = $this->actingAs($user)
                          ->json('GET', route('transferAccount.show', [
-                            'id' => $transferAccount->id,
                         ]));
-
         $response
             ->assertStatus(200)
             ->assertJson(['message' => '成功']);
-
     }
 }

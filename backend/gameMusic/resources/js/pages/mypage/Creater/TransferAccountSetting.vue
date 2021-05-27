@@ -78,7 +78,7 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary my-4 store mr-5">{{ transferAccountInformation.id === '' ? '保存':'更新' }}<i class="fas fa-chevron-right pl-2"></i></button>
+            <button type="submit" class="btn btn-primary my-4 store mr-5">{{ form.id === '' ? '保存':'更新' }}<i class="fas fa-chevron-right pl-2"></i></button>
             <button type="button" class="btn btn-primary my-4 cancel">キャンセル</button>
           </form>
         </div>
@@ -130,16 +130,6 @@ export default {
           duration: 1500,
           type: 'success'
       },
-      transferAccountInformation: {
-        id: '',
-        bank_name: '',
-        bank_code: '',
-        branch_name: '',
-        branch_number: '',
-        deposit_type: '',
-        account_number: '',
-        account_holder: ''
-      }
     }
   },
   methods: {
@@ -154,10 +144,7 @@ export default {
       try {
         this.loading = true
         await this.$store.dispatch('transferAccount/create', this.form)
-        this.transferAccountInformation.id = this.$store.state.transferAccount.transferAccountInformation.id;
-
         this.getTransferAccountData()
-
       }
       catch(e){
         console.log(e);
@@ -230,14 +217,12 @@ export default {
       }
     },
     async getTransferAccountData() {
-      // すでにデータがあれば取得しに行く
-      if(this.transferAccountInformation.id) {
-        try{
-          this.loading = true
-          await this.$store.dispatch('transferAccount/show', this.transferAccountInformation.id)
+      // データを取りにく
+      await this.$store.dispatch('transferAccount/show')
 
-          // api通信でとってきたデータを代入
-          this.transferAccountInformation = {
+      // もしすでに登録していてデータがあれば
+      if(this.$store.state.transferAccount.transferAccountInformation) {
+        this.form = {
             id: this.$store.state.transferAccount.transferAccountInformation.id,
             bank_name: this.$store.state.transferAccount.transferAccountInformation.bank_name,
             bank_code: this.$store.state.transferAccount.transferAccountInformation.bank_code,
@@ -247,16 +232,17 @@ export default {
             account_number: this.$store.state.transferAccount.transferAccountInformation.account_number,
             account_holder: this.$store.state.transferAccount.transferAccountInformation.account_holder,
           }
-        }
-        catch(e){
-          console.log(e);
-          this.loading = false
-        }
-        finally{
-          this.loading = false
-        }
       } else {
-        return
+          this.form = {
+            id: '',
+            bank_name: '',
+            bank_code: '',
+            branch_name: '',
+            branch_number: '',
+            deposit_type: '',
+            account_number: '',
+            account_holder: '',
+         }
       }
     }
   },

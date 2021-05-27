@@ -33,6 +33,10 @@ class User extends Authenticatable
   {
     return $this->hasOne('App\UserInformation');
   }
+    Public function transfer_account()
+  {
+    return $this->hasOne('App\TransferAccount');
+  }
 
     public function audios()
   {

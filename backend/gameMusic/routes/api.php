@@ -53,6 +53,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // 振り込み口座情報アップデート
     Route::post('/transferAccount/{id}/update', 'TransferAccountController@update')->name('transferAccount.update');
     // 振り込み口座情報取得
-    Route::get('/transferAccount/{id}/show', 'TransferAccountController@show')->name('transferAccount.show');
+    Route::get('/transferAccount/show', 'TransferAccountController@show')->name('transferAccount.show');
 
 });
