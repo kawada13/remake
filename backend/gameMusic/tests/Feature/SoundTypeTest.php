@@ -54,12 +54,9 @@ class SoundTypeTest extends TestCase
 
     public function testSound()
     {
-        // ユーザー作成
-        $user = factory(User::class)->create();
 
         // actingAsでログイン認証したのちAPI通信
-        $response = $this->actingAs($user)
-                         ->json('GET', route('type.sound'));
+        $response = $this ->json('GET', route('type.sound'));
 
         $response
             ->assertStatus(200)
@@ -68,12 +65,7 @@ class SoundTypeTest extends TestCase
 
     public function testUnderstanding()
     {
-        // ユーザー作成
-        $user = factory(User::class)->create();
-
-        // actingAsでログイン認証したのちAPI通信
-        $response = $this->actingAs($user)
-                         ->json('GET', route('type.understanding'));
+        $response = $this->json('GET', route('type.understanding'));
 
         $response
             ->assertStatus(200)
@@ -82,12 +74,7 @@ class SoundTypeTest extends TestCase
 
     public function testUse()
     {
-        // ユーザー作成
-        $user = factory(User::class)->create();
-
-        // actingAsでログイン認証したのちAPI通信
-        $response = $this->actingAs($user)
-                         ->json('GET', route('type.use'));
+        $response = $this->json('GET', route('type.use'));
 
         $response
             ->assertStatus(200)
@@ -96,12 +83,7 @@ class SoundTypeTest extends TestCase
 
     public function testInstrument()
     {
-        // ユーザー作成
-        $user = factory(User::class)->create();
-
-        // actingAsでログイン認証したのちAPI通信
-        $response = $this->actingAs($user)
-                         ->json('GET', route('type.instrument'));
+        $response = $this->json('GET', route('type.instrument'));
 
         $response
             ->assertStatus(200)

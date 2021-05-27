@@ -14,9 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// 認証関連
 Route::post('/login', 'AuthController@login')->name('login');
 Route::post('/register', 'AuthController@register')->name('register');
 Route::post('/logout', 'AuthController@logout')->name('logout');
+
+// マスターテーブル関連
+Route::get('/sound_type/sound', 'SoundTypeController@sound')->name('type.sound');
+Route::get('/sound_type/understanding', 'SoundTypeController@understanding')->name('type.understanding');
+Route::get('/sound_type/use', 'SoundTypeController@use')->name('type.use');
+Route::get('/sound_type/instrument', 'SoundTypeController@instrument')->name('type.instrument');
 
 // 特定のオーディオ取得
 Route::get('/audio/{id}/show', 'AudioController@audioShow')->name('audio.show');
@@ -26,16 +33,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return $request->user();
     });
 
-    // ユーザー関連
+    // ユーザー情報取得
     Route::get('/user_information', 'UserController@loginUserInformation')->name('loginUserInformation');
+    // ユーザープロフィール編集
     Route::post('/user_information', 'UserController@profileEdit')->name('profileEdit');
-
-    // マスターテーブル関連
-    Route::get('/sound_type/sound', 'SoundTypeController@sound')->name('type.sound');
-    Route::get('/sound_type/understanding', 'SoundTypeController@understanding')->name('type.understanding');
-    Route::get('/sound_type/use', 'SoundTypeController@use')->name('type.use');
-    Route::get('/sound_type/instrument', 'SoundTypeController@instrument')->name('type.instrument');
-
 
     // オーディオ作成
     Route::post('/audio/create', 'AudioController@store')->name('audio.store');
