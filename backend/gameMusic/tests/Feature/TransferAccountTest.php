@@ -105,6 +105,25 @@ class TransferAccountTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['message' => '成功']);
 
+    }
+    public function testShow()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        // 振り込み口座作成
+        $transferAccount = factory(TransferAccount::class)->create([
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->actingAs($user)
+                         ->json('GET', route('transferAccount.show', [
+                            'id' => $transferAccount->id,
+                        ]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功']);
 
     }
 }

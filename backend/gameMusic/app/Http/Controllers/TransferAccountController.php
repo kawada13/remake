@@ -96,6 +96,37 @@ class TransferAccountController extends Controller
         }
 
     }
+    public function show($id) {
+
+
+
+        try {
+            $transferAccount = TransferAccount::find($id);
+
+            // ログインユーザーの口座じゃなければ取得できない
+            if (Auth::id() === $transferAccount->user_id) {
+
+                return response()->json([
+                    'message' => '成功',
+                    'transferAccount' => $transferAccount,
+                    'isloginUserAudio' => true
+                ],200);
+            }
+            return response()->json([
+                'message' => 'ログインユーザーの口座じゃありません。',
+                'isloginUserAudio' => false
+            ],200);
+        }
+
+        catch (\Exception $e) {
+
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
+    }
 }
 
 
