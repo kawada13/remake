@@ -45,19 +45,19 @@ class AudioController extends Controller
             // dd($path);
 
             // 送られてきた音声ファイルをlaravelストレージに保存
-            $audiofile = $request->file('audio_file');
-            $sample_path = $audiofile->store('public/temp');
+            // $audiofile = $request->file('audio_file');
+            // $sample_path = $audiofile->store('public/temp');
 
 
             // それをFFMpegにて取得しようとする
-            FFMpeg::fromDisk('local')
-                      ->open($sample_path)
-                      ->toDisk('local')
-                      ->save();
+            // FFMpeg::fromDisk('local')
+            //           ->open($sample_path)
+            //           ->toDisk('local')
+            //           ->save();
 
             // $a = Auth;
 
-            dd(12);
+            // dd(12);
 
 
 
@@ -194,29 +194,47 @@ class AudioController extends Controller
     }
 
     // 特定のオーディオ取得
-    // public function audioShow($id) {
+    public function audioShow($id) {
 
-    //     try {
-    //         $audio = Audio::find($id);
-    //         $audioInstrument = $audio->audioInstruments;
-    //         $audioUnderstanding = $audio->audioUnderstandings;
-    //         $audioUse = $audio->audioUses;
+        try {
+            $audio = Audio::find($id);
+            $audioInstrument = $audio->instruments;
+            $audioUnderstanding = $audio->understandings;
+            $audioUse = $audio->uses;
 
-    //         return response()->json([
-    //             'message' => '成功',
-    //             'audio' => $audio,
-    //             'audioInstrument' => $audioInstrument,
-    //             'audioUse' => $audioUse,
-    //             'audioUnderstanding' => $audioUnderstanding,
-    //         ], 200);
-    //     }
-    //     catch (\Exception $e) {
-    //         return response()->json([
-    //             'message' => '失敗',
-    //             'errorInfo' => $e
-    //         ],500);
-    //     }
-    // }
+            return response()->json([
+                'message' => '成功',
+                'audio' => $audio,
+                'audioInstrument' => $audioInstrument,
+                'audioUse' => $audioUse,
+                'audioUnderstanding' => $audioUnderstanding,
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+    // オーディオ全件取得(ソフトデリートのぞく)
+    public function audioIndex() {
+
+        try {
+            $audios = Audio::all();
+
+            return response()->json([
+                'message' => '成功',
+                'audios' => $audios,
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
 
     // ログインユーザーの特定のオーディオ編集
     public function exhibitedAudioUpdate(AudioRequest $request, $id) {
