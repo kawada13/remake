@@ -27,7 +27,7 @@ Route::get('/sound_type/instrument', 'SoundTypeController@instrument')->name('ty
 
 // 特定のオーディオ取得
 Route::get('/audio/{id}/show', 'AudioController@audioShow')->name('audio.show');
-// オーディオ全件取得(ソフトデリートのぞく)
+// 検索オーディオ取得(ソフトデリートのぞく)
 Route::get('/audios', 'AudioController@audioIndex')->name('audio.index');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

@@ -217,8 +217,8 @@ class AudioController extends Controller
             ],500);
         }
     }
-    // オーディオ全件取得(ソフトデリートのぞく)
-    public function audioIndex() {
+    // 検索オーディオ取得(ソフトデリートのぞく)
+    public function audioSearchIndex(Request $request) {
 
         try {
             $audios = Audio::all();
