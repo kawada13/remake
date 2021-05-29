@@ -219,7 +219,6 @@ class AudioController extends Controller
     }
     // 検索オーディオ取得
     public function audioSearchIndex(Request $request) {
-        // dd($request->sound);
 
         try {
             // リレーション先検索をするため、各IDを配列化
@@ -230,12 +229,14 @@ class AudioController extends Controller
 
             // A のみ⇨もし「キーワード」のみ入力されていたら
             if($request->keyword && !$request->sound && !$request->understanding && !$request->use && !$request->instrument) {
-                $audios = Audio::where('title', 'like', "%$request->keyword%")->get();
+                $audios = Audio::with('user')
+                                 ->where('title', 'like', "%$request->keyword%")->get();
             }
 
             // A and (B or C or D or E)⇨もし「キーワード」かつ「サウンドタイプ」が入力されていたら
             if(($request->keyword) && ($request->sound || $request->understanding || $request->use || $request->instrument)) {
-                $audios = Audio::where('title', 'like', "%$request->keyword%")
+                $audios = Audio::with('user')
+                                ->where('title', 'like', "%$request->keyword%")
                                 ->where(function($query) use($soundId, $understandingId, $useId, $instrumentId){
                                     $query->WhereHas('sound', function($q) use($soundId)  {
                                         $q->whereIn('id', $soundId);
@@ -255,7 +256,8 @@ class AudioController extends Controller
 
             // (B or C or D or E) のみ⇨もし「サウンドタイプ」のみ入力されていたら
             if((!$request->keyword) && ($request->sound || $request->understanding || $request->use || $request->instrument)) {
-                $audios = Audio::WhereHas('sound', function($q) use($soundId)  {
+                $audios = Audio::with('user')
+                                 ->WhereHas('sound', function($q) use($soundId)  {
                                         $q->whereIn('id', $soundId);
                                     })
                                     ->orWhereHas('understandings', function($q) use($understandingId)  {
@@ -272,7 +274,7 @@ class AudioController extends Controller
 
             // 検索欄に何も入力がなかったら
             if(!$request->keyword && !$request->sound && !$request->understanding && !$request->use && !$request->instrument) {
-                $audios = Audio::all();
+                $audios = Audio::with('user')->get();
             }
 
 
