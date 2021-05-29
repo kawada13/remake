@@ -42,9 +42,10 @@
         <div class="col-sm-8 col-xs-12">
           <h2 class="search_result_title">検索結果：<span class="text-primary">{{serchResult}}</span></h2>
           <hr>
-          <p class="search_result_text" v-if="getItems.length">検索に一致するオーディオが{{paginateData.audios.length}}件ありました。</p>
-          <p class="search_result_text" v-if="!getItems.length">検索に一致するオーディオが見つかりませんでした。申し訳ございません。</p>
-
+          <div v-if="!audioLoading">
+            <p class="search_result_text" v-if="paginateData.audios.length">検索に一致するオーディオが{{paginateData.audios.length}}件ありました。</p>
+            <p class="search_result_text" v-if="!paginateData.audios.length">検索に一致するオーディオが見つかりませんでした。申し訳ございません。</p>
+          </div>
           <div class="mt-5">
             <div class="card-deck row">
               <div class="col-sm-6" v-for="(audio, i) in getItems" :key="i">
@@ -62,8 +63,8 @@
           </div>
 
           <!-- ページネーション -->
-          <div class="pagination mt-5 d-flex justify-content-center">
-            <div>
+          <div class="pagination mt-5 d-flex justify-content-center" v-if="!audioLoading">
+            <div v-if="paginateData.audios.length">
               <paginate
               :page-count="getPageCount"
               :page-range="3"
@@ -94,6 +95,7 @@ export default {
   data() {
     return {
       loading: false,
+      audioLoading: false,
       sounds: [],
       understandings: [],
       uses: [],
@@ -117,7 +119,7 @@ export default {
         audios: [],
         parPage: 2, //1ページに表示する件数
         currentPage: 1
-      }
+      },
     }
   },
   computed: {
@@ -262,16 +264,16 @@ export default {
     },
     async getAudioDatas() {
       try{
-        this.loading = true
+        this.audioLoading = true
         await this.$store.dispatch('audio/getSearchAudios', this.form)
         this.paginateData.audios = this.$store.state.audio.audios
       }
       catch(e){
         // console.log(e);
-        this.loading = false
+        this.audioLoading = false
       }
       finally{
-        this.loading = false
+        this.audioLoading = false
       }
     },
     searchSet() {
