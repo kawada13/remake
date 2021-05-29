@@ -6,6 +6,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import routes from './router/index'
 import store from './store' 
 import Toasted from 'vue-toasted';
+import Paginate from 'vuejs-paginate'
 
 Vue.use(FilterPlugin)
 Vue.use(Toasted)
@@ -14,6 +15,7 @@ Vue.use(Toasted)
 Vue.component('app-header', require('./components/Header.vue').default);
 Vue.component('app-footer', require('./components/Footer.vue').default);
 Vue.component('Loader', require('./components/Loader.vue').default);
+Vue.component('paginate', Paginate)
 
 
 

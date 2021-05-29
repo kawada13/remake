@@ -39,15 +39,15 @@
         </div>
 
         <!-- 検索結果一覧(右側) -->
-        <div class="col-sm-8 col-xs-12" v-if="!loading">
+        <div class="col-sm-8 col-xs-12">
           <h2 class="search_result_title">検索結果：<span class="text-primary">{{serchResult}}</span></h2>
           <hr>
-          <p class="search_result_text" v-if="audios.length">検索に一致するオーディオが{{audios.length}}件ありました。</p>
-          <p class="search_result_text" v-if="!audios.length">検索に一致するオーディオが見つかりませんでした。申し訳ございません。</p>
+          <p class="search_result_text" v-if="getItems.length">検索に一致するオーディオが{{paginateData.audios.length}}件ありました。</p>
+          <p class="search_result_text" v-if="!getItems.length">検索に一致するオーディオが見つかりませんでした。申し訳ございません。</p>
 
           <div class="mt-5">
             <div class="card-deck row">
-              <div class="col-sm-6" v-for="(audio, i) in audios" :key="i">
+              <div class="col-sm-6" v-for="(audio, i) in getItems" :key="i">
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` }  })">{{ audio.title }}</h5>
@@ -62,26 +62,25 @@
           </div>
 
           <!-- ページネーション -->
-          <div class="mt-5 d-flex justify-content-center" v-if="audios.length">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                    <span class="sr-only">Previous</span>
-                  </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                    <span class="sr-only">Next</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+          <div class="pagination mt-5 d-flex justify-content-center">
+            <div>
+              <paginate
+              :page-count="getPageCount"
+              :page-range="3"
+              :margin-pages="2"
+              :click-handler="clickCallback"
+              :prev-text="'＜'"
+              :next-text="'＞'"
+              :containerClass="'pagination'"
+              :page-class="'page-item'"
+              :page-link-class="'page-link'"
+              :prev-class="'page-item'"
+              :prev-link-class="'page-link'"
+              :next-class="'page-item'"
+              :next-link-class="'page-link'"
+              >
+              </paginate>
+            </div>
           </div>
         </div>
       </div>
@@ -114,12 +113,27 @@ export default {
         instrument: '',
       },
       serchResult: '', //検索結果のタイトル表示
-      audios: []
+      paginateData: {
+        audios: [],
+        parPage: 2, //1ページに表示する件数
+        currentPage: 1
+      }
     }
   },
   computed: {
+    getItems() { //ページネーション用(1ページに表示する数)
+        let current = this.paginateData.currentPage * this.paginateData.parPage;
+        let start = current - this.paginateData.parPage;
+        return this.paginateData.audios.slice(start, current);
+    },
+    getPageCount() {// ページネーション用(全体のページ数)
+        return Math.ceil(this.paginateData.audios.length / this.paginateData.parPage);
+    }
   },
   methods: {
+    clickCallback(pageNum) { //ページネーション用
+      this.paginateData.currentPage = Number(pageNum);
+    },
     reset() {
       // フォームのリセット
       this.form = {
@@ -157,14 +171,17 @@ export default {
         } })
        this.setSerchResult()
        try {
+         this.loading = true
           await this.$store.dispatch('audio/getSearchAudios', this.form)
           console.log(this.$store.state.audio.audios);
-          this.audios = this.$store.state.audio.audios
+          this.paginateData.audios = this.$store.state.audio.audios
         }
         catch(e){
           console.log(e);
+          this.loading = true
         }
         finally{
+          this.loading = false
         }
     },
     setSerchResult() {
@@ -249,10 +266,11 @@ export default {
         this.loading = true
         await this.$store.dispatch('audio/getSearchAudios', this.form)
         console.log(this.$store.state.audio.audios);
-        this.audios = this.$store.state.audio.audios
+        this.paginateData.audios = this.$store.state.audio.audios
       }
       catch(e){
         // console.log(e);
+        this.loading = false
       }
       finally{
         this.loading = false

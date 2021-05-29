@@ -29,6 +29,7 @@
         "@fortawesome/fontawesome-free": "^5.15.3",
         "@mdi/font": "^5.9.55",
         "vue-router": "^3.5.1",
-        "vue-toasted": "^1.1.28"
+        "vue-toasted": "^1.1.28",
+        "vuejs-paginate": "^2.1.0"
     }
 }
