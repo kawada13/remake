@@ -82,9 +82,7 @@
               </ul>
             </nav>
           </div>
-
         </div>
-
       </div>
     </div>
   </div>
@@ -254,11 +252,17 @@ export default {
         instrument: this.serchTitle.instrument,
         } })
        this.setSerchResult()
+       try {
+          await this.$store.dispatch('audio/getSearchAudios', this.form)
+        }
+        catch(e){
+          console.log(e);
+        }
+        finally{
+        }
     },
     setSerchResult() {
-
       let result = []
-
 
       if(!this.form.keyword && !this.form.sound && !this.form.understanding && !this.form.use && !this.form.instrument) {
         this.serchResult = '全オーディオ一覧'

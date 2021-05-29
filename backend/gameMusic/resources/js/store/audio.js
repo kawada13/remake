@@ -83,6 +83,17 @@ const actions = {
       console.log(e);
     })
   },
+  // 検索オーディオ取得
+  async getSearchAudios({ commit }, data) {
+    // console.log(data);
+    await axios.post(`/api/audios`, data)
+    .then(res => {
+      console.log(res.data);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
 }
 
 

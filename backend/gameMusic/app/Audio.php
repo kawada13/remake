@@ -20,6 +20,10 @@ class Audio extends Model
      {
        return $this->belongsTo('App\User');
      }
+     public function sound()
+     {
+         return $this->belongsTo('App\SoundMaster');
+     }
      public function instruments()
     {
         return $this->belongsToMany('App\InstrumentMaster', 'audio_instrument', 'audio_id', 'instrument_id');

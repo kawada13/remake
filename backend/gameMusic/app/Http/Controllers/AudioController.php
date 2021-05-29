@@ -217,16 +217,70 @@ class AudioController extends Controller
             ],500);
         }
     }
-    // 検索オーディオ取得(ソフトデリートのぞく)
+    // 検索オーディオ取得
     public function audioSearchIndex(Request $request) {
+        // dd($request->sound);
 
         try {
-            $audios = Audio::all();
+            // リレーション先検索をするため、各IDを配列化
+            $soundId = [$request->sound];
+            $understandingId = [$request->understanding];
+            $useId = [$request->use];
+            $instrumentId = [$request->instrument];
+
+            // A のみ⇨もし「キーワード」のみ入力されていたら
+            if($request->keyword && !$request->sound && !$request->understanding && !$request->use && !$request->instrument) {
+                $audios = Audio::where('title', 'like', "%$request->keyword%")->get();
+            }
+
+            // A and (B or C or D or E)⇨もし「キーワード」かつ「サウンドタイプ」が入力されていたら
+            if(($request->keyword) && ($request->sound || $request->understanding || $request->use || $request->instrument)) {
+                $audios = Audio::where('title', 'like', "%$request->keyword%")
+                                ->where(function($query) use($soundId, $understandingId, $useId, $instrumentId){
+                                    $query->WhereHas('sound', function($q) use($soundId)  {
+                                        $q->whereIn('id', $soundId);
+                                    })
+                                    ->orWhereHas('understandings', function($q) use($understandingId)  {
+                                        $q->whereIn('audio_understanding.understanding_id', $understandingId);
+                                    })
+                                    ->orWhereHas('uses', function($q) use($useId)  {
+                                        $q->whereIn('audio_use.use_id', $useId);
+                                    })
+                                    ->orWhereHas('instruments', function($q) use($instrumentId)  {
+                                        $q->whereIn('audio_instrument.instrument_id', $instrumentId);
+                                    });
+                                })
+                                ->get();
+            }
+
+            // (B or C or D or E) のみ⇨もし「サウンドタイプ」のみ入力されていたら
+            if((!$request->keyword) && ($request->sound || $request->understanding || $request->use || $request->instrument)) {
+                $audios = Audio::WhereHas('sound', function($q) use($soundId)  {
+                                        $q->whereIn('id', $soundId);
+                                    })
+                                    ->orWhereHas('understandings', function($q) use($understandingId)  {
+                                        $q->whereIn('audio_understanding.understanding_id', $understandingId);
+                                    })
+                                    ->orWhereHas('uses', function($q) use($useId)  {
+                                        $q->whereIn('audio_use.use_id', $useId);
+                                    })
+                                    ->orWhereHas('instruments', function($q) use($instrumentId)  {
+                                        $q->whereIn('audio_instrument.instrument_id', $instrumentId);
+                                    })
+                                    ->get();
+            }
+
+            // 検索欄に何も入力がなかったら
+            if(!$request->keyword && !$request->sound && !$request->understanding && !$request->use && !$request->instrument) {
+                $audios = Audio::all();
+            }
+
 
             return response()->json([
-                'message' => '成功',
+                'message' => '検索成功',
                 'audios' => $audios,
             ], 200);
+
         }
         catch (\Exception $e) {
             return response()->json([
