@@ -173,7 +173,6 @@ export default {
        try {
          this.loading = true
           await this.$store.dispatch('audio/getSearchAudios', this.form)
-          console.log(this.$store.state.audio.audios);
           this.paginateData.audios = this.$store.state.audio.audios
         }
         catch(e){
@@ -265,7 +264,6 @@ export default {
       try{
         this.loading = true
         await this.$store.dispatch('audio/getSearchAudios', this.form)
-        console.log(this.$store.state.audio.audios);
         this.paginateData.audios = this.$store.state.audio.audios
       }
       catch(e){
