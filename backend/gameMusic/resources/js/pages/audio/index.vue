@@ -39,10 +39,11 @@
         </div>
 
         <!-- 検索結果一覧(右側) -->
-        <div class="col-sm-8 col-xs-12">
+        <div class="col-sm-8 col-xs-12" v-if="!loading">
           <h2 class="search_result_title">検索結果：<span class="text-primary">{{serchResult}}</span></h2>
           <hr>
-          <p class="search_result_text">検索に一致するオーディオがOO件ありました。</p>
+          <p class="search_result_text" v-if="audios.length">検索に一致するオーディオが{{audios.length}}件ありました。</p>
+          <p class="search_result_text" v-if="!audios.length">検索に一致するオーディオが見つかりませんでした。申し訳ございません。</p>
 
           <div class="mt-5">
             <div class="card-deck row">
@@ -51,9 +52,9 @@
                   <div class="card-body">
                     <h5 class="card-title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` }  })">{{ audio.title }}</h5>
                     <audio controls controlslist="nodownload">
-                      <source :src="audio.sound">
+                      <source :src="audio.audio_file">
                     </audio>
-                    <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }  })">{{audio.artist}}</small></p>
+                    <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }  })">{{audio.user.name}}</small></p>
                   </div>
                 </div>
               </div>
@@ -61,7 +62,7 @@
           </div>
 
           <!-- ページネーション -->
-          <div class="mt-5 d-flex justify-content-center">
+          <div class="mt-5 d-flex justify-content-center" v-if="audios.length">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <li class="page-item">
@@ -113,104 +114,7 @@ export default {
         instrument: '',
       },
       serchResult: '', //検索結果のタイトル表示
-      audios: [
-        {
-          id: 1,
-          sound: 'images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1'
-        },
-        {
-          id: 2,
-          sound: 'images/Closed_Case.mp3',
-          title: '生演奏ギターの爽やか明るい疾走感ポップス',
-          artist: 'rokedt2'
-        },
-        {
-          id: 3,
-          sound: 'images/Closed_Case.mp3',
-          title: '明るいEDM テクノ ポップ ダンス曲',
-          artist: 'rokedt3'
-        },
-        {
-          id: 4,
-          sound: 'images/Closed_Case.mp3',
-          title: '企業VPに爽やかアコースティックギター',
-          artist: 'rokedt4'
-        },
-        {
-          id: 5,
-          sound: 'images/Closed_Case.mp3',
-          title: 'ほのぼのした日常曲です。',
-          artist: 'rokedt5'
-        },
-        {
-          id: 6,
-          sound: 'images/Closed_Case.mp3',
-          title: '運動会に使われるテンポの良いクラシック',
-          artist: 'rokedt6'
-        },
-        {
-          id: 7,
-          sound: 'images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt7'
-        },
-        {
-          id: 8,
-          sound: 'images/Closed_Case.mp3',
-          title: '生演奏ギターの爽やか明るい疾走感ポップス',
-          artist: 'rokedt8'
-        },
-        {
-          id: 9,
-          sound: 'images/Closed_Case.mp3',
-          title: '明るいEDM テクノ ポップ ダンス曲',
-          artist: 'rokedt9'
-        },
-        {
-          id: 10,
-          sound: 'images/Closed_Case.mp3',
-          title: '企業VPに爽やかアコースティックギター',
-          artist: 'rokedt10'
-        },
-        {
-          id: 11,
-          sound: 'images/Closed_Case.mp3',
-          title: 'ほのぼのした日常曲です。',
-          artist: 'rokedt11'
-        },
-        {
-          id: 12,
-          sound: 'images/Closed_Case.mp3',
-          title: '運動会に使われるテンポの良いクラシック',
-          artist: 'rokedt12'
-        },
-        {
-          id: 13,
-          sound: 'images/Closed_Case.mp3',
-          title: '生演奏ギターの爽やか明るい疾走感ポップス',
-          artist: 'rokedt13'
-        },
-        {
-          id: 14,
-          sound: 'images/Closed_Case.mp3',
-          title: '明るいEDM テクノ ポップ ダンス曲',
-          artist: 'rokedt14'
-        },
-        {
-          id: 15,
-          sound: 'images/Closed_Case.mp3',
-          title: '企業VPに爽やかアコースティックギター',
-          artist: 'rokedt15'
-        },
-        {
-          id: 16,
-          sound: 'images/Closed_Case.mp3',
-          title: 'ほのぼのした日常曲です。',
-          artist: 'rokedt16'
-        },
-      ]
+      audios: []
     }
   },
   computed: {
@@ -254,6 +158,8 @@ export default {
        this.setSerchResult()
        try {
           await this.$store.dispatch('audio/getSearchAudios', this.form)
+          console.log(this.$store.state.audio.audios);
+          this.audios = this.$store.state.audio.audios
         }
         catch(e){
           console.log(e);
@@ -330,6 +236,20 @@ export default {
         this.loading = true
         await this.$store.dispatch('soundType/getInstrument')
         this.instruments = this.$store.state.soundType.instrument;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+    async getAudioDatas() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('audio/getSearchAudios', this.form)
+        console.log(this.$store.state.audio.audios);
+        this.audios = this.$store.state.audio.audios
       }
       catch(e){
         // console.log(e);
@@ -490,15 +410,16 @@ export default {
   },
   created() {
     Promise.all([
+      // こっから下は強引にやってるやつ
+      this.searchSet(), //searchTitleにリロードしても値を保持させる
+      this.setFrom(), //formにリロードしても値を保持させる
+      this.setSerchResult(), //検索結果タイトルの値を保持させる
       // 選択肢のデータを取ってくる
       this.getSoundData(),
       this.getUnderstandingData(),
       this.getUseData(),
       this.getInstrumentData(),
-      // こっから下は強引にやってるやつ
-      this.searchSet(), //searchTitleにリロードしても値を保持させる
-      this.setFrom(), //formにリロードしても値を保持させる
-      this.setSerchResult() //検索結果タイトルの値を保持させる
+      this.getAudioDatas(),
     ])
   },
 }
