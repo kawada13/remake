@@ -47,7 +47,7 @@ class UserTest extends TestCase
         $userInformation = factory(UserInformation::class)->create([
             'user_id' => $user->id,
         ]);
-        $this->assertNotEmpty($user->user_information);
+        $this->assertNotEmpty($user->userInformation);
     }
 
     public function testUserHasManyAudios()
@@ -62,5 +62,18 @@ class UserTest extends TestCase
             'sound_id' => $sound->id,
         ]); // ユーザーに紐づくオーディオを作成
         $this->assertEquals($count, count($user->refresh()->audios));
+    }
+    public function test_show()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        $response = $this->json('GET', route('user.show', [
+                            'id' => $user->id
+                         ]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功',]);
     }
 }

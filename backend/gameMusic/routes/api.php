@@ -35,6 +35,10 @@ Route::get('/audio/new', 'AudioController@newAudios')->name('audio.new');
 Route::post('/audios', 'AudioController@audioSearchIndex')->name('audio.index');
 
 
+// 特定のユーザー情報取得
+Route::get('/user/{id}/show', 'UserController@show')->name('user.show');
+
+
 
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

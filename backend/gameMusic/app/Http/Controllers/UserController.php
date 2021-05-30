@@ -14,6 +14,7 @@ use App\Http\Requests\UserInformationRequest;
 // モデル
 use App\UserInformation;
 use App\User;
+use App\Audio;
 
 class UserController extends Controller
 {
@@ -112,14 +113,15 @@ class UserController extends Controller
     public function show($id) {
 
         try{
-            $user = Auth::user();
-            $user_information = UserInformation::select('*')
-                ->where('user_id', $user->id)
-                ->first();
+            $user = User::with('userInformation')
+                            ->where('id', $id)
+                            ->first();
+            $userAudios = Audio::where('user_id', $user->id)
+                                ->get();
 
             return response()->json([
                 'user' => $user,
-                'user_information' => $user_information,
+                '$userAudios' => $userAudios,
                 'message' => '成功'
             ],200);
         }

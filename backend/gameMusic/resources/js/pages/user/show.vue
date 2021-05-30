@@ -58,6 +58,7 @@
 export default {
   data() {
     return {
+      loading:false,
       introduce:`株式会社テックミーのCTOを務めております。
 フロントエンドとバックエンド、どちらも実務経験があります。特にLaravelやVue.jsでの開発を得意としています。
 
@@ -93,6 +94,28 @@ export default {
 
     }
   },
+  methods: {
+    async getUserShowData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('user/getUserShow', this.$route.params.id)
+        // this.audio = this.$store.state.audio.audio
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
+    }
+  },
+  created() {
+    Promise.all([
+      this.getUserShowData(),
+    ])
+  },
+
 
 }
 </script>

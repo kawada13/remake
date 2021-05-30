@@ -19,7 +19,7 @@
                 <audio controls controlslist="nodownload">
                   <source :src="audio.audio_file">
                 </audio>
-                <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">{{audio.user.name}}</small></p>
+                <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">{{audio.user.name}}</small></p>
               </div>
             </div>
           </div>

@@ -1,11 +1,15 @@
 import router from '../router/index';
 
 const state = {
+  user: {}
 }
 
 const getters = {}
 
 const mutations = {
+  setUser(state, data) {
+    state.user = data
+  },
 }
 
 const actions = {
@@ -18,6 +22,16 @@ const actions = {
     })
     .catch(e => {
       // console.log(e);
+    })
+  },
+  async getUserShow({ commit }, id) {
+    await axios.get(`/api/user/${id}/show`)
+    .then(res => {
+      console.log(res.data);
+      // commit('setUser', res.data);
+    })
+    .catch(e => {
+      console.log(e);
     })
   },
 

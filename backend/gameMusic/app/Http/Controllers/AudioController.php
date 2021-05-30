@@ -40,7 +40,7 @@ class AudioController extends Controller
             // S3にアップロード
             $path = Storage::disk('s3')->put('/audios', $audioFile, 'public');
             // カラムにフルパスを代入
-            // $audio->audio_file = Storage::disk('s3')->url($path);
+            $audio->audio_file = Storage::disk('s3')->url($path);
 
             // dd($path);
 
@@ -64,9 +64,13 @@ class AudioController extends Controller
                       ->toDisk('local')
                       ->save('temp/ffmpeg/sample2.mp3');
 
+            $b = Storage::disk('local')
+                            ->get('temp/ffmpeg/sample2.mp3');
 
-            $audio->audio_file = $a;
 
+            Storage::disk('s3')->put('/audios', $b, 'public');
+
+            dd(21);
             // $a = Auth;
 
             // shell_exec("/usr/local/bin/ffmpeg -i $sample_path -t 5 output_file.mp3");
@@ -74,13 +78,11 @@ class AudioController extends Controller
 
 
 
-            
 
 
             // $file = FFMpeg::fromDisk('s3')->open($audio->audio_file);
 
 
-            // dd($file);
 
 
 
