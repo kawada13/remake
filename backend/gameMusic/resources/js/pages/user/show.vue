@@ -1,7 +1,13 @@
 <template>
-  <div>
+<div>
+   <!-- ローディング中 -->
+  <div class="my-5" v-if="loading">
+    <Loader />
+  </div>
+  
+  <div v-if="!loading">
     <div class="profile_title">
-        <h2>User Nameさんのプロフィール</h2>
+        <h2>{{user.user.name}}さんのプロフィール</h2>
       </div>
 
       <!-- 自己紹介 -->
@@ -10,7 +16,7 @@
           自己紹介
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item" v-html="introduce" style="white-space: pre-wrap; word-wrap:break-word; line-height:1.7"></li>
+          <li class="list-group-item" v-html="user.user.user_information.introduce" style="white-space: pre-wrap; word-wrap:break-word; line-height:1.7"></li>
         </ul>
       </div>
 
@@ -20,7 +26,7 @@
           使用機材
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item" v-html="instrument" style="white-space: pre-wrap; word-wrap:break-word; line-height:1.7"></li>
+          <li class="list-group-item" v-html="user.user.user_information.instrument" style="white-space: pre-wrap; word-wrap:break-word; line-height:1.7"></li>
         </ul>
       </div>
 
@@ -29,10 +35,10 @@
         <div class="card-header">
           新着オーディオ
         </div>
-        <div class="audios ml-4 my-3" v-for="(audio,i) in audios" :key="i">
+        <div class="audios ml-4 my-3" v-for="(audio,i) in user.userAudios" :key="i">
           <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
           <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.sound">
+            <source :src="audio.audio_file">
           </audio>
             <p>
               <a class="btn btn-outline-primary">この曲をお気に入りに登録</a>
@@ -52,6 +58,7 @@
       </div>
     
   </div>
+</div>
 </template>
 
 <script>
@@ -59,39 +66,7 @@ export default {
   data() {
     return {
       loading:false,
-      introduce:`株式会社テックミーのCTOを務めております。
-フロントエンドとバックエンド、どちらも実務経験があります。特にLaravelやVue.jsでの開発を得意としています。
-
-また、WordPressでのWeb制作も経験してきましたので、HTML/CSSコーディングや、WordPressオリジナルテーマ構築といった分野でもお役に立てます。
-
-あと、得意分野というわけではありませんが、linuxやAWSに関してもある程度知見がありますので、お役に立てるかもしれません。`,
-      instrument:`DAW：Studio One 4 Professional
-オーディオインターフェイス：UNIVERSAL AUDIO APOLLO TWIN MKII QUAD
-`,
-      audios:[
-        {
-          id: 1,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1',
-          price: 4000
-        },
-        {
-           id: 2,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1',
-          price: 4000
-        },
-        {
-          id: 3,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1',
-          price: 4000
-        },
-      ]
-
+      user: {}
     }
   },
   methods: {
@@ -99,7 +74,7 @@ export default {
       try{
         this.loading = true
         await this.$store.dispatch('user/getUserShow', this.$route.params.id)
-        // this.audio = this.$store.state.audio.audio
+        this.user = this.$store.state.user.user
       }
       catch(e){
         // console.log(e);

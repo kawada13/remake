@@ -117,11 +117,12 @@ class UserController extends Controller
                             ->where('id', $id)
                             ->first();
             $userAudios = Audio::where('user_id', $user->id)
+                                ->take(5)
                                 ->get();
 
             return response()->json([
                 'user' => $user,
-                '$userAudios' => $userAudios,
+                'userAudios' => $userAudios,
                 'message' => '成功'
             ],200);
         }

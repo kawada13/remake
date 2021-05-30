@@ -28,7 +28,7 @@ const actions = {
     await axios.get(`/api/user/${id}/show`)
     .then(res => {
       console.log(res.data);
-      // commit('setUser', res.data);
+      commit('setUser', res.data);
     })
     .catch(e => {
       console.log(e);
