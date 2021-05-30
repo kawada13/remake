@@ -27,6 +27,10 @@ Route::get('/sound_type/instrument', 'SoundTypeController@instrument')->name('ty
 
 // 特定のオーディオ取得
 Route::get('/audio/{id}/show', 'AudioController@audioShow')->name('audio.show');
+// 過去に作られた古い順6件のオーディオ情報(トップのオーディオ一覧のところに載せるやつ)
+Route::get('/audio/old', 'AudioController@oldAudios')->name('audio.old');
+ // 新着順3件のオーディオ情報(新着オーディオのところに載せるやつ)
+Route::get('/audio/new', 'AudioController@newAudios')->name('audio.new');
 // 検索オーディオ取得
 Route::post('/audios', 'AudioController@audioSearchIndex')->name('audio.index');
 

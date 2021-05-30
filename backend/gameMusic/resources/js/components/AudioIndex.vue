@@ -1,22 +1,26 @@
 <template>
+<div>
   <div class="new-audio">
-
     <div class="container">
 
       <div class="content-top-title">
         <h1>オーディオ一覧</h1>
       </div>
 
-      <div class="mt-5">
+      <div class="my-5" v-if="loading">
+        <Loader />
+      </div>
+
+      <div class="mt-5" v-if="!loading">
         <div class="card-deck row">
           <div class="col-sm-4" v-for="(audio, i) in audios" :key="i">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h5>
                 <audio controls controlslist="nodownload">
-                  <source :src="audio.sound">
+                  <source :src="audio.audio_file">
                 </audio>
-                <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">{{audio.artist}}</small></p>
+                <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">{{audio.user.name}}</small></p>
               </div>
             </div>
           </div>
@@ -32,51 +36,37 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      audios: [
-        {
-          id: 1,
-          sound: 'images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1'
-        },
-        {
-          id: 2,
-          sound: 'images/Closed_Case.mp3',
-          title: '生演奏ギターの爽やか明るい疾走感ポップス',
-          artist: 'rokedt2'
-        },
-        {
-          id: 3,
-          sound: 'images/Closed_Case.mp3',
-          title: '明るいEDM テクノ ポップ ダンス曲',
-          artist: 'rokedt3'
-        },
-        {
-          id: 4,
-          sound: 'images/Closed_Case.mp3',
-          title: '企業VPに爽やかアコースティックギター',
-          artist: 'rokedt4'
-        },
-        {
-          id: 5,
-          sound: 'images/Closed_Case.mp3',
-          title: 'ほのぼのした日常曲です。',
-          artist: 'rokedt5'
-        },
-        {
-          id: 6,
-          sound: 'images/Closed_Case.mp3',
-          title: '運動会に使われるテンポの良いクラシック',
-          artist: 'rokedt6'
-        },
-      ]
+      loading: false,
+      audios: []
     }
+  },
+  methods: {
+    async getAudioDatas() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('audio/getAudioOld')
+        this.audios = this.$store.state.audio.oldAudios;
+      }
+      catch(e){
+        this.loading = false
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    }
+  },
+  created() {
+    Promise.all([
+      this.getAudioDatas(),
+    ])
   },
 
 }

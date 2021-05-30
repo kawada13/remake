@@ -27,7 +27,7 @@ class AudioController extends Controller
 
         DB::beginTransaction();
 
-        try {
+        // try {
             // オーディオファイル以外のカラム
             $audio = new Audio;
             $audio->user_id = Auth::id();
@@ -40,30 +40,41 @@ class AudioController extends Controller
             // S3にアップロード
             $path = Storage::disk('s3')->put('/audios', $audioFile, 'public');
             // カラムにフルパスを代入
-            $audio->audio_file = Storage::disk('s3')->url($path);
+            // $audio->audio_file = Storage::disk('s3')->url($path);
 
             // dd($path);
 
             // 送られてきた音声ファイルをlaravelストレージに保存
-            // $audiofile = $request->file('audio_file');
-            // $sample_path = $audiofile->store('public/temp');
+            $audiofile = $request->file('audio_file');
+            $sample_path = $audiofile->store('public/temp');
 
+            // dd($sample_path);
+
+            // $end = \FFMpeg\Coordinate\TimeCode::toSeconds();
+            // $clipFilter2 = new \FFMpeg\Filters\Video\ClipFilter($end);
+
+            $start = \FFMpeg\Coordinate\TimeCode::fromSeconds(5);
+            $clipFilter = new \FFMpeg\Filters\Audio\AudioClipFilter($start);
 
             // それをFFMpegにて取得しようとする
-            // FFMpeg::fromDisk('local')
-            //           ->open($sample_path)
-            //           ->toDisk('local')
-            //           ->save();
+            $a = FFMpeg::fromDisk('local')
+                      ->open($sample_path)
+                      ->addFilter($clipFilter)
+                      ->export()
+                      ->toDisk('local')
+                      ->save('temp/ffmpeg/sample2.mp3');
+
+
+            $audio->audio_file = $a;
 
             // $a = Auth;
 
-            // dd(12);
+            // shell_exec("/usr/local/bin/ffmpeg -i $sample_path -t 5 output_file.mp3");
 
 
 
 
-            // $start = \FFMpeg\Coordinate\TimeCode::fromSeconds(5);
-            // $clipFilter = new \FFMpeg\Filters\Video\ClipFilter($start);
+            
 
 
             // $file = FFMpeg::fromDisk('s3')->open($audio->audio_file);
@@ -123,19 +134,19 @@ class AudioController extends Controller
                 'message' => '成功'
             ], 200);
 
-        }
-        catch (\Exception $e) {
+        // }
+        // catch (\Exception $e) {
             // データベース巻き戻し
-            DB::rollback();
+            // DB::rollback();
 
             // DBに合わせるため、s3内のオーディオ削除
-            Storage::disk('s3')->delete($path);
+            // Storage::disk('s3')->delete($path);
 
-            return response()->json([
-                'message' => '失敗',
-                'errorInfo' => $e
-            ],500);
-        }
+            // return response()->json([
+            //     'message' => '失敗',
+            //     'errorInfo' => $e
+            // ],500);
+        // }
 
     }
 
@@ -439,6 +450,49 @@ class AudioController extends Controller
             // データベース巻き戻し
             DB::rollback();
 
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+
+    // 過去に作られた古い順6件のオーディオ情報(トップのオーディオ一覧のところに載せるやつ)
+    public function oldAudios() {
+
+        try {
+            $audios = Audio::with('user')
+                            ->oldest()
+                            ->take(6)
+                            ->get();
+
+            return response()->json([
+                'message' => '成功',
+                'audios' => $audios
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+    // 新着順3件のオーディオ情報(新着オーディオのところに載せるやつ)
+    public function newAudios() {
+
+        try {
+            $audios = Audio::with('user')
+                            ->latest()
+                            ->take(3)
+                            ->get();
+
+            return response()->json([
+                'message' => '成功',
+                'audios' => $audios
+            ], 200);
+        }
+        catch (\Exception $e) {
             return response()->json([
                 'message' => '失敗',
                 'errorInfo' => $e

@@ -5,6 +5,8 @@ const state = {
   userAudio: {},
   audios:[],
   audio:{},
+  oldAudios: [],
+  newAudios: [],
 }
 
 const getters = {}
@@ -22,6 +24,12 @@ const mutations = {
   setAudio(state, data) {
     state.audio = data.audio
     state.audio.userInformation = data.userInformation
+  },
+  setOldAudios(state, audios) {
+    state.oldAudios = audios
+  },
+  setNewAudios(state, audios) {
+    state.newAudios = audios
   },
 }
 
@@ -111,6 +119,30 @@ const actions = {
     .then(res => {
       console.log(res.data);
       commit('setAudio', res.data);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // topのオーディオ一覧に表示させるオーディオを取得(古いやつ６件取得)
+  async getAudioOld({ commit }) {
+    // console.log(data);
+    await axios.get(`/api/audio/old`)
+    .then(res => {
+      // console.log(res.data);
+      commit('setOldAudios', res.data.audios);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // topの新着オーディオに載せるやつ取得(新しいやつ3件取得)
+  async getAudioNew({ commit }) {
+    // console.log(data);
+    await axios.get(`/api/audio/new`)
+    .then(res => {
+      // console.log(res.data);
+      commit('setNewAudios', res.data.audios);
     })
     .catch(e => {
       console.log(e);

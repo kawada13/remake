@@ -17,6 +17,7 @@ use App\User;
 
 class UserController extends Controller
 {
+    // ログインユーザーの情報
     public function loginUserInformation()
     {
 
@@ -41,6 +42,7 @@ class UserController extends Controller
 
     }
 
+    // ログインユーザーが自分のプロフィールを編集
     public function profileEdit(UserInformationRequest $request)
     {
 
@@ -104,5 +106,29 @@ class UserController extends Controller
                 'errorInfo' => $e
             ],500);
         }
+    }
+
+    // ユーザー情報取得（ユーザーの詳細ページのためのデータを取得する）
+    public function show($id) {
+
+        try{
+            $user = Auth::user();
+            $user_information = UserInformation::select('*')
+                ->where('user_id', $user->id)
+                ->first();
+
+            return response()->json([
+                'user' => $user,
+                'user_information' => $user_information,
+                'message' => '成功'
+            ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
     }
 }
