@@ -29,7 +29,7 @@ class User extends Authenticatable
     ];
 
     // リレーション
-    Public function user_information()
+    Public function userInformation()
   {
     return $this->hasOne('App\UserInformation');
   }

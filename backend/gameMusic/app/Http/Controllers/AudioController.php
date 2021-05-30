@@ -197,17 +197,20 @@ class AudioController extends Controller
     public function audioShow($id) {
 
         try {
-            $audio = Audio::find($id);
+            $audio = Audio::with('user')
+                            ->where('id', $id)
+                            ->first();
             $audioInstrument = $audio->instruments;
             $audioUnderstanding = $audio->understandings;
             $audioUse = $audio->uses;
+            // 以下は詳細情報で表示させるために取得
+            $userInformation = $audio->user->userInformation;
+            $sound = $audio->sound;
 
             return response()->json([
                 'message' => '成功',
                 'audio' => $audio,
-                'audioInstrument' => $audioInstrument,
-                'audioUse' => $audioUse,
-                'audioUnderstanding' => $audioUnderstanding,
+                'userInformation' => $userInformation,
             ], 200);
         }
         catch (\Exception $e) {

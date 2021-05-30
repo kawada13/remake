@@ -1,5 +1,15 @@
 <template>
-  <div class="audio-show">
+
+<div>
+
+
+  <!-- ローディング中 -->
+  <div class="my-5" v-if="loading">
+    <Loader />
+  </div>
+
+
+  <div class="audio-show" v-if="!loading">
     <div class="container">
       <div class="row my-3">
 
@@ -10,7 +20,7 @@
         <div class="audio_head">
           <h1>{{ audio.title }}</h1>
            <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.sound">
+            <source :src="audio.audio_file">
            </audio>
             <p>
               <button type="button" class="btn btn-outline-primary">この曲をお気に入りに登録</button>
@@ -20,45 +30,31 @@
          <!-- 左下 -->
           <div class="card mt-3">
             <div class="card-body detail type_title d-flex titles justify-content-start">
-              <p class="">種類：</p>
+              <p class="">サウンドの種類</p>
             </div>
-            <div class="card-body detail type_content buttons">
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+            <div class="card-body detail type_content buttons row">
+              <span class="mr-2 mb-2 border border-info p-2">{{audio.sound.name}}</span>
             </div>
 
             <div class="card-body detail understanding_title d-flex justify-content-start">
-              <p class="">イメージ：</p>
+              <p class="">イメージ</p>
             </div>
-            <div class="card-body detail type_content buttons">
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+            <div class="card-body detail type_content buttons row">
+              <span class="mr-2 mb-2 border border-info p-2" v-for="(understanding, i) in audio.understandings" :key="i">{{understanding.name}}</span>
             </div>
 
             <div class="card-body detail instrument_title d-flex justify-content-start">
-              <p class="">楽器：</p>
+              <p class="">用途(シーン)</p>
             </div>
-            <div class="card-body detail type_content buttons">
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2">Dark</button>
+            <div class="card-body detail type_content buttons row">
+              <span class="mr-2 mb-2 border border-info p-2" v-for="(use, i) in audio.uses" :key="i">{{use.name}}</span>
+            </div>
+
+            <div class="card-body detail instrument_title d-flex justify-content-start">
+              <p class="">使用楽器</p>
+            </div>
+            <div class="card-body detail type_content buttons row">
+              <span class="mr-2 mb-2 border border-info p-2" v-for="(instrument, i) in audio.instruments" :key="i">{{instrument.name}}</span>
             </div>
           </div>
         </div>
@@ -73,7 +69,7 @@
             <p class="purchase_title">購入：</p>
             <div class="card">
               <ul class="list-group list-group-flush">
-                <li class="list-group-item price py-4"><i class="fas fa-yen-sign"></i>{{ price | comma }}</li>
+                <li class="list-group-item price py-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</li>
                 <li class="list-group-item purchase_btn"><button type="button" class="btn btn-warning py-3 px-5" data-toggle="modal" data-target="#exampleModal">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
               </ul>
             </div>
@@ -85,12 +81,23 @@
             <p class="purchase_title">クリエイター：</p>
             <div class="card">
               <div class="card-header">
-                <p @click="$router.push({ name: 'user-show' })">Creater Name</p>
-                <img src="/images/498467_s.jpg" class="rounded-circle">
+
+                <p @click="$router.push({ name: 'user-show' })">{{audio.user.name}}</p>
+
+
+                <!-- アイコン(登録されてなければデフォルト画像) -->
+                <div class="user_image d-flex justify-content-center mb-3" v-if="audio.userInformation.profile_image">
+                  <img :src="audio.userInformation.profile_image" class="rounded-circle">
+                </div>
+                <div class="user_image d-flex justify-content-center mb-3" v-else>
+                  <img src="/images/default_img.png" class="rounded-circle" @click="$router.push({ name: 'profile-edit' })">
+                </div>
+
+
               </div>
               <div class="card-body pt-5">
                 <h5 class="card-title">紹介文</h5>
-                <p class="card-text">446 点の作品を登録しています。よろしくお願いいたします。</p>
+                <p class="card-text">{{audio.userInformation.introduce}}</p>
                 <a class="btn btn-outline-primary">このクリエイターをフォロー</a>
               </div>
             </div>
@@ -110,7 +117,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <p>合計：<i class="fas fa-yen-sign"></i>{{ price | comma }}</p>
+                <p>合計：<i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</p>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">キャンセル</button>
@@ -123,38 +130,37 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      price: 4000,
-      audio: {
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1',
-          price: 4000
-      },
-      junnes: [
-        {
-          value: 'sound_effect',
-          text: 'BGM',
-        },
-        {
-          value: 'pops',
-          text: '効果音',
-        },
-        {
-          value: 'voice',
-          text: '声',
-        },
-        {
-          value: 'song',
-          text: '歌',
-        },
-      ],
+      audio: {},
+      loading: false
     }
+  },
+  methods: {
+    async getAudioShowData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('audio/getAudioShow', this.$route.params.id)
+        this.audio = this.$store.state.audio.audio
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
+    }
+  },
+  created() {
+    Promise.all([
+      this.getAudioShowData(),
+    ])
   },
 
 }
@@ -223,14 +229,21 @@ export default {
   position: relative;
   z-index: 20;
 }
+.detail {
+  padding-bottom: 10px;
+}
 .detail p {
   font-weight: 600;
   font-size: 18px;
   color: #334e6f;
 }
 .buttons{
-  padding: 0 0 20px 20px;
+  margin: 0;
+  padding-top: 0;
   text-align: left;
+}
+.buttons p{
+  font-weight: normal;
 }
 .titles {
   padding-bottom: 0;

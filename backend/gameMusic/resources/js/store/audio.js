@@ -3,7 +3,8 @@ import router from '../router/index';
 const state = {
   userAudios: [],
   userAudio: {},
-  audios:[]
+  audios:[],
+  audio:{},
 }
 
 const getters = {}
@@ -17,6 +18,10 @@ const mutations = {
   },
   setAudios(state, audios) {
     state.audios = audios
+  },
+  setAudio(state, data) {
+    state.audio = data.audio
+    state.audio.userInformation = data.userInformation
   },
 }
 
@@ -87,13 +92,25 @@ const actions = {
       console.log(e);
     })
   },
-  // オーディオ取得
+  // (検索)オーディオ取得
   async getSearchAudios({ commit }, data) {
     // console.log(data);
     await axios.post(`/api/audios`, data)
     .then(res => {
       // console.log(res.data);
       commit('setAudios', res.data.audios);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // 特定のオーディオ取得
+  async getAudioShow({ commit }, id) {
+    // console.log(data);
+    await axios.get(`/api/audio/${id}/show`)
+    .then(res => {
+      console.log(res.data);
+      commit('setAudio', res.data);
     })
     .catch(e => {
       console.log(e);

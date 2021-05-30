@@ -30,6 +30,9 @@ Route::get('/audio/{id}/show', 'AudioController@audioShow')->name('audio.show');
 // 検索オーディオ取得
 Route::post('/audios', 'AudioController@audioSearchIndex')->name('audio.index');
 
+
+
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
