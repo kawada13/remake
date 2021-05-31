@@ -98,16 +98,13 @@ export default {
     },
     async getUserData() {
       try{
-        this.loading = true
         await this.$store.dispatch('user/getUserShow', this.$route.params.id)
         this.user = this.$store.state.user.user
       }
       catch(e){
         // console.log(e);
-        this.loading = false
       }
       finally{
-        this.loading = false
       }
     }
   },

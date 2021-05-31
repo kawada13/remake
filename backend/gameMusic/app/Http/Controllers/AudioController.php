@@ -21,9 +21,11 @@ use App\AudioUse;
 
 class AudioController extends Controller
 {
-
     // オーディオ作成
     public function store(AudioRequest $request) {
+        // Storage::delete('public/output_file.mp3');
+
+        // dd(11);
 
         DB::beginTransaction();
 
@@ -38,49 +40,36 @@ class AudioController extends Controller
             // 以下オーディオファイルの保存
             $audioFile = $request->audio_file;
             // S3にアップロード
-            $path = Storage::disk('s3')->put('/audios', $audioFile, 'public');
+            $path = Storage::disk('s3')->put('/audios/product', $audioFile, 'public');
+
             // カラムにフルパスを代入
             $audio->audio_file = Storage::disk('s3')->url($path);
 
-            // dd($path);
-
-            // 送られてきた音声ファイルをlaravelストレージに保存
-            $audiofile = $request->file('audio_file');
-            $sample_path = $audiofile->store('public/temp');
-
-            // dd($sample_path);
-
-            // $end = \FFMpeg\Coordinate\TimeCode::toSeconds();
-            // $clipFilter2 = new \FFMpeg\Filters\Video\ClipFilter($end);
-
-            // $start = \FFMpeg\Coordinate\TimeCode::fromSeconds(5);
-            // $clipFilter = new \FFMpeg\Filters\Audio\AudioClipFilter($start);
-
-            // それをFFMpegにて取得しようとする
-            // $a = FFMpeg::fromDisk('local')
-            //           ->open($sample_path)
-            //           ->addFilter($clipFilter)
-            //           ->export()
-            //           ->toDisk('local')
-            //           ->save('temp/ffmpeg/sample2.mp3');
-
-            // $b = Storage::disk('local')
-            //                 ->get('temp/ffmpeg/sample2.mp3');
-
-
-            // Storage::disk('s3')->put('/audios', $b, 'public');
-
-            // $a = Auth;
-            
-            exec("/usr/local/bin/ffmpeg -i $sample_path -t 5 /work/gameMusic/storage/app/temp/output_file.mp3");
-            
-            dd(21);
 
 
 
 
 
-            // $file = FFMpeg::fromDisk('s3')->open($audio->audio_file);
+
+
+
+
+            $command = "/usr/local/bin/ffmpeg -i $audioFile -t 5 /work/gameMusic/storage/app/public/output_file.mp3" . " 2>&1";
+            exec($command, $output, $return_var);
+
+
+            $b = Storage::get('public/output_file.mp3');
+
+            $c = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz');
+
+            Storage::disk('s3')->put('/audios/sample/'. $c, $b, 'public');
+
+            dd(11);
+            // dd($b);
+            // dd($output, $return_var);
+
+
+
 
 
 
