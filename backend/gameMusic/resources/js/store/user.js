@@ -27,7 +27,7 @@ const actions = {
   async getUserShow({ commit }, id) {
     await axios.get(`/api/user/${id}/show`)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       commit('setUser', res.data);
     })
     .catch(e => {

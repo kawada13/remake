@@ -53,28 +53,28 @@ class AudioController extends Controller
             // $end = \FFMpeg\Coordinate\TimeCode::toSeconds();
             // $clipFilter2 = new \FFMpeg\Filters\Video\ClipFilter($end);
 
-            $start = \FFMpeg\Coordinate\TimeCode::fromSeconds(5);
-            $clipFilter = new \FFMpeg\Filters\Audio\AudioClipFilter($start);
+            // $start = \FFMpeg\Coordinate\TimeCode::fromSeconds(5);
+            // $clipFilter = new \FFMpeg\Filters\Audio\AudioClipFilter($start);
 
             // それをFFMpegにて取得しようとする
-            $a = FFMpeg::fromDisk('local')
-                      ->open($sample_path)
-                      ->addFilter($clipFilter)
-                      ->export()
-                      ->toDisk('local')
-                      ->save('temp/ffmpeg/sample2.mp3');
+            // $a = FFMpeg::fromDisk('local')
+            //           ->open($sample_path)
+            //           ->addFilter($clipFilter)
+            //           ->export()
+            //           ->toDisk('local')
+            //           ->save('temp/ffmpeg/sample2.mp3');
 
-            $b = Storage::disk('local')
-                            ->get('temp/ffmpeg/sample2.mp3');
+            // $b = Storage::disk('local')
+            //                 ->get('temp/ffmpeg/sample2.mp3');
 
 
-            Storage::disk('s3')->put('/audios', $b, 'public');
+            // Storage::disk('s3')->put('/audios', $b, 'public');
 
-            dd(21);
             // $a = Auth;
-
-            // shell_exec("/usr/local/bin/ffmpeg -i $sample_path -t 5 output_file.mp3");
-
+            
+            exec("/usr/local/bin/ffmpeg -i $sample_path -t 5 /work/gameMusic/storage/app/temp/output_file.mp3");
+            
+            dd(21);
 
 
 
@@ -501,6 +501,29 @@ class AudioController extends Controller
             ],500);
         }
     }
+
+    // 特定のユーザーのオーディオ一覧(ユーザー詳細から「もっとみる」を押して進んだページで使うデータ)
+    public function userAudios($id) {
+
+        try {
+            $audios = Audio::with('user')
+                            ->where('user_id', $id)
+                            ->get();
+
+            return response()->json([
+                'message' => '成功',
+                'audios' => $audios
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+
+
 
 
 }
