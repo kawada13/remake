@@ -1,56 +1,65 @@
 <template>
-  <div>
+<div>
+
+  
+  <!-- ローディング中 -->
+  <div class="my-5" v-if="loading">
+    <Loader />
+  </div>
+
+
+  <div v-if="!loading">
     <div class="profile_title mb-4">
         <h2>Creater Nameさんの作品一覧</h2>
     </div>
-
       <!-- 作品一覧 -->
       <div class="card mt-2">
         <div class="card-header">
-          新着オーディオ
+          オーディオ一覧
         </div>
-        <div class="audios ml-4 my-3" v-for="(audio,i) in audios" :key="i">
+        <div class="audios ml-4 my-3" v-for="(audio,i) in getItems" :key="i">
           <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
           <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.sound">
+            <source :src="audio.audio_file">
           </audio>
-          <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">{{audio.artist}}</small></p>
+          <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">{{audio.user.name}}</small></p>
           <p>
             <a class="btn btn-outline-primary">この曲をお気に入りに登録</a>
           </p>
         </div>
 
         <!-- ページネーション -->
-        <div class="my-3 d-flex justify-content-center">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        <div class="pagination mt-5 d-flex justify-content-center">
+            <div v-if="paginateData.audios.length">
+              <paginate
+              :page-count="getPageCount"
+              :page-range="3"
+              :margin-pages="2"
+              :click-handler="clickCallback"
+              :prev-text="'＜'"
+              :next-text="'＞'"
+              :containerClass="'pagination'"
+              :page-class="'page-item'"
+              :page-link-class="'page-link'"
+              :prev-class="'page-item'"
+              :prev-link-class="'page-link'"
+              :next-class="'page-item'"
+              :next-link-class="'page-link'"
+              >
+              </paginate>
+            </div>
+          </div>
       </div>
       
   </div>
+</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      loading: false,
       audios:[
         {
           id: 1,
@@ -73,8 +82,47 @@ export default {
           artist: 'rokedt1',
           price: 4000
         },
-      ]
+      ],
+      paginateData: {
+        audios: [],
+        parPage: 2, //1ページに表示する件数
+        currentPage: 1
+      },
     }
+  },
+  computed: {
+    getItems() { //ページネーション用(1ページに表示する数)
+        let current = this.paginateData.currentPage * this.paginateData.parPage;
+        let start = current - this.paginateData.parPage;
+        return this.paginateData.audios.slice(start, current);
+    },
+    getPageCount() {// ページネーション用(全体のページ数)
+        return Math.ceil(this.paginateData.audios.length / this.paginateData.parPage);
+    }
+  },
+  methods: {
+    clickCallback(pageNum) { //ページネーション用
+      this.paginateData.currentPage = Number(pageNum);
+    },
+    async getAudioDatas() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('audio/getAudios', this.$route.params.id)
+        this.paginateData.audios = this.$store.state.audio.user_audios
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
+    }
+  },
+  created() {
+    Promise.all([
+      this.getAudioDatas(),
+    ])
   },
 
 }

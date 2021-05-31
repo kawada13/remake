@@ -1,12 +1,13 @@
 import router from '../router/index';
 
 const state = {
-  userAudios: [],
-  userAudio: {},
-  audios:[],
-  audio:{},
+  userAudios: [], //ログインユーザーのオーディオ一覧
+  userAudio: {},// ログインユーザーのオーディオ
+  audios:[],//検索結果オーディオ一覧
+  audio:{},// ある特定のオーディオ
   oldAudios: [],
   newAudios: [],
+  user_audios: [], //ある特定ユーザーのオーディオ一覧
 }
 
 const getters = {}
@@ -30,6 +31,9 @@ const mutations = {
   },
   setNewAudios(state, audios) {
     state.newAudios = audios
+  },
+  setUser_audios(state, audios) {
+    state.user_audios = audios
   },
 }
 
@@ -114,10 +118,8 @@ const actions = {
   },
   // 特定のオーディオ取得
   async getAudioShow({ commit }, id) {
-    // console.log(data);
     await axios.get(`/api/audio/${id}/show`)
     .then(res => {
-      console.log(res.data);
       commit('setAudio', res.data);
     })
     .catch(e => {
@@ -143,6 +145,16 @@ const actions = {
     .then(res => {
       // console.log(res.data);
       commit('setNewAudios', res.data.audios);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // // 特定のユーザーのオーディオ一覧(ユーザー詳細から「もっとみる」を押して進んだページで使うデータ)
+  async getAudios({ commit }, id) {
+    await axios.get(`/api/user/${id}/audios`)
+    .then(res => {
+      commit('setUser_audios', res.data.audios);
     })
     .catch(e => {
       console.log(e);
