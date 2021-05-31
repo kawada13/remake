@@ -509,11 +509,10 @@ class AudioController extends Controller
             $audios = Audio::with('user')
                             ->where('user_id', $id)
                             ->get();
-            
 
             return response()->json([
                 'message' => '成功',
-                'audios' => $audios
+                'audios' => $audios,
             ], 200);
         }
         catch (\Exception $e) {

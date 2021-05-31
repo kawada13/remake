@@ -1,7 +1,7 @@
 <template>
 <div>
 
-  
+
   <!-- ローディング中 -->
   <div class="my-5" v-if="loading">
     <Loader />
@@ -10,7 +10,7 @@
 
   <div v-if="!loading">
     <div class="profile_title mb-4">
-        <h2>Creater Nameさんの作品一覧</h2>
+        <h2>{{user.user.name}}さんの作品一覧</h2>
     </div>
       <!-- 作品一覧 -->
       <div class="card mt-2">
@@ -60,34 +60,12 @@ export default {
   data() {
     return {
       loading: false,
-      audios:[
-        {
-          id: 1,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1',
-          price: 4000
-        },
-        {
-          id: 2,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1',
-          price: 4000
-        },
-        {
-          id: 3,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1',
-          price: 4000
-        },
-      ],
       paginateData: {
         audios: [],
         parPage: 2, //1ページに表示する件数
         currentPage: 1
       },
+      user: {}
     }
   },
   computed: {
@@ -117,11 +95,26 @@ export default {
       finally{
         this.loading = false
       }
+    },
+    async getUserData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('user/getUserShow', this.$route.params.id)
+        this.user = this.$store.state.user.user
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
     }
   },
   created() {
     Promise.all([
       this.getAudioDatas(),
+      this.getUserData(),
     ])
   },
 

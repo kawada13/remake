@@ -43,7 +43,7 @@ const actions = {
   async createAudio({ commit }, data) {
     await axios.post('/api/audio/create', data)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch(e => {
       console.log(e);
@@ -80,7 +80,6 @@ const actions = {
     .then(res => {
       // 自身のオーディオならばセット、そうじゃなければホームへリダイレクト
       if(res.data.isloginUserAudio) {
-        console.log(res.data);
       } else {
         router.push('/')
       }
@@ -95,7 +94,6 @@ const actions = {
     .then(res => {
       // 自身のオーディオならばセット、そうじゃなければホームへリダイレクト
       if(res.data.isloginUserAudio) {
-        console.log(res.data);
       } else {
         router.push('/')
       }
