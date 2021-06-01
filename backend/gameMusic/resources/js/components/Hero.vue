@@ -13,8 +13,8 @@
         <div class="card mt-5" style="width: 40rem;">
           <div class="card-body">
             <div class="d-flex justify-content-start">
-              <input type="text" class="form-control py-4" placeholder="キーワードを入力してください">
-              <button class="btn btn-primary ml-2" type="submit"><i class="fas fa-search"></i></button>
+              <input type="text" class="form-control py-4" placeholder="キーワードを入力してください" v-model="keyword">
+              <button class="btn btn-primary ml-2" type="submit" @click="keywordSearch"><i class="fas fa-search"></i></button>
             </div>
 
           <div class="types">
@@ -22,18 +22,18 @@
 
             <!-- サウンド -->
             <div class="card-body sound_title d-flex title justify-content-start">
-              <p class="">サウンド：</p>
+              <p class="">サウンド</p>
             </div>
-            <select class="custom-select select_sound mt-3" id="inputGroupSelect">
-              <option v-for="(sound,i) in sounds" :key="i" :value="sound.value">{{sound.text}}</option>
-            </select>
+            <div class="card-body detail sound_content content buttons">
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(sound,i) in sounds" :key="i" @click="soundSearch(sound.name)">{{sound.name}}</button>
+            </div>
 
             <!-- イメージ -->
             <div class="card-body sound_title d-flex title justify-content-start">
               <p class="">イメージ：</p>
             </div>
             <div class="card-body detail sound_content content buttons">
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(understanding,i) in understandings" :key="i">{{understanding.text}}</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(understanding,i) in understandings" :key="i" @click="understandingSearch(understanding.name)">{{understanding.name}}</button>
             </div>
 
             <!-- 用途 -->
@@ -41,7 +41,7 @@
               <p class="">シーン：</p>
             </div>
             <div class="card-body detail sound_content content buttons">
-              <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(use,i) in uses" :key="i">{{use.text}}</button>
+              <button type="button" class="btn btn-outline-dark mr-2 mb-2 text-dark" v-for="(use,i) in uses" :key="i" @click="useSearch(use.name)">{{use.name}}</button>
             </div>
 
           </div>
@@ -60,65 +60,78 @@
 export default {
   data() {
     return {
-      sounds: [
-        {
-          value: 'sound_effect',
-          text: 'BGM',
-        },
-        {
-          value: 'SE',
-          text: 'SE',
-        },
-        {
-          value: 'jingle',
-          text: 'ジングル',
-        },
-        {
-          value: 'voice',
-          text: '声',
-        },
-      ],
-      understandings: [
-        {
-          value: 'gorgeous',
-          text: '華やか',
-        },
-        {
-          value: 'sad',
-          text: '悲しい',
-        },
-        {
-          value: 'pleasant',
-          text: '楽しい',
-        },
-        {
-          value: 'horror',
-          text: 'ホラー',
-        },
-      ],
-      uses: [
-        {
-          value: 'battle',
-          text: 'バトル',
-        },
-        {
-          value: 'love',
-          text: '恋愛',
-        },
-        {
-          value: 'past',
-          text: '過去',
-        },
-        {
-          value: 'future',
-          text: '未来',
-        },
-        {
-          value: 'everyday',
-          text: '日常',
-        },
-      ],
+      loading:false,
+      keyword: '',
+      sounds: [],
+      understandings: [],
+      uses: [],
     }
+  },
+  methods: {
+    keywordSearch() {
+      this.$router.push({ name: 'audio-index', query: { keyword: this.keyword, sound: '', understanding: '', use: '', instruments: '' } })
+    },
+    soundSearch(name) {
+      this.$router.push({ name: 'audio-index', query: { sound: name, understanding: '', use: '', instruments: '' } })
+    },
+    understandingSearch(name) {
+      this.$router.push({ name: 'audio-index', query: { sound: '', understanding: name, use: '', instruments: '' } })
+    },
+    useSearch(name) {
+      this.$router.push({ name: 'audio-index', query: { sound: '', understanding: '', use: name, instruments: '' } })
+    },
+    async getSoundData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getSound')
+        this.sounds = this.$store.state.soundType.sound;
+      }
+      catch(e){
+        console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+    async getUnderstandingData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getUnderstanding')
+        this.understandings = this.$store.state.soundType.understanding;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+    async getUseData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('soundType/getUse')
+        this.uses = this.$store.state.soundType.use;
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+  },
+  created() {
+    Promise.all([
+      // こっから下は強引にやってるやつ
+      // this.searchSet(), //searchTitleにリロードしても値を保持させる
+      // this.setFrom(), //formにリロードしても値を保持させる
+      // this.setSerchResult(), //検索結果タイトルの値を保持させる
+      // 選択肢のデータを取ってくる
+      this.getSoundData(),
+      this.getUnderstandingData(),
+      this.getUseData(),
+      // this.getAudioDatas(),
+    ])
   },
 
 }
