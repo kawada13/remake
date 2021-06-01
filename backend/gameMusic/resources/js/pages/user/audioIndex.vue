@@ -9,7 +9,7 @@
 
 
   <div v-if="!loading">
-    <div class="profile_title mb-4">
+    <div class="profile_title mb-4" v-if="!userloading">
         <h2>{{user.user.name}}さんの作品一覧</h2>
     </div>
       <!-- 作品一覧 -->
@@ -20,7 +20,7 @@
         <div class="audios ml-4 my-3" v-for="(audio,i) in getItems" :key="i">
           <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
           <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.audio_file">
+            <source :src="audio.sample_audio_file">
           </audio>
           <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">{{audio.user.name}}</small></p>
           <p>
@@ -59,6 +59,7 @@
 export default {
   data() {
     return {
+      userloading: false,
       loading: false,
       paginateData: {
         audios: [],
@@ -98,13 +99,16 @@ export default {
     },
     async getUserData() {
       try{
+        this.userloading = true
         await this.$store.dispatch('user/getUserShow', this.$route.params.id)
         this.user = this.$store.state.user.user
       }
       catch(e){
         // console.log(e);
+        this.userloading = false
       }
       finally{
+        this.userloading = false
       }
     }
   },

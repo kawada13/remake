@@ -38,7 +38,7 @@
         <div class="audios ml-4 my-3" v-for="(audio,i) in user.userAudios" :key="i">
           <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
           <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.audio_file">
+            <source :src="audio.sample_audio_file">
           </audio>
             <p>
               <a class="btn btn-outline-primary">この曲をお気に入りに登録</a>
@@ -54,9 +54,8 @@
             <i class="fas fa-arrow-right mr-2"></i>
             作品をもっと見る</button>
         </div>
-
       </div>
-    
+
   </div>
 </div>
 </template>

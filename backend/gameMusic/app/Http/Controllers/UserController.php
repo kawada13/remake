@@ -123,6 +123,7 @@ class UserController extends Controller
             return response()->json([
                 'user' => $user,
                 'userAudios' => $userAudios,
+                'authId' => Auth::id(),
                 'message' => '成功'
             ],200);
         }

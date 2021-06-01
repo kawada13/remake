@@ -14,7 +14,7 @@
           </div>
 
           <h3>{{user.user.name}}</h3>
-          <a class="btn btn-outline-primary mt-2">このクリエイターをフォロー</a>
+          <a class="btn btn-outline-primary mt-2" v-if="isUser">このクリエイターをフォロー</a>
         </div>
 
 
@@ -32,8 +32,17 @@
 export default {
   data() {
     return {
-      loading:false,
+      loading: false,
       user: {}
+    }
+  },
+  computed: {
+    isUser() {
+      // このページがログインユーザーかどうかチェック⇨ログインユーザーのページだったらフォローボタンを消す
+      if(this.$route.params.id == this.user.authId) {
+        return false
+      }
+        return true
     }
   },
   methods: {
