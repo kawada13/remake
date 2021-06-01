@@ -23,13 +23,10 @@ class AudioController extends Controller
 {
     // オーディオ作成
     public function store(AudioRequest $request) {
-        // Storage::delete('public/output_file.mp3');
-
-        // dd(11);
 
         DB::beginTransaction();
 
-        // try {
+        try {
             // オーディオファイル以外のカラム
             $audio = new Audio;
             $audio->user_id = Auth::id();
@@ -39,50 +36,36 @@ class AudioController extends Controller
 
             // 以下オーディオファイルの保存
             $audioFile = $request->audio_file;
-            // S3にアップロード
+            // S3にアップロード(フルバージョのほう)
             $path = Storage::disk('s3')->put('/audios/product', $audioFile, 'public');
 
-            // カラムにフルパスを代入
+            // カラムにフルパスを代入(フルバージョンの方)
             $audio->audio_file = Storage::disk('s3')->url($path);
 
 
+            // これから編集したオーディオを一時的にstorageに保存するため、もし既に存在していたら一旦削除
+            if(Storage::exists('public/output_file.mp3')) {
+                Storage::delete('public/output_file.mp3');
+            }
 
-
-
-
-
-
-
-
+            // ffmpegにてオーディオを編集アンド実行
             $command = "/usr/local/bin/ffmpeg -i $audioFile -t 5 /work/gameMusic/storage/app/public/output_file.mp3" . " 2>&1";
             exec($command, $output, $return_var);
 
+            // 編集したオーディオファイルをstorageから取得
+            $sample_audio_file = Storage::get('public/output_file.mp3');
 
-            $b = Storage::get('public/output_file.mp3');
+            // 編集したオーディオファイルをs3に保存するための名前を生成
+            $sample_audio_file_name = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz');
 
-            $c = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz');
+            // 編集したオーディオファイルをs3にアップロード
+            Storage::disk('s3')->put('/audios/sample/'. $sample_audio_file_name, $sample_audio_file, 'public');
 
-            Storage::disk('s3')->put('/audios/sample/'. $c, $b, 'public');
+            // 編集したオーディオのs3のフルパスを取得
+            $sample_path = Storage::disk('s3')->url('audios/sample/'. $sample_audio_file_name);
 
-            dd(11);
-            // dd($b);
-            // dd($output, $return_var);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            // カラムにフルパスを代入(編集した方)
+            $audio->sample_audio_file = $sample_path;
 
 
             $audio->save();
@@ -125,19 +108,20 @@ class AudioController extends Controller
                 'message' => '成功'
             ], 200);
 
-        // }
-        // catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             // データベース巻き戻し
-            // DB::rollback();
+            DB::rollback();
 
             // DBに合わせるため、s3内のオーディオ削除
-            // Storage::disk('s3')->delete($path);
+            Storage::disk('s3')->delete($path);
+            Storage::disk('s3')->delete($sample_path);
 
-            // return response()->json([
-            //     'message' => '失敗',
-            //     'errorInfo' => $e
-            // ],500);
-        // }
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
 
     }
 
