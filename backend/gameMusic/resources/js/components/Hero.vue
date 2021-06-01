@@ -122,15 +122,9 @@ export default {
   },
   created() {
     Promise.all([
-      // こっから下は強引にやってるやつ
-      // this.searchSet(), //searchTitleにリロードしても値を保持させる
-      // this.setFrom(), //formにリロードしても値を保持させる
-      // this.setSerchResult(), //検索結果タイトルの値を保持させる
-      // 選択肢のデータを取ってくる
       this.getSoundData(),
       this.getUnderstandingData(),
       this.getUseData(),
-      // this.getAudioDatas(),
     ])
   },
 
