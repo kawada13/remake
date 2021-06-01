@@ -432,6 +432,7 @@ class AudioController extends Controller
 
                // s3内のオーディオ削除
                Storage::disk('s3')->delete(parse_url($audio->audio_file)['path']);
+               Storage::disk('s3')->delete(parse_url($audio->sample_audio_file)['path']);
 
                DB::commit();
 
