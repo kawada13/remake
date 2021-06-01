@@ -36,4 +36,9 @@ class Audio extends Model
     {
         return $this->belongsToMany('App\UnderstaindingMaster', 'audio_understanding', 'audio_id', 'understanding_id');
     }
+
+    public function favorite_users()
+    {
+        return $this->belongsToMany('App\User', 'favorites', 'audio_id', 'user_id');
+    }
 }

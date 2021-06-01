@@ -43,6 +43,11 @@ class User extends Authenticatable
       return $this->hasMany('App\Audio');
   }
 
+  public function favorite_audios()
+    {
+        return $this->belongsToMany('App\Audio', 'favorites', 'user_id', 'audio_id');
+    }
+
 
 
 }
