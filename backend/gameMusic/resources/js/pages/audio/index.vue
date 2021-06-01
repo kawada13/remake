@@ -53,7 +53,7 @@
                   <div class="card-body">
                     <h5 class="card-title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` }  })">{{ audio.title }}</h5>
                     <audio controls controlslist="nodownload">
-                      <source :src="audio.audio_file">
+                      <source :src="audio.sample_audio_file">
                     </audio>
                     <p class="card-text"><small class="text-muted" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }  })">{{audio.user.name}}</small></p>
                   </div>
