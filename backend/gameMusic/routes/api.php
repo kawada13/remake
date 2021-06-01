@@ -71,4 +71,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // 振り込み口座情報取得
     Route::get('/transferAccount/show', 'TransferAccountController@show')->name('transferAccount.show');
 
+    // お気に入り登録
+    Route::post('audio/{id}/favorite', 'FavoriteController@store')->name('favorite');
+    // お気に入り解除
+    Route::post('audio/{id}/unfavorite', 'FavoriteController@delete')->name('unfavorite');
+
 });

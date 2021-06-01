@@ -20,10 +20,11 @@
         <div class="audio_head">
           <h1>{{ audio.title }}</h1>
            <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.audio_file">
+            <source :src="audio.sample_audio_file">
            </audio>
             <p>
-              <button type="button" class="btn btn-outline-primary" v-if="isFavorite">この曲をお気に入りに登録</button>
+              <button type="button" class="btn btn-outline-primary" v-if="isFavorite" @click="favorite">この曲をお気に入りに登録</button>
+              <button type="button" class="btn btn-outline-primary" v-if="isFavorite" @click="unfavorite">お気に入り解除</button>
             </p>
         </div>
 
@@ -162,6 +163,24 @@ export default {
     },
   },
   methods: {
+    async favorite() {
+      await axios.post(`/api/audio/${this.$route.params.id}/favorite`)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    },
+    async unfavorite() {
+      await axios.post(`/api/audio/${this.$route.params.id}/unfavorite`)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      })
+    },
     async getAudioShowData() {
       try{
         this.loading = true

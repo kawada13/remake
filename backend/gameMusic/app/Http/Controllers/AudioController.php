@@ -146,7 +146,7 @@ class AudioController extends Controller
         }
     }
 
-    // ログインユーザーの特定のオーディオ取得
+    // ログインユーザーの特定のオーディオ取得(オーディオ編集の時に取得するデータ)
     public function exhibitedAudioShow($id) {
 
         try {

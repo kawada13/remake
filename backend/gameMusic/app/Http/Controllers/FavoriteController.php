@@ -18,25 +18,47 @@ class FavoriteController extends Controller
     // ユーザーがオーディオをお気に入りする
     public function store($id)
     {
-        $audio = Audio::find($id);
+        try {
+            $audio = Audio::find($id);
 
-        // 既にお気に入りしていたらもう一度お気に入りすることを拒否する
-        $is_favorite = $audio->favorite_users()
-                                ->where('')
+            // 既にお気に入りしていたらもう一度お気に入りすることを拒否する
+            $is_favorite = $audio->favorite_users()
+                                    ->where('user_id', Auth::id())
+                                    ->exists();
+            if($is_favorite) {
+                return response()->json([
+                    'message' => '既にお気に入り登録ししてます.',
+                ],500);
+            }
 
+            $audio->favorite_users()->attach(Auth::id());
 
-
-
-
-        $audio->favorite_users()->attach(Auth::id());
-
-
-
+            return response()->json([
+                'message' => '成功',
+            ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
     }
 
     public function delete($id)
     {
-        $audio = Audio::find($id);
-        $audio->favorite_users()->attach(Auth::id());
+        try{
+            $audio = Audio::find($id);
+            $audio->favorite_users()->detach(Auth::id());
+            return response()->json([
+                'message' => '成功',
+            ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
     }
 }
