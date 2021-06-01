@@ -24,7 +24,8 @@
           </audio>
           <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">{{audio.user.name}}</small></p>
           <p>
-            <a class="btn btn-outline-primary">この曲をお気に入りに登録</a>
+            <a class="btn btn-outline-primary" v-if="isFavorite">この曲をお気に入りに登録</a>
+            <a class="btn btn-outline-primary" v-if="isFavorite">お気に入り解除</a>
           </p>
         </div>
 
@@ -77,6 +78,13 @@ export default {
     },
     getPageCount() {// ページネーション用(全体のページ数)
         return Math.ceil(this.paginateData.audios.length / this.paginateData.parPage);
+    },
+    isFavorite() {
+      // そもそもログインしていなければ
+      if(!this.user.authId) {
+        return false
+      }
+        return true
     }
   },
   methods: {

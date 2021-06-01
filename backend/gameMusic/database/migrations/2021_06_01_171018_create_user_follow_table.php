@@ -22,6 +22,8 @@ class CreateUserFollowTable extends Migration
             // 外部キー設定
             $table->foreign('follow_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('follower_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unique(['follow_id', 'follower_id']);
         });
     }
 

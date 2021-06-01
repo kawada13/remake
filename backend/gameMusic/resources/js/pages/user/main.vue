@@ -14,7 +14,8 @@
           </div>
 
           <h3>{{user.user.name}}</h3>
-          <a class="btn btn-outline-primary mt-2" v-if="isUser">このクリエイターをフォロー</a>
+          <a class="btn btn-outline-primary mt-2" v-if="isFollow">このクリエイターをフォロー</a>
+          <a class="btn btn-outline-primary mt-2" v-if="isFollow">フォロー解除</a>
         </div>
 
 
@@ -37,7 +38,11 @@ export default {
     }
   },
   computed: {
-    isUser() {
+    isFollow() {
+      // そもそもログインしていなければ
+      if(!this.user.authId) {
+        return false
+      }
       // このページがログインユーザーかどうかチェック⇨ログインユーザーのページだったらフォローボタンを消す
       if(this.$route.params.id == this.user.authId) {
         return false

@@ -23,7 +23,7 @@
             <source :src="audio.audio_file">
            </audio>
             <p>
-              <button type="button" class="btn btn-outline-primary">この曲をお気に入りに登録</button>
+              <button type="button" class="btn btn-outline-primary" v-if="isFavorite">この曲をお気に入りに登録</button>
             </p>
         </div>
 
@@ -98,7 +98,7 @@
               <div class="card-body pt-5">
                 <h5 class="card-title">紹介文</h5>
                 <p class="card-text">{{audio.userInformation.introduce}}</p>
-                <a class="btn btn-outline-primary">このクリエイターをフォロー</a>
+                <a class="btn btn-outline-primary" v-if="isFollow">このクリエイターをフォロー</a>
               </div>
             </div>
           </div>
@@ -140,6 +140,26 @@ export default {
       audio: {},
       loading: false
     }
+  },
+  computed: {
+    isFollow() {
+      // そもそもログインしていなければ
+      if(!this.audio.authId) {
+        return false
+      }
+      // このページがログインユーザーかどうかチェック⇨ログインユーザーのページだったらフォローボタンを消す
+      if(this.audio.user_id == this.audio.authId) {
+        return false
+      }
+        return true
+    },
+    isFavorite() {
+      // そもそもログインしていなければ
+      if(!this.audio.authId) {
+        return false
+      }
+        return true
+    },
   },
   methods: {
     async getAudioShowData() {

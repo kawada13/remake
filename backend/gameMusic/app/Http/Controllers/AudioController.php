@@ -197,6 +197,7 @@ class AudioController extends Controller
                 'message' => '成功',
                 'audio' => $audio,
                 'userInformation' => $userInformation,
+                'authId' => Auth::id(),
             ], 200);
         }
         catch (\Exception $e) {

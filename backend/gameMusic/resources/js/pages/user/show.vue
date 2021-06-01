@@ -41,7 +41,8 @@
             <source :src="audio.sample_audio_file">
           </audio>
             <p>
-              <a class="btn btn-outline-primary">この曲をお気に入りに登録</a>
+              <a class="btn btn-outline-primary" v-if="isFavorite">この曲をお気に入りに登録</a>
+              <a class="btn btn-outline-primary" v-if="isFavorite">お気に入り解除</a>
             </p>
         </div>
 
@@ -66,6 +67,15 @@ export default {
     return {
       loading:false,
       user: {}
+    }
+  },
+  computed: {
+    isFavorite() {
+      // そもそもログインしていなければ
+      if(!this.user.authId) {
+        return false
+      }
+        return true
     }
   },
   methods: {

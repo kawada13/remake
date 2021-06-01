@@ -23,6 +23,8 @@ class CreateFavoritesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('audio_id')->references('id')->on('audios')->onDelete('cascade');
 
+            $table->unique(['user_id', 'audio_id']);
+
         });
     }
 

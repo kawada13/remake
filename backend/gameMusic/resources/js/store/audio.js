@@ -25,6 +25,7 @@ const mutations = {
   setAudio(state, data) {
     state.audio = data.audio
     state.audio.userInformation = data.userInformation
+    state.audio.authId = data.authId
   },
   setOldAudios(state, audios) {
     state.oldAudios = audios
@@ -118,6 +119,7 @@ const actions = {
   async getAudioShow({ commit }, id) {
     await axios.get(`/api/audio/${id}/show`)
     .then(res => {
+      // console.log(res.data);
       commit('setAudio', res.data);
     })
     .catch(e => {
