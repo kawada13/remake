@@ -23,8 +23,8 @@
             <source :src="audio.sample_audio_file">
            </audio>
             <p>
-              <button type="button" class="btn btn-outline-primary" v-if="isFavorite" @click="favorite">この曲をお気に入りに登録</button>
-              <button type="button" class="btn btn-outline-primary" v-if="isFavorite" @click="unfavorite">お気に入り解除</button>
+              <button type="button" class="btn btn-outline-primary" v-if="isLogined && !isFavoriteData" @click="favorite">この曲をお気に入りに登録</button>
+              <button type="button" class="btn btn-outline-primary" v-if="isLogined && isFavoriteData" @click="unfavorite">お気に入り解除</button>
             </p>
         </div>
 
@@ -99,7 +99,7 @@
               <div class="card-body pt-5">
                 <h5 class="card-title">紹介文</h5>
                 <p class="card-text">{{audio.userInformation.introduce}}</p>
-                <a class="btn btn-outline-primary" v-if="isFollow">このクリエイターをフォロー</a>
+                <a class="btn btn-outline-primary">このクリエイターをフォロー</a>
               </div>
             </div>
           </div>
@@ -139,53 +139,88 @@ export default {
   data() {
     return {
       audio: {},
-      loading: false
+      loading: false,
+      isFavoriteData: false, //このページを見ているログインユーザーが既にこのオーディオをお気に入り済かどうか
+      isLogined: false //現在このページを見ているユーザーがログインしているかどうか
     }
   },
-  computed: {
-    isFollow() {
+  // computed: {
+  //   isFollow() {
       // そもそもログインしていなければ
-      if(!this.audio.authId) {
-        return false
-      }
+      // if(!this.audio.authId) {
+      //   return false
+      // }
       // このページがログインユーザーかどうかチェック⇨ログインユーザーのページだったらフォローボタンを消す
-      if(this.audio.user_id == this.audio.authId) {
-        return false
-      }
-        return true
-    },
-    isFavorite() {
+    //   if(this.audio.user_id == this.audio.authId) {
+    //     return false
+    //   }
+    //     return true
+    // },
+    // isFavorite() {
       // そもそもログインしていなければ
-      if(!this.audio.authId) {
-        return false
-      }
-        return true
-    },
-  },
+  //     if(!this.audio.authId) {
+  //       return false
+  //     }
+  //       return true
+  //   },
+  // },
   methods: {
     async favorite() {
-      await axios.post(`/api/audio/${this.$route.params.id}/favorite`)
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(e => {
-        console.log(e);
-      })
+      try{
+        await this.$store.dispatch('favorite/store', this.$route.params.id)
+        // this.user = this.$store.state.user.user
+      }
+      catch(e){
+        // console.log(e);
+        // this.loading = false
+      }
+      finally{
+        this.getAudioShowData()
+        this.getIsFavorite()
+      }
     },
     async unfavorite() {
-      await axios.post(`/api/audio/${this.$route.params.id}/unfavorite`)
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(e => {
-        console.log(e);
-      })
+      try{
+        await this.$store.dispatch('favorite/delete', this.$route.params.id)
+        // this.user = this.$store.state.user.user
+      }
+      catch(e){
+        // console.log(e);
+        // this.loading = false
+      }
+      finally{
+        this.getAudioShowData()
+        this.getIsFavorite()
+      }
     },
-    async getAudioShowData() {
+    async getIsFavorite() { //お気に入り済かどうかを同時に判断する
+      // まず初期化
+      this.isFavoriteData = false
+      // お気に入り済かどうかを確認しに行く
+      try{
+        await this.$store.dispatch('favorite/isFavorite', this.$route.params.id)
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        // お気に入りすみかどうかの結果を代入
+        this.isFavoriteData = this.$store.state.favorite.isFavorite
+      }
+    },
+    async getAudioShowData() {//オーディオデータとってくるついでにログインすみかどうかもとってくる
+      this.isLogined = false
       try{
         this.loading = true
         await this.$store.dispatch('audio/getAudioShow', this.$route.params.id)
         this.audio = this.$store.state.audio.audio
+
+        // 今時点でログインしているかどうかを確認
+        if(!this.audio.authId) {
+        this.isLogined = false
+        } else {
+          this.isLogined = true
+        }
       }
       catch(e){
         // console.log(e);
@@ -199,6 +234,7 @@ export default {
   created() {
     Promise.all([
       this.getAudioShowData(),
+      this.getIsFavorite()
     ])
   },
 

@@ -44,7 +44,7 @@ class FavoriteController extends Controller
             ],500);
         }
     }
-
+    // ユーザーがオーディオをお気に入り解除する
     public function delete($id)
     {
         try{
@@ -52,6 +52,27 @@ class FavoriteController extends Controller
             $audio->favorite_users()->detach(Auth::id());
             return response()->json([
                 'message' => '成功',
+            ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+    // ログインユーザーがあるオーディオをお気に入り済かどうかtrue or falseで返す
+    public function isFavorite($id)
+    {
+        try{
+            $audio = Audio::find($id);
+
+            $is_favorite = $audio->favorite_users()
+                                    ->where('user_id', Auth::id())
+                                    ->exists();
+            return response()->json([
+                'message' => '成功',
+                'is_favorite' => $is_favorite,
             ],200);
         }
         catch (\Exception $e) {

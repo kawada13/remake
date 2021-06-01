@@ -75,5 +75,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('audio/{id}/favorite', 'FavoriteController@store')->name('favorite');
     // お気に入り解除
     Route::post('audio/{id}/unfavorite', 'FavoriteController@delete')->name('unfavorite');
+    // お気に入り済かどうか確認
+    Route::post('audio/{id}/isfavorite', 'FavoriteController@isFavorite')->name('isfavorite');
 
 });
