@@ -58,7 +58,7 @@ class AudioController extends Controller
             // 編集したオーディオファイルをs3に保存するための名前を生成
             $sample_audio_file_name = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz');
 
-            // 編集したオーディオファイルをs3にアップロード
+            // 編集したオーディオファイルをs3にアップロード(さっき作った名前を利用して)
             Storage::disk('s3')->put('/audios/sample/'. $sample_audio_file_name, $sample_audio_file, 'public');
 
             // 編集したオーディオのs3のフルパスを取得
@@ -115,7 +115,7 @@ class AudioController extends Controller
 
             // DBに合わせるため、s3内のオーディオ削除
             Storage::disk('s3')->delete($path);
-            Storage::disk('s3')->delete($sample_path);
+            Storage::disk('s3')->delete('audios/sample/'. $sample_audio_file_name);
 
             return response()->json([
                 'message' => '失敗',
@@ -296,12 +296,41 @@ class AudioController extends Controller
 
             // 以下オーディオファイルの保存
             $audioFile = $request->audio_file;
-            // 既存のS3に入ってるオーディオを削除
+            // 既存のS3に入ってるオーディオ(フルバージョン)を削除
             Storage::disk('s3')->delete(parse_url($audio->audio_file)['path']);
-            // S3にアップロード
-            $path = Storage::disk('s3')->put('/audios', $audioFile, 'public');
-            // カラムにフルパスを代入
+            // S3にアップロード（フルバージョン）
+            $path = Storage::disk('s3')->put('/audios/product', $audioFile, 'public');
+            // カラムにフルパスを代入(フルバージョン)
             $audio->audio_file = Storage::disk('s3')->url($path);
+
+
+
+            // これから編集したオーディオを一時的にstorageに保存するため、もし既に存在していたら一旦削除
+            if(Storage::exists('public/output_file.mp3')) {
+                Storage::delete('public/output_file.mp3');
+            }
+
+            // ffmpegにてオーディオを編集アンド実行
+            $command = "/usr/local/bin/ffmpeg -i $audioFile -t 5 /work/gameMusic/storage/app/public/output_file.mp3" . " 2>&1";
+            exec($command, $output, $return_var);
+
+            // 編集したオーディオファイルをstorageから取得
+            $sample_audio_file = Storage::get('public/output_file.mp3');
+
+            // 既存のS3に入ってるオーディオ(フルバージョン)を削除
+            Storage::disk('s3')->delete(parse_url($audio->sample_audio_file)['path']);
+
+            // 編集したオーディオファイルをs3に保存するための名前を生成
+            $sample_audio_file_name = str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz');
+
+            // 編集したオーディオファイルをs3にアップロード(さっき作った名前を利用して)
+            Storage::disk('s3')->put('/audios/sample/'. $sample_audio_file_name, $sample_audio_file, 'public');
+
+            // 編集したオーディオのs3のフルパスを取得
+            $sample_path = Storage::disk('s3')->url('audios/sample/'. $sample_audio_file_name);
+
+            // カラムにフルパスを代入(編集した方)
+            $audio->sample_audio_file = $sample_path;
 
 
             // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
@@ -322,10 +351,7 @@ class AudioController extends Controller
 
                     // テーブルに値を代入
                     foreach($understandings as $understanding){
-                        $audio_understanding = new AudioUnderstanding;
-                        $audio_understanding->audio_id = $audio->id;
-                        $audio_understanding->understanding_id = $understanding;
-                        $audio_understanding->save();
+                        $audio->understandings()->attach($understanding);
                     }
                 }
 
@@ -336,10 +362,7 @@ class AudioController extends Controller
 
                     // テーブルに値を代入
                     foreach($uses as $use){
-                        $audio_use = new AudioUse;
-                        $audio_use->audio_id = $audio->id;
-                        $audio_use->use_id = $use;
-                        $audio_use->save();
+                        $audio->uses()->attach($use);
                     }
                 }
 
@@ -366,6 +389,7 @@ class AudioController extends Controller
 
             // もしログインユーザーじゃなければ、DBに合わせるため、s3内のオーディオ削除
             Storage::disk('s3')->delete($path);
+            Storage::disk('s3')->delete('audios/sample/'. $sample_audio_file_name);
 
             // データベース巻き戻し
             DB::rollback();
