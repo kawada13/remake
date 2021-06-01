@@ -112,11 +112,6 @@ const routes = new VueRouter({
               name:'follows'
             },
             {
-              path: 'profile_setting',
-              component: ProfileSetting,
-              name:'profile-setting'
-            },
-            {
               path: 'buyer_setteing',
               component: BuyerSetteing,
               name:'buyer_setteing'
