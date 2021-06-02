@@ -17,17 +17,6 @@
         <div class="card-header">
           オーディオ一覧
         </div>
-        <!-- <div class="audios ml-4 my-3" v-for="(audio,i) in getItems" :key="i">
-          <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
-          <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.sample_audio_file">
-          </audio>
-          <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">{{audio.user.name}}</small></p>
-          <p>
-            <a class="btn btn-outline-primary" v-if="isFavorite">この曲をお気に入りに登録</a>
-            <a class="btn btn-outline-primary" v-if="isFavorite">お気に入り解除</a>
-          </p>
-        </div> -->
         <div class="audios ml-4 my-3" v-for="(audio,i) in getItems" :key="i">
           <Audio
             :audioId="audio.id"
