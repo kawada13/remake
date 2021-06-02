@@ -61,7 +61,7 @@ class FavoriteController extends Controller
             ],500);
         }
     }
-    // ログインユーザーがあるオーディオをお気に入り済かどうかtrue or falseで返す
+    // ログインユーザーがあるオーディオをお気に入り済かどうかtrue or falseで返す(オーディオ詳細ページで使ってるデータ)
     public function isFavorite($id)
     {
         try{

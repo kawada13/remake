@@ -35,15 +35,13 @@
         <div class="card-header">
           新着オーディオ
         </div>
-        <div class="audios ml-4 my-3" v-for="(audio,i) in user.userAudios" :key="i">
-          <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
-          <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.sample_audio_file">
-          </audio>
-            <p>
-              <a class="btn btn-outline-primary" v-if="isFavorite">この曲をお気に入りに登録</a>
-              <a class="btn btn-outline-primary" v-if="isFavorite">お気に入り解除</a>
-            </p>
+        <div v-for="(audio,i) in user.userAudios" :key="i" class="audios ml-4 my-3">
+          <Audio
+            :audioId="audio.id"
+            :audioTitle="audio.title"
+            :sampleAudioFile="audio.sample_audio_file"
+            :isLogined="isLogined"
+          />
         </div>
 
         <div class="button my-3 more">
@@ -62,28 +60,52 @@
 </template>
 
 <script>
+import Audio from '../../components/Audio'
 export default {
+  components: {
+    Audio,
+  },
   data() {
     return {
       loading:false,
-      user: {}
+      user: {},
+      isFavoriteData: false, //このページを見ているログインユーザーが既にこのオーディオをお気に入り済かどうか
+      isLogined: false //現在このページを見ているユーザーがログインしているかどうか
     }
   },
   computed: {
-    isFavorite() {
-      // そもそもログインしていなければ
-      if(!this.user.authId) {
-        return false
+     isFavorite: function() {
+      return function(audioId) {
+        console.log(audioId);
+
+        try{
+         this.$store.dispatch('favorite/isFavorite', audioId)
+
+        }
+        catch(e){
+          // console.log(e);
+        }
+        finally{
+          this.isFavoriteData = this.$store.state.favorite.isFavorite
+        }
+        return this.isFavoriteData
       }
-        return true
     }
   },
   methods: {
     async getUserShowData() {
+       this.isLogined = false
       try{
         this.loading = true
         await this.$store.dispatch('user/getUserShow', this.$route.params.id)
         this.user = this.$store.state.user.user
+
+        // 今時点でログインしているかどうかを確認
+        if(!this.user.authId) {
+        this.isLogined = false
+        } else {
+          this.isLogined = true
+        }
       }
       catch(e){
         // console.log(e);
@@ -92,7 +114,7 @@ export default {
       finally{
         this.loading = false
       }
-    }
+    },
   },
   created() {
     Promise.all([

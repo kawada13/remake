@@ -24,7 +24,7 @@
            </audio>
             <p>
               <button type="button" class="btn btn-outline-primary" v-if="isLogined && !isFavoriteData" @click="favorite">この曲をお気に入りに登録</button>
-              <button type="button" class="btn btn-outline-primary" v-if="isLogined && isFavoriteData" @click="unfavorite">お気に入り解除</button>
+              <button type="button" class="btn btn-outline-danger  unfavorite" v-if="isLogined && isFavoriteData" @click="unfavorite">お気に入り解除</button>
             </p>
         </div>
 
@@ -175,7 +175,6 @@ export default {
         // this.loading = false
       }
       finally{
-        this.getAudioShowData()
         this.getIsFavorite()
       }
     },
@@ -189,7 +188,6 @@ export default {
         // this.loading = false
       }
       finally{
-        this.getAudioShowData()
         this.getIsFavorite()
       }
     },
@@ -322,6 +320,12 @@ export default {
 }
 .titles {
   padding-bottom: 0;
+}
+.unfavorite {
+  color: red!important;
+}
+.unfavorite:hover {
+  color: white!important;
 }
 
 @media screen and (max-width:767px) {

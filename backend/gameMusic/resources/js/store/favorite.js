@@ -35,7 +35,7 @@ const actions = {
    async isFavorite({ commit }, id) {
     await axios.post(`/api/audio/${id}/isfavorite`)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         commit('setIsFavorite', res.data)
       })
       .catch(e => {
