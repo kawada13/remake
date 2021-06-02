@@ -14,8 +14,8 @@
           </div>
 
           <h3>{{user.user.name}}</h3>
-          <a class="btn btn-outline-primary mt-2" v-if="isFollow">このクリエイターをフォロー</a>
-          <a class="btn btn-outline-primary mt-2" v-if="isFollow">フォロー解除</a>
+          <a class="btn btn-outline-primary mt-2" v-if="isLogined && !isFollowed && !isMine" @click="follow()">このクリエイターをフォロー</a>
+          <a class="btn btn-outline-danger mt-2" v-if="isLogined && isFollowed && !isMine" @click="unfollow()">フォロー解除</a>
         </div>
 
 
@@ -34,28 +34,49 @@ export default {
   data() {
     return {
       loading: false,
-      user: {}
+      user: {},
+      isLogined: false, //現在このページを見ているユーザーがログインしているかどうか
+      isFollowed: false, //このページを見ているログインユーザーが既にこのユーザーををフォロー済かどうか
+      isMine: false //このページがログインユーザー自身のページかどうか
     }
   },
   computed: {
-    isFollow() {
-      // そもそもログインしていなければ
-      if(!this.user.authId) {
-        return false
-      }
-      // このページがログインユーザーかどうかチェック⇨ログインユーザーのページだったらフォローボタンを消す
-      if(this.$route.params.id == this.user.authId) {
-        return false
-      }
-        return true
-    }
   },
   methods: {
-    async getUserShowData() {
+    async follow() {
+      try{
+        await this.$store.dispatch('follow/store', this.$route.params.id)
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.getIsFollow()
+      }
+    },
+    async unfollow() {
+      try{
+        await this.$store.dispatch('follow/delete', this.$route.params.id)
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.getIsFollow()
+      }
+    },
+    async getUserShowData() {//ユーザーデータとってくるついでに「ログインすみかどうか」「このページがログインユーザー自身のページかどうか」もとってくる
       try{
         this.loading = true
         await this.$store.dispatch('user/getUserShow', this.$route.params.id)
         this.user = this.$store.state.user.user
+
+        // 今時点でログインしているかどうかを確認
+        if(!this.user.authId) {
+          this.isLogined = false
+        } else {
+          this.isLogined = true
+        }
       }
       catch(e){
         // console.log(e);
@@ -63,12 +84,36 @@ export default {
       }
       finally{
         this.loading = false
+        // まず初期化
+        this.isMine = false
+        // このページがログインユーザー自身のページかどうかチェック⇨ログインユーザーのページだったらフォローボタンを消す
+        if(this.user.user.id !== this.user.authId) {
+            this.isMine = false
+            return
+        }
+            this.isMine = true
+        }
+      },
+      async getIsFollow() { //フォロー済かどうかを同時に判断する
+      // まず初期化
+      this.isFollowed = false
+      // フォロー済かどうかを確認しに行く
+      try{
+       await this.$store.dispatch('follow/isFollow', this.$route.params.id)
       }
-    }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        // フォローすみかどうかの結果を代入
+        this.isFollowed = this.$store.state.follow.isFollow
+      }
+    },
   },
   created() {
     Promise.all([
       this.getUserShowData(),
+      this.getIsFollow(),
     ])
   },
 
