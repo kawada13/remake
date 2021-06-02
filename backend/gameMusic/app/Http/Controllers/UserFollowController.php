@@ -32,6 +32,13 @@ class UserFollowController extends Controller
                 ],500);
             }
 
+            // フォローする相手が自分だったらフォローすることを拒否
+            if($user->id == Auth::id()) {
+                return response()->json([
+                    'message' => 'フォロー対象が自身なので拒否',
+                ],500);
+            }
+
             $user->followers()->attach(Auth::id());
 
             return response()->json([

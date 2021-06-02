@@ -8,6 +8,7 @@ import soundType from './soundType'
 import audio from './audio'
 import transferAccount from './transferAccount'
 import favorite from './favorite'
+import follow from './follow'
 
 
 Vue.use(Vuex)
@@ -20,7 +21,8 @@ const store = new Vuex.Store({
     soundType,
     audio,
     transferAccount,
-    favorite
+    favorite,
+    follow
   }
 })
 

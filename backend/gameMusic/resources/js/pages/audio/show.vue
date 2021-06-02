@@ -99,7 +99,8 @@
               <div class="card-body pt-5">
                 <h5 class="card-title">紹介文</h5>
                 <p class="card-text">{{audio.userInformation.introduce}}</p>
-                <a class="btn btn-outline-primary">このクリエイターをフォロー</a>
+                <a class="btn btn-outline-primary" @click="follow(audio.user_id)" v-if="isLogined && !isFollowed && !isMine">このクリエイターをフォロー</a>
+                <a class="btn btn-outline-danger" @click="unfollow(audio.user_id)" v-if="isLogined && isFollowed && !isMine">フォロー解除</a>
               </div>
             </div>
           </div>
@@ -141,38 +142,40 @@ export default {
       audio: {},
       loading: false,
       isFavoriteData: false, //このページを見ているログインユーザーが既にこのオーディオをお気に入り済かどうか
-      isLogined: false //現在このページを見ているユーザーがログインしているかどうか
+      isLogined: false, //現在このページを見ているユーザーがログインしているかどうか
+      isFollowed: false, //このページを見ているログインユーザーが既にこのユーザーををフォロー済かどうか
+      isMine: false //このページがログインユーザー自身のページかどうか
     }
   },
-  // computed: {
-  //   isFollow() {
-      // そもそもログインしていなければ
-      // if(!this.audio.authId) {
-      //   return false
-      // }
-      // このページがログインユーザーかどうかチェック⇨ログインユーザーのページだったらフォローボタンを消す
-    //   if(this.audio.user_id == this.audio.authId) {
-    //     return false
-    //   }
-    //     return true
-    // },
-    // isFavorite() {
-      // そもそもログインしていなければ
-  //     if(!this.audio.authId) {
-  //       return false
-  //     }
-  //       return true
-  //   },
-  // },
   methods: {
-    async favorite() {
+    async follow(userId) {
       try{
-        await this.$store.dispatch('favorite/store', this.$route.params.id)
-        // this.user = this.$store.state.user.user
+        await this.$store.dispatch('follow/store', userId)
       }
       catch(e){
         // console.log(e);
-        // this.loading = false
+      }
+      finally{
+        this.getAudioShowData()
+      }
+    },
+    async unfollow(userId) {
+      try{
+        await this.$store.dispatch('follow/delete', userId)
+      }
+      catch(e){
+        // console.log(e);
+      }
+      finally{
+        this.getAudioShowData()
+      }
+    },
+    async favorite() {
+      try{
+        await this.$store.dispatch('favorite/store', this.$route.params.id)
+      }
+      catch(e){
+        // console.log(e);
       }
       finally{
         this.getIsFavorite()
@@ -181,11 +184,9 @@ export default {
     async unfavorite() {
       try{
         await this.$store.dispatch('favorite/delete', this.$route.params.id)
-        // this.user = this.$store.state.user.user
       }
       catch(e){
         // console.log(e);
-        // this.loading = false
       }
       finally{
         this.getIsFavorite()
@@ -206,7 +207,7 @@ export default {
         this.isFavoriteData = this.$store.state.favorite.isFavorite
       }
     },
-    async getAudioShowData() {//オーディオデータとってくるついでにログインすみかどうかもとってくる
+    async getAudioShowData() {//オーディオデータとってくるついでに「ログインすみかどうか」、「フォロー済かどうか」、「このページがログインユーザー自身のページかどうか」もとってくる
       this.isLogined = false
       try{
         this.loading = true
@@ -219,6 +220,14 @@ export default {
         } else {
           this.isLogined = true
         }
+
+        //フォロー済かどうかを同時に判断する
+        // まず初期化
+        this.isFollowed = false
+        await this.$store.dispatch('follow/isFollow', this.audio.user_id)
+        // フォローすみかどうかの結果を代入
+        this.isFollowed = this.$store.state.follow.isFollow
+
       }
       catch(e){
         // console.log(e);
@@ -226,13 +235,22 @@ export default {
       }
       finally{
         this.loading = false
-      }
+
+        // まず初期化
+        this.isMine = false
+        // このページがログインユーザー自身のページかどうかチェック⇨ログインユーザーのページだったらフォローボタンを消す
+        if(this.audio.user_id !== this.audio.authId) {
+            this.isMine = false
+            return
+        }
+            this.isMine = true
+        }
     }
   },
   created() {
     Promise.all([
       this.getAudioShowData(),
-      this.getIsFavorite()
+      this.getIsFavorite(),
     ])
   },
 
