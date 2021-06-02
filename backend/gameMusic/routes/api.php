@@ -77,5 +77,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('audio/{id}/unfavorite', 'FavoriteController@delete')->name('unfavorite');
     // お気に入り済かどうか確認
     Route::post('audio/{id}/isfavorite', 'FavoriteController@isFavorite')->name('isfavorite');
+    // フォロー
+    Route::post('user/{id}/follow', 'UserFollowController@store')->name('follow');
+    // アンフォロー
+    Route::post('user/{id}/unfollow', 'UserFollowController@delete')->name('unfollow');
+    // フォロー済かどうか確認
+    Route::post('user/{id}/isfollow', 'UserFollowController@isFollow')->name('isfollow');
 
 });

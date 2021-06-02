@@ -63,7 +63,7 @@ class UserFollowController extends Controller
         }
     }
     // ログインユーザーがあるユーザーをフォロー済かどうかtrue or falseで返す
-    public function isFavorite($id)
+    public function isFollow($id)
     {
         try{
             $user = User::find($id);
