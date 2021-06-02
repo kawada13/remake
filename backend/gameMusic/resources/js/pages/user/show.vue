@@ -4,7 +4,7 @@
   <div class="my-5" v-if="loading">
     <Loader />
   </div>
-  
+
   <div v-if="!loading">
     <div class="profile_title">
         <h2>{{user.user.name}}さんのプロフィール</h2>

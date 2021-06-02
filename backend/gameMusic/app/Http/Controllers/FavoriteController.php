@@ -27,7 +27,7 @@ class FavoriteController extends Controller
                                     ->exists();
             if($is_favorite) {
                 return response()->json([
-                    'message' => '既にお気に入り登録ししてます.',
+                    'message' => '既にお気に入り登録してます.',
                 ],500);
             }
 
