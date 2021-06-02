@@ -17,7 +17,7 @@
         <div class="card-header">
           オーディオ一覧
         </div>
-        <div class="audios ml-4 my-3" v-for="(audio,i) in getItems" :key="i">
+        <!-- <div class="audios ml-4 my-3" v-for="(audio,i) in getItems" :key="i">
           <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
           <audio controls controlslist="nodownload" class="my-3">
             <source :src="audio.sample_audio_file">
@@ -27,6 +27,14 @@
             <a class="btn btn-outline-primary" v-if="isFavorite">この曲をお気に入りに登録</a>
             <a class="btn btn-outline-primary" v-if="isFavorite">お気に入り解除</a>
           </p>
+        </div> -->
+        <div class="audios ml-4 my-3" v-for="(audio,i) in getItems" :key="i">
+          <Audio
+            :audioId="audio.id"
+            :audioTitle="audio.title"
+            :sampleAudioFile="audio.sample_audio_file"
+            :isLogined="isLogined"
+          />
         </div>
 
         <!-- ページネーション -->
@@ -57,7 +65,12 @@
 </template>
 
 <script>
+import Audio from '../../components/Audio'
+
 export default {
+  components: {
+    Audio,
+  },
   data() {
     return {
       userloading: false,
@@ -67,7 +80,8 @@ export default {
         parPage: 2, //1ページに表示する件数
         currentPage: 1
       },
-      user: {}
+      user: {},
+      isLogined: false
     }
   },
   computed: {
@@ -110,6 +124,13 @@ export default {
         this.userloading = true
         await this.$store.dispatch('user/getUserShow', this.$route.params.id)
         this.user = this.$store.state.user.user
+
+        // 今時点でログインしているかどうかを確認
+        if(!this.user.authId) {
+        this.isLogined = false
+        } else {
+          this.isLogined = true
+        }
       }
       catch(e){
         // console.log(e);
