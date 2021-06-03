@@ -1,18 +1,24 @@
 <template>
   <div>
-    <div class="card mt-2">
+
+    <!-- ローディング中 -->
+    <div class="my-5" v-if="loading">
+      <Loader />
+    </div>
+
+
+    <div class="card mt-2" v-if="!loading">
         <h3 class="card-header">
           お気に入り作品一覧
         </h3>
         <div class="audios my-3" v-for="(audio,i) in audios" :key="i">
           <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
           <audio controls controlslist="nodownload" class="my-3">
-            <source :src="audio.sound">
+            <source :src="audio.sample_audio_file">
           </audio>
-          <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">{{audio.artist}}</small></p>
+          <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">{{audio.user.name}}</small></p>
         </div>
-
-      </div>
+    </div>
 
   </div>
 </template>
@@ -21,37 +27,16 @@
 export default {
   data() {
     return {
-      audios:[
-        {
-          id: 1,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt1',
-          price: 4000
-        },
-        {
-          id: 2,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt2',
-          price: 4000
-        },
-        {
-          id: 3,
-          sound: '/images/Closed_Case.mp3',
-          title: '生演奏！アコースティックギターのポップス',
-          artist: 'rokedt3',
-          price: 4000
-        },
-      ]
+      audios:[],
+      loading: false
     }
   },
   methods: {
     async getFavoriteAudios() {
       try{
-        // this.loading = true
+        this.loading = true
         await this.$store.dispatch('favorite/lists')
-        // this.user = this.$store.state.user.user
+        this.audios = this.$store.state.favorite.favoriteAudios
       }
       catch(e){
         // console.log(e);

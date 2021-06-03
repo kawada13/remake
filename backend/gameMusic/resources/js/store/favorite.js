@@ -1,5 +1,6 @@
 const state = {
-  isFavorite: false
+  isFavorite: false,
+  favoriteAudios: []
 }
 
 const getters = {}
@@ -7,6 +8,9 @@ const getters = {}
 const mutations = {
   setIsFavorite(state, data) {
     state.isFavorite = data.is_favorite
+  },
+  setFavoriteAudios(state, data) {
+    state.favoriteAudios = data.favorite_audios
   },
 }
 
@@ -47,6 +51,7 @@ const actions = {
     await axios.get(`/api/favoriteLists`)
       .then(res => {
         console.log(res.data);
+        commit('setFavoriteAudios', res.data)
       })
       .catch(e => {
         console.log(e);
