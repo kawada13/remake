@@ -13,7 +13,7 @@
         </div>
 
       </div>
-    
+
   </div>
 </template>
 
@@ -45,6 +45,27 @@ export default {
         },
       ]
     }
+  },
+  methods: {
+    async getFavoriteAudios() {
+      try{
+        // this.loading = true
+        await this.$store.dispatch('favorite/lists')
+        // this.user = this.$store.state.user.user
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
+    },
+  },
+  created() {
+    Promise.all([
+      this.getFavoriteAudios(),
+    ])
   },
 
 }

@@ -42,6 +42,16 @@ const actions = {
         console.log(e);
       })
   },
+   // お気に入り済かどうか確認
+   async lists({ commit }) {
+    await axios.get(`/api/favoriteLists`)
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  },
 }
 
 

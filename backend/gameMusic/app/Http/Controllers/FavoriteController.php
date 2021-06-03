@@ -12,6 +12,7 @@ use App\Audio;
 use App\AudioInstrument;
 use App\AudioUnderstanding;
 use App\AudioUse;
+use App\Favorite;
 
 class FavoriteController extends Controller
 {
@@ -73,6 +74,30 @@ class FavoriteController extends Controller
             return response()->json([
                 'message' => '成功',
                 'is_favorite' => $is_favorite,
+            ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+    // ログインユーザーのお気に入り作品一覧
+    public function lists()
+    {
+        try{
+
+            $favorite_audios = Audio::with('user')
+                                    ->WhereHas('favorite_users', function($q)  {
+                                        $q->whereIn('favorites.user_id', [Auth::id()]);
+                                    })
+                                    ->get();
+
+
+            return response()->json([
+                'message' => '成功',
+                'favorite_audios' => $favorite_audios,
             ],200);
         }
         catch (\Exception $e) {
