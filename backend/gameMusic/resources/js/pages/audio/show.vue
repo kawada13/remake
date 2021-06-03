@@ -91,7 +91,7 @@
                   <img :src="audio.userInformation.profile_image" class="rounded-circle">
                 </div>
                 <div class="user_image d-flex justify-content-center mb-3" v-else>
-                  <img src="/images/default_img.png" class="rounded-circle" @click="$router.push({ name: 'profile-edit' })">
+                  <img src="/images/default_img.png" class="rounded-circle">
                 </div>
 
 

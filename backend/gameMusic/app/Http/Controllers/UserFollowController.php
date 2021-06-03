@@ -90,4 +90,29 @@ class UserFollowController extends Controller
             ],500);
         }
     }
+
+    // ログインユーザーのフォローユーザー一覧
+    public function lists()
+    {
+        try{
+
+            $follow_users = User::with('userInformation')
+                                    ->WhereHas('followers', function($q)  {
+                                        $q->whereIn('user_follow.follow_id', [Auth::id()]);
+                                    })
+                                    ->get();
+
+
+            return response()->json([
+                'message' => '成功',
+                'follow_users' => $follow_users,
+            ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
 }

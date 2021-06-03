@@ -1,5 +1,6 @@
 const state = {
-  isFollow: false
+  isFollow: false,
+  followUsers: []
 }
 
 const getters = {}
@@ -7,6 +8,9 @@ const getters = {}
 const mutations = {
   setIsFollow(state, data) {
     state.isFollow = data.is_follow
+  },
+  setFollowUsers(state, data) {
+    state.followUsers = data.follow_users
   },
 }
 
@@ -37,6 +41,17 @@ const actions = {
       .then(res => {
         // console.log(res.data);
         commit('setIsFollow', res.data)
+      })
+      .catch(e => {
+        console.log(e);
+      })
+  },
+  // ログインユーザーがフォローしているユーザー一覧
+  async lists({ commit }) {
+    await axios.get(`/api/followLists`)
+      .then(res => {
+        console.log(res.data);
+        commit('setFollowUsers', res.data)
       })
       .catch(e => {
         console.log(e);
