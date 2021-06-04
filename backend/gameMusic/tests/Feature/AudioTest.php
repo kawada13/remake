@@ -58,45 +58,6 @@ class AudioTest extends TestCase
 
 
     // データベーステスト
-    public function testStore()
-    {
-        // ユーザー作成
-        $user = factory(User::class)->create();
-
-        // サウンドマスター作成
-        $sound = factory(SoundMaster::class)->create();
-
-        // ダミーアップロードファイル作成
-        $uploadedFile = UploadedFile::fake()->create('audio.mp3',3000);
-
-        // S3ではなくテスト用のストレージを使用する
-        // → storage/framework/testing
-        Storage::fake('s3');
-
-        // オーディオ作成
-
-        $params = [
-            'sound_id' => $sound->id,
-            'title' => 'test1',
-            'price' => 21,
-            'audio_file' => $uploadedFile,
-        ];
-
-        $response = $this->actingAs($user)
-                         ->json('POST', route('audio.store'), $params);
-
-        $response
-            ->assertStatus(200)
-            ->assertJson(['message' => '成功']);
-
-        // 作成されたオーディオがちゃんとデータベースに保存されているのか
-        $audio = Audio::first();
-        $this->assertEquals($params['title'], $audio->title);
-
-        // 作成した音源がテスト用S3にあるのかを確認
-        $uploadedFile->move('storage/framework/testing/disks/s3');
-        Storage::disk('s3')->assertExists($uploadedFile->getFilename());
-    }
 
     public function testexhibitedAudios()
     {
@@ -139,28 +100,4 @@ class AudioTest extends TestCase
 
     }
 
-    public function test_exhibitedAudioDelete()
-    {
-        // ユーザー作成
-        $user = factory(User::class)->create();
-
-        // サウンドマスターを作成
-        $sound = factory(SoundMaster::class)->create();
-
-        // ユーザーに紐づくオーディオを作成
-        $audio = factory(Audio::class)->create([
-            'user_id' => $user->id,
-            'sound_id' => $sound->id,
-        ]);
-
-        $response = $this->actingAs($user)
-                          ->json('POST', route('exhibited_delete', [
-                            'id' => $audio->id,
-                        ]));
-
-        $response
-            ->assertStatus(200)
-            ->assertJson(['isloginUserAudio' => true]);
-
-    }
 }

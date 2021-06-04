@@ -12,22 +12,22 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        // テストユーザー作成
-        $this->user = factory(User::class)->create();
-    }
 
     /**
      * @test
      */
     public function testLogin()
     {
+
+        // ユーザー作成
+        $user = factory(User::class)->create([
+            'password'  => bcrypt('laraveltest123')
+        ]);
+
+
         $response = $this->json('POST', route('login'), [
-            'email' => $this->user->email,
-            'password' => 'password',
+            'email' => $user->email,
+            'password' => 'laraveltest123'
         ]);
 
         $response
@@ -35,7 +35,7 @@ class LoginTest extends TestCase
             ->assertJson(['message' => 'ログイン成功']);
 
         // 指定したユーザーが認証されているかどうか
-        $this->assertAuthenticatedAs($this->user);
+        $this->assertAuthenticatedAs($user);
     }
 
 
