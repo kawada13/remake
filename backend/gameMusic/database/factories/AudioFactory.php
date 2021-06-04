@@ -16,5 +16,6 @@ $factory->define(Audio::class, function (Faker $faker) {
         'title' => $faker->randomLetter,
         'price' => $faker->numberBetween(10,100),
         'audio_file' => $faker->url,
+        'sample_audio_file' => $faker->url,
     ];
 });
