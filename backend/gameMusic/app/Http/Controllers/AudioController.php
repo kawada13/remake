@@ -26,7 +26,7 @@ class AudioController extends Controller
 
         DB::beginTransaction();
 
-        // try {
+        try {
             // オーディオファイル以外のカラム
             $audio = new Audio;
             $audio->user_id = Auth::id();
@@ -108,20 +108,20 @@ class AudioController extends Controller
                 'message' => '成功'
             ], 200);
 
-        // }
-        // catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             // データベース巻き戻し
-            // DB::rollback();
+            DB::rollback();
 
             // DBに合わせるため、s3内のオーディオ削除
-            // Storage::disk('s3')->delete($path);
-            // Storage::disk('s3')->delete('audios/sample/'. $sample_audio_file_name);
+            Storage::disk('s3')->delete($path);
+            Storage::disk('s3')->delete('audios/sample/'. $sample_audio_file_name);
 
-            // return response()->json([
-            //     'message' => '失敗',
-            //     'errorInfo' => $e
-            // ],500);
-        // }
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
 
     }
 
@@ -418,7 +418,7 @@ class AudioController extends Controller
     {
         DB::beginTransaction();
 
-        // try {
+        try {
             $audio = Audio::find($id);
             // ログインユーザーのオーディオ編集ページを他のユーザーがアクセスしようとしたら拒否
            if (Auth::id() === $audio->user_id) {
@@ -445,17 +445,17 @@ class AudioController extends Controller
            return response()->json([
             'isloginUserAudio' => false
           ], 200);
-        // }
-        // catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
             // データベース巻き戻し
-            // DB::rollback();
+            DB::rollback();
 
-            // return response()->json([
-            //     'message' => '失敗',
-            //     'errorInfo' => $e
-            // ],500);
-        // }
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
     }
 
     // 過去に作られた古い順6件のオーディオ情報(トップのオーディオ一覧のところに載せるやつ)
@@ -521,8 +521,5 @@ class AudioController extends Controller
             ],500);
         }
     }
-
-
-
 
 }
