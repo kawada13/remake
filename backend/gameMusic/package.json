@@ -28,7 +28,11 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.3",
         "@mdi/font": "^5.9.55",
+        "@stripe/stripe-js": "^1.15.0",
+        "@vue-stripe/vue-stripe": "^4.2.4",
+        "stripe": "^8.153.0",
         "vue-router": "^3.5.1",
+        "vue-stripe-checkout": "^1.2.6",
         "vue-toasted": "^1.1.28",
         "vuejs-paginate": "^2.1.0"
     }

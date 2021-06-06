@@ -88,4 +88,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // ログインユーザーのフォローユーザー一覧
     Route::get('followLists', 'UserFollowController@lists')->name('followLists');
 
+
+    // 購入
+    Route::post('purchase', 'PurchaseRecordController@purchase')->name('purchase');
+
 });

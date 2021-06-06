@@ -12,6 +12,5 @@
                <router-view></router-view>
              <app-footer class=></app-footer>
         </div>
-
         <script src="{{ asset('js/app.js') }}"></script>
     </body>

@@ -1,100 +1,86 @@
 <template>
   <div>
-      <h1>練習場aa</h1>
-      <div id="app">
-        <button v-on:click="doClick">Show!</button>
+     <div class="flex flex-wrap -mx-2 mt-4">
+          <div class="p-2 w-full">
+              <div class="relative">
+                  <label for="card-element" class="leading-7 text-sm text-gray-600">Credit Card Info</label>
+                  <div id="card-element"></div>
+              </div>
+          </div>
+          <p>{{error}}</p>
       </div>
-      <hr>
-      <div>
-          <p v-for="(item, i) in getItems" :key="i">{{item.title}}</p>
+      <div class="p-2 w-full">
+          <button
+              class="btn btn-primary"
+              @click="processPayment"
+              :disabled="paymentProcessing"
+              v-text="paymentProcessing ? 'Processing' : 'Pay Now'"
+          ></button>
       </div>
-
-      <paginate
-        :page-count="getPageCount"
-        :page-range="3"
-        :margin-pages="2"
-        :click-handler="clickCallback"
-        :prev-text="'＜'"
-        :next-text="'＞'"
-        :containerClass="'pagination'"
-        :page-class="'page-item'"
-        :page-link-class="'page-link'"
-        :prev-class="'page-item'"
-        :prev-link-class="'page-link'"
-        :next-class="'page-item'"
-        :next-link-class="'page-link'"
-        >
-      </paginate>
-
   </div>
 </template>
 
 <script>
+import { loadStripe } from '@stripe/stripe-js';
 export default {
-    data() {
-        return {
-            options: {
-                duration: 1500,
-                type: 'success'
-            },
-            paginateData: {
-                items: [
-                    {
-                        title: 'test'
-                    },
-                    {
-                        title: 'test2'
-                    },
-                    {
-                        title: 'test3'
-                    },
-                    {
-                        title: 'test4'
-                    },
-                    {
-                        title: 'test5'
-                    },
-                    {
-                        title: 'test6'
-                    },
-                    {
-                        title: 'test7'
-                    },
-                    {
-                        title: 'test8'
-                    },
-                ],
-                parPage: 2,
-                currentPage: 1
-            }
-        }
-    },
-    methods: {
-        doClick(){
-        this.$toasted.show('保存しました', this.options);
-        },
-        clickCallback(pageNum) {
-            this.paginateData.currentPage = Number(pageNum);
-        }
-    },
-    computed: {
-        getItems() {
-        let current = this.paginateData.currentPage * this.paginateData.parPage;
-        let start = current - this.paginateData.parPage;
-        return this.paginateData.items.slice(start, current);
-        },
-        getPageCount() {
-        return Math.ceil(this.paginateData.items.length / this.paginateData.parPage);
-        }
-   }
+  data() {
+    return {
+      stripe: {},
+      cardElement: {},
+      paymentProcessing: false,
+      price: 200000,
+      name: '田中',
+      error: '',
 
+      form: {
+        price: 400,
+        name: '安藤',
+        mail: 'test@gmail.com',
+        token_id: '',
+      }
+    }
+  },
+  methods: {
+    async processPayment() {
+        this.paymentProcessing = true;
+        const { token, error } = await this.stripe.createToken(this.cardElement);
+        if (error) {
+            this.paymentProcessing = false;
 
+            console.error(error);
+            this.error = error.message
+        } else {
+          console.log('成功');
+          this.form.token_id = token.id;
+
+          axios.post('/api/purchase', this.form)
+              .then((response) => {
+                  this.paymentProcessing = false;
+                  console.log(response);
+              })
+              .catch((error) => {
+                  this.paymentProcessing = false;
+                  console.error(error);
+              });
+
+        }
+    }
+  },
+  async mounted() {
+      this.stripe = await loadStripe('pk_test_51IrZ1FAccOz42G5p5HiPoJZbZ6zVGiiR44z7u6ZKGQwRBzCbMIVqrzgwRd9W9lijHvmR4RpttiGCKyOSfOYL7uIB00p2qLe7wu');
+      const elements = this.stripe.elements();
+      this.cardElement = elements.create('card', {
+          classes: {
+              base: 'bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 p-3 leading-8 transition-colors duration-200 ease-in-out',
+          },
+          hidePostalCode: true
+      });
+      this.cardElement.mount('#card-element');
+  },
 
 }
 </script>
 
 <style>
-
-
 
 </style>

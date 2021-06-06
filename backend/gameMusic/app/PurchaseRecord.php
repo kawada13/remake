@@ -3,9 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Cashier\Billable;
 
 class PurchaseRecord extends Model
 {
+    use Billable;
+
+
     protected $table = 'purchase_records';
 
     protected $fillable = [
