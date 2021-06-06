@@ -22,7 +22,7 @@ class PurchaseRecordController extends Controller
 
         try {
 
-            \Stripe\Stripe::setApiKey('sk_test_51IrZ1FAccOz42G5pQtOz8AuxyfDnKdy2oLoTGnQdWxSs3v577eT6fDTA1erPZwZWwTD1P0Rpf4z1F9meqMwapsMs00xhw912BJ');
+            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
             $customer = \Stripe\Customer::create([
                 'source' => $request->token_id, // クレジットカードトークン
