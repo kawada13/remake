@@ -71,7 +71,8 @@
             <div class="card">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item price py-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</li>
-                <li class="list-group-item purchase_btn" v-if="!isMine"><button type="button" class="btn btn-warning py-3 px-5" data-toggle="modal" data-target="#exampleModal">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
+                <li class="list-group-item purchase_btn" v-if="!isMine && !isPurchase"><button type="button" class="btn btn-warning py-3 px-5" data-toggle="modal" data-target="#exampleModal">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
+                <li class="list-group-item purchase_btn purchased" v-if="!isMine && isPurchase"><button class="btn btn-warning py-3 px-5">購入済</button></li>
               </ul>
             </div>
           </div>
@@ -144,7 +145,8 @@ export default {
       isFavoriteData: false, //このページを見ているログインユーザーが既にこのオーディオをお気に入り済かどうか
       isLogined: false, //現在このページを見ているユーザーがログインしているかどうか
       isFollowed: false, //このページを見ているログインユーザーが既にこのユーザーををフォロー済かどうか
-      isMine: false //このページがログインユーザー自身のページかどうか
+      isMine: false, //このページがログインユーザー自身のページかどうか
+      isPurchase: false //この商品をログインユーザーが購入済かどうか
     }
   },
   methods: {
@@ -245,12 +247,30 @@ export default {
         }
             this.isMine = true
         }
-    }
+    },
+    async getIspurchase() { //購入すみかどうかをチェック
+
+      try{
+        // this.loading = true
+        await this.$store.dispatch('purchase/getIspurchase', this.$route.params.id)
+        this.isPurchase = this.$store.state.purchase.isPurchase
+
+      }
+      catch(e){
+        // console.log(e);
+        // this.loading = false
+      }
+      finally{
+        // this.loading = false
+      }
+
+    },
   },
   created() {
     Promise.all([
       this.getAudioShowData(),
       this.getIsFavorite(),
+      this.getIspurchase(),
     ])
   },
 
@@ -343,6 +363,11 @@ export default {
   color: red!important;
 }
 .unfavorite:hover {
+  color: white!important;
+}
+.purchased button{
+  cursor: auto!important;
+  background: gray!important;
   color: white!important;
 }
 

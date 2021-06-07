@@ -59,6 +59,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\User', 'user_follow', 'follower_id', 'follow_id');
     }
+    public function purchase_audios()
+    {
+        return $this->belongsToMany('App\Audio', 'purchase_records', 'user_id', 'audio_id');
+    }
 
 
 

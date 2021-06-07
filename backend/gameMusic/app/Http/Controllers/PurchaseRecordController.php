@@ -20,6 +20,8 @@ use App\PurchaseRecord;
 
 class PurchaseRecordController extends Controller
 {
+
+    // 購入データを保存
     public function purchase(PurchaseRecordRequest $request, $id)
     {
 
@@ -28,10 +30,22 @@ class PurchaseRecordController extends Controller
 
             $audio = Audio::find($id);
 
+
+            // 自身の作品だったらアウト
             if($audio->user_id == Auth::id()) {
                 return response()->json([
                     'message' => '自身の作品のため購入できません。',
-                ], 200);
+                ], 500);
+            }
+
+            // 重複購入アウト
+            $is_purchased = $audio->purchase_users()
+                                    ->where('user_id', Auth::id())
+                                    ->exists();
+            if($is_purchased) {
+                return response()->json([
+                    'message' => '購入済です.',
+                ],500);
             }
 
 
@@ -72,6 +86,32 @@ class PurchaseRecordController extends Controller
                 'errorInfo' => $e
             ],500);
         }
+
+    }
+
+
+
+    // あるオーディオを購入済かどうかチェック
+    public function isPurchase($id) {
+
+        try{
+            $audio = Audio::find($id);
+
+            $is_purchase = $audio->purchase_users()
+                                    ->where('user_id', Auth::id())
+                                    ->exists();
+            return response()->json([
+                'message' => '成功',
+                'is_purchase' => $is_purchase,
+            ],200);
+
+        }catch(\Exception $e){
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
 
     }
 }

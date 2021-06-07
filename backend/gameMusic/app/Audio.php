@@ -41,4 +41,8 @@ class Audio extends Model
     {
         return $this->belongsToMany('App\User', 'favorites', 'audio_id', 'user_id');
     }
+    public function purchase_users()
+    {
+        return $this->belongsToMany('App\User', 'purchase_records', 'audio_id', 'user_id');
+    }
 }

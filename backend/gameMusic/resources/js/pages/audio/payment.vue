@@ -80,6 +80,7 @@ export default {
       cardElement: {},
       paymentProcessing: false,
       cardError: '',
+      isPurchase: false,
       errors: {
         name: {
           required: false,
@@ -152,7 +153,7 @@ export default {
               .then((response) => {
                   this.paymentProcessing = false;
                   this.toasted()
-                  this.$router.push({ name: 'purchase-history'})
+                  this.$router.replace({ name: 'purchase-history'})
               })
               .catch((error) => {
                   this.paymentProcessing = false;
@@ -187,7 +188,7 @@ export default {
   async mounted() {
     Promise.all([
       this.getAudioShowData(),
-      this.getStripe()
+      this.getStripe(),
     ])
   },
 
