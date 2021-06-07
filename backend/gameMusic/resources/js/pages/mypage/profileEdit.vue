@@ -17,6 +17,9 @@
               <div class="form-group">
                 <div><label for="creater_name">ユーザー名</label></div>
                 <input type="text" class="form-control form-control-lg" id="creater_name" v-model="userInformation.user.name">
+                <div class="alert alert-danger" role="alert" v-if="errors.user.required">
+                  ユーザー名は必須です!
+                </div>
               </div>
               <div class="form-group">
                 <label for="introduce">自己紹介</label>
@@ -84,6 +87,9 @@ export default {
         image: {
           isFile: false,
           size: false
+        },
+        user: {
+          required: false
         }
       },
       file: '', //アップロードするつもりのファイル
@@ -150,10 +156,22 @@ export default {
       });
     },
     async upload() {
+      this.errors.user.required = false
+      if(!this.userInformation.user.name) {
+        this.errors.user.required = true
+      }
       // エラーが残ってないかチェック
-      if(this.errors.image.isFile || this.errors.image.size )
+      if(this.errors.image.isFile || this.errors.image.size || this.errors.user.required)
       {
         return
+      }
+
+      // nullと言う文字列を入れたくない
+      if(!this.userInformation.user_information.introduce) {
+        this.userInformation.user_information.introduce = ''
+      }
+      if(!this.userInformation.user_information.instrument) {
+        this.userInformation.user_information.instrument = ''
       }
       console.log('アップロード！');
       let data = new FormData();

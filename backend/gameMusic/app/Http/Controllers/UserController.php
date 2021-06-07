@@ -76,12 +76,8 @@ class UserController extends Controller
 
             // その他カラム
             $user->name = $request->name;
-            if($request->introduce) {
-                $userInformation->introduce = $request->introduce;
-            }
-            if($request->instrument) {
-                $userInformation->instrument = $request->instrument;
-            }
+            $userInformation->introduce = $request->introduce;
+            $userInformation->instrument = $request->instrument;
 
             // データベース保存
             $user->save();
