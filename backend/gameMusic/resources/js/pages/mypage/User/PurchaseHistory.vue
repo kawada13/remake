@@ -6,29 +6,27 @@
     </div>
 
 
-    <div  v-if="!loading">
-      <div class="card purchase_audio_title">
         <h3 class="card-header">
           購入履歴
         </h3>
 
-        <div class="no_audio mt-4" v-if="!audios.length">
+        <div class="no_audio mt-4" v-if="!audios.length && !loading">
           <p>購入されたオーディオは現在ございません。</p>
         </div>
 
-        <div class="card-body purchase_audio_body" v-for="(audio, i) in audios" :key="i">
-            <div class="card-body detail type_content buttons row">
-              <span class="mr-2 mb-2 border border-info p-2" ><i class="fas fa-yen-sign"></i>{{audio.price | comma}}</span>
+        <!-- <div class="card-body purchase_audio_body" v-for="(audio, i) in audios" :key="i">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{audio.title}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">クリエイター：{{audio.user.name}}</h6>
+              <h6 class="card-subtitle mb-2 text-muted">購入日：{{audio.purchase_records[0].created_at | fromiso }}</h6>
+                <audio controls controlslist="nodownload" class="my-3">
+                  <source :src="audio.sample_audio_file">
+                </audio>
+              <a class="card-link">ダウンロード</a>
             </div>
-            <audio controls controlslist="nodownload">
-              <source :src="audio.sample_audio_file">
-            </audio>
-            <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">クリエイター名：{{audio.user.name}}</small></p>
-            <p class="card-text"><small class="text-muted">購入日時：{{audio.created_at | fromiso}}</small></p>
-            <p class="card-text"><small class="text-muted">購入日時：{{'2020-08-08' | fromiso}}</small></p>
-        </div>
-      </div>
-    </div>
+          </div>
+        </div> -->
   </div>
 </template>
 

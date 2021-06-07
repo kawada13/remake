@@ -11,12 +11,15 @@
         <h3 class="card-header">
           お気に入り作品一覧
         </h3>
+        <div class="no_audio mt-4" v-if="!audios.length">
+          <p>現在お気に入りしているオーディオはございません。</p>
+        </div>
         <div class="audios my-3" v-for="(audio,i) in audios" :key="i">
-          <h4 class="audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
+          <h4 class="audio_title " @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
+          <h6 class="card-subtitle mb-2 text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">クリエイター：{{audio.user.name}}</h6>
           <audio controls controlslist="nodownload" class="my-3">
             <source :src="audio.sample_audio_file">
           </audio>
-          <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">{{audio.user.name}}</small></p>
         </div>
     </div>
 
