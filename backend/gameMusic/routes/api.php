@@ -90,6 +90,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     // 購入
-    Route::post('purchase', 'PurchaseRecordController@purchase')->name('purchase');
+    Route::post('{id}/purchase', 'PurchaseRecordController@purchase')->name('purchase');
 
 });

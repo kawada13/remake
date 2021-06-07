@@ -30,7 +30,6 @@
         <div class="card-body">
           <h4 class="card-title font-weight-bold text-primary">お支払い情報</h4>
           <div class="card-text">
-            <p>カードインフォメーション</p>
 
             <div class="form-group">
               <div class="d-flex justify-content-start"><label for="name">お名前</label></div>
@@ -48,7 +47,7 @@
               </div>
             </div>
 
-
+            <p>カードインフォメーション</p>
             <div id="card-information"></div>
             <p class="text-danger">{{cardError}}</p>
 
@@ -149,7 +148,7 @@ export default {
           console.log('成功');
           this.form.token_id = token.id;
 
-          axios.post('/api/purchase', this.form)
+          axios.post(`/api/${this.$route.params.id}/purchase`, this.form)
               .then((response) => {
                   this.paymentProcessing = false;
                   this.toasted()

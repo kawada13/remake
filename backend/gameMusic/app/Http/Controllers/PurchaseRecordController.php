@@ -20,10 +20,21 @@ use App\PurchaseRecord;
 
 class PurchaseRecordController extends Controller
 {
-    public function purchase(PurchaseRecordRequest $request)
+    public function purchase(PurchaseRecordRequest $request, $id)
     {
 
+
         try {
+
+            $audio = Audio::find($id);
+
+            if($audio->user_id == Auth::id()) {
+                return response()->json([
+                    'message' => '自身の作品のため購入できません。',
+                ], 200);
+            }
+
+
 
             \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
@@ -35,7 +46,7 @@ class PurchaseRecordController extends Controller
 
             $PurchaseRecord = new PurchaseRecord;
             $PurchaseRecord->user_id = Auth::id();
-            $PurchaseRecord->audio_id = 1;
+            $PurchaseRecord->audio_id = $id;
             $PurchaseRecord->stripe_id = $customer->id;
             $PurchaseRecord->price = $request->price;
             $PurchaseRecord->save();
