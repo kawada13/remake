@@ -11,12 +11,14 @@
         <h3 class="card-header">
           お気に入り作品一覧
         </h3>
+        <p class="favorite_cont ml-3 mt-3 mb-5">お気に入り件数：{{audios.length}}件</p>
         <div class="no_audio mt-4" v-if="!audios.length">
           <p>現在お気に入りしているオーディオはございません。</p>
         </div>
         <div class="audios my-3" v-for="(audio,i) in audios" :key="i">
           <h4 class="audio_title " @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
           <h6 class="card-subtitle mb-2 text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">クリエイター：{{audio.user.name}}</h6>
+          <h6 class="card-subtitle mb-2 price font-weight-bold text-danger"><i class="fas fa-yen-sign"></i>{{audio.price | comma}}</h6>
           <audio controls controlslist="nodownload" class="my-3">
             <source :src="audio.sample_audio_file">
           </audio>
@@ -72,6 +74,11 @@ audio {
 .audios .creater_name:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+.favorite_cont {
+  font-weight: 600;
+  font-size: 18px;
+  color: #334e6f;
 }
 
 @media screen and (max-width:767px) {
