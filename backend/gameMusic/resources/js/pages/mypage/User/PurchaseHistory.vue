@@ -1,32 +1,9 @@
 <template>
   <div>
-    <!-- ローディング中 -->
-    <div class="my-5" v-if="loading">
-      <Loader />
-    </div>
-
-
-        <!-- <h3 class="card-header">
-          購入履歴
-        </h3>
-
-        <div class="no_audio mt-4" v-if="!audios.length && !loading">
-          <p>購入されたオーディオは現在ございません。</p>
-        </div> -->
-
-        <!-- <div class="card-body purchase_audio_body" v-for="(audio, i) in audios" :key="i">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{audio.title}}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">クリエイター：{{audio.user.name}}</h6>
-              <h6 class="card-subtitle mb-2 text-muted">購入日：{{audio.purchase_records[0].created_at | fromiso }}</h6>
-                <audio controls controlslist="nodownload" class="my-3">
-                  <source :src="audio.sample_audio_file">
-                </audio>
-              <a class="card-link">ダウンロード</a>
-            </div>
-          </div>
-        </div> -->
+        <!-- ローディング中 -->
+        <div class="my-5" v-if="loading">
+          <Loader />
+        </div>
 
         <div class="card mt-2" v-if="!loading">
             <h3 class="card-header">
