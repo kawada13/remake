@@ -112,7 +112,7 @@ class PurchaseRecordController extends Controller
     public function index() {
 
         try{
-            $purchases = Audio::with('user')
+            $purchases = Audio::with(['user', 'purchaseRecords'])
                                     ->WhereHas('purchase_users', function($q)  {
                                         $q->whereIn('purchase_records.user_id', [Auth::id()]);
                                     })
