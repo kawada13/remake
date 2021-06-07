@@ -1,4 +1,3 @@
-import router from '../router/index';
 
 const state = {
   isPurchase: false,
@@ -34,7 +33,7 @@ const actions = {
     await axios.get(`/api/purchases`)
     .then(res => {
       console.log(res.data);
-      // commit('setPurchases', res.data);
+      commit('setPurchases', res.data);
     })
     .catch(e => {
       console.log(e);
