@@ -93,5 +93,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('{id}/purchase', 'PurchaseRecordController@purchase')->name('purchase');
     // あるオーディオを購入済かどうかチェック
     Route::get('{id}/isPurchase', 'PurchaseRecordController@isPurchase')->name('isPurchase');
+    // ログインユーザーの購入オーディオ一覧
+    Route::get('purchases', 'PurchaseRecordController@index')->name('purchases');
 
 });

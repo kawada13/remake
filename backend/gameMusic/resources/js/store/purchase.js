@@ -2,6 +2,7 @@ import router from '../router/index';
 
 const state = {
   isPurchase: false,
+  purchases: [] //ログインユーザーの購入オーディオ一覧
 }
 
 const getters = {}
@@ -11,6 +12,10 @@ const mutations = {
   setIsPurchase(state, data) {
     state.isPurchase = data.is_purchase
   },
+  // セット購入オーディオ一覧
+  setPurchases(state, data) {
+    state.purchases = data.purchases
+  },
 }
 
 const actions = {
@@ -19,6 +24,17 @@ const actions = {
     await axios.get(`/api/${id}/isPurchase`)
     .then(res => {
       commit('setIsPurchase', res.data);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // ログインユーザーの購入オーディオ一覧取得
+  async getPurchases({ commit }) {
+    await axios.get(`/api/purchases`)
+    .then(res => {
+      console.log(res.data);
+      // commit('setPurchases', res.data);
     })
     .catch(e => {
       console.log(e);

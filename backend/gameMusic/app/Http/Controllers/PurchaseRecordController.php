@@ -30,7 +30,6 @@ class PurchaseRecordController extends Controller
 
             $audio = Audio::find($id);
 
-
             // 自身の作品だったらアウト
             if($audio->user_id == Auth::id()) {
                 return response()->json([
@@ -47,8 +46,6 @@ class PurchaseRecordController extends Controller
                     'message' => '購入済です.',
                 ],500);
             }
-
-
 
             \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
@@ -89,8 +86,6 @@ class PurchaseRecordController extends Controller
 
     }
 
-
-
     // あるオーディオを購入済かどうかチェック
     public function isPurchase($id) {
 
@@ -111,7 +106,27 @@ class PurchaseRecordController extends Controller
                 'errorInfo' => $e
             ],500);
         }
+    }
 
+    // ログインユーザーの購入オーディオ一覧
+    public function index() {
 
+        try{
+            $purchases = Audio::with('user')
+                                ->purchase_users()
+                                ->where('user_id', Auth::id())
+                                ->get();
+
+            return response()->json([
+                'message' => '成功',
+                'purchases' => $purchases,
+            ],200);
+
+        }catch(\Exception $e){
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
     }
 }
