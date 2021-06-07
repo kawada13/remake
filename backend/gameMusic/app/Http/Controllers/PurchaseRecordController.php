@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+// リクエスト
+use App\Http\Requests\PurchaseRecordRequest;
+
 // モデル
 use App\User;
 use App\Audio;
@@ -17,7 +20,7 @@ use App\PurchaseRecord;
 
 class PurchaseRecordController extends Controller
 {
-    public function purchase(Request $request)
+    public function purchase(PurchaseRecordRequest $request)
     {
 
         try {
@@ -26,7 +29,7 @@ class PurchaseRecordController extends Controller
 
             $customer = \Stripe\Customer::create([
                 'source' => $request->token_id, // クレジットカードトークン
-                'email'  => $request->mail, // メールアドレス
+                'email'  => $request->email, // メールアドレス
                 'name'   => $request->name,  // 顧客の名前
             ]);
 

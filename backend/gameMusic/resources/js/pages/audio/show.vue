@@ -123,7 +123,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">キャンセル</button>
-                <button type="button" class="btn btn-primary text-white">購入申請する</button>
+                <button type="button" class="btn btn-primary text-white" @click="$router.push({ name: 'audio-payment', params: { id: `${audio.id}` }})" data-dismiss="modal">購入申請する</button>
               </div>
             </div>
           </div>

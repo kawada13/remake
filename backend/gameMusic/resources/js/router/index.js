@@ -12,6 +12,7 @@ import notFound from '../pages/404.vue'
 // オーディオ
 import AudioIndex from '../pages/audio/index.vue'
 import AudioShow from '../pages/audio/show.vue'
+import AudioPayment from '../pages/audio/payment.vue'
 
 // 認証
 import Login from '../pages/auth/login.vue'
@@ -179,6 +180,11 @@ const routes = new VueRouter({
       path: '/audios/:id',
       component: AudioShow,
       name:'audio-show',
+    },
+    {
+      path: '/audios/:id/payment',
+      component: AudioPayment,
+      name:'audio-payment',
     },
     {
       path: '/login',
