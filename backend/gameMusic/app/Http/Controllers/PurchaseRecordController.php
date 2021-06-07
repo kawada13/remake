@@ -113,9 +113,10 @@ class PurchaseRecordController extends Controller
 
         try{
             $purchases = Audio::with('user')
-                                ->purchase_users()
-                                ->where('user_id', Auth::id())
-                                ->get();
+                                    ->WhereHas('purchase_users', function($q)  {
+                                        $q->whereIn('purchase_records.user_id', [Auth::id()]);
+                                    })
+                                    ->get();
 
             return response()->json([
                 'message' => '成功',

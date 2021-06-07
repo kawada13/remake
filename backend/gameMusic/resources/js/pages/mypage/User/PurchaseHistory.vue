@@ -27,37 +27,33 @@
 export default {
   data() {
     return {
-      audios:[
-        {
-          id: 1,
-          title:'生演奏！アコースティックギターのポップス',
-          sound: '/images/Closed_Case.mp3',
-          price: 3000,
-          artist: 'dsfa1'
-        },
-        {
-          id: 2,
-          title:'生演奏！アコースティックギターのポップス',
-          sound: '/images/Closed_Case.mp3',
-          price: 3000,
-          artist: 'dsfa2'
-        },
-        {
-          id: 3,
-          title:'生演奏！アコースティックギターのポップス',
-          sound: '/images/Closed_Case.mp3',
-          price: 3000,
-          artist: 'dsfa3'
-        },
-        {
-          id: 4,
-          title:'生演奏！アコースティックギターのポップス',
-          sound: '/images/Closed_Case.mp3',
-          price: 3000,
-          artist: 'dsfa4'
-        },
-      ]
+      audios:[],
+      loading:false
     }
+  },
+  methods: {
+    async getPurchases() {
+
+      try{
+        this.loading = true
+        await this.$store.dispatch('purchase/getPurchases')
+        // this.audios = this.$store.state.purchase.purchases
+
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
+    }
+
+  },
+  created() {
+    Promise.all([
+      this.getPurchases(),
+    ])
   },
 
 }
