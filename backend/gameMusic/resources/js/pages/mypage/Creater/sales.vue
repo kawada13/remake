@@ -37,7 +37,7 @@
             <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#exampleModal" v-if="sale.status == 0">
               出勤申請をする
             </button>
-            <button type="button" class="btn btn-secondary text-white" v-if="sale.status == 1">
+            <button type="button" class="btn btn-secondary text-white withdrawn" v-if="sale.status == 1">
               出金済み
             </button>
           </div>
@@ -58,7 +58,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">キャンセル</button>
-                    <button type="button" class="btn btn-primary text-white application_btn">申請する</button>
+                    <button type="button" class="btn btn-primary text-white application_btn" data-dismiss="modal" @click="$router.push({ name: 'payout', params: { id: `${sale.audio_id}` }})">申請する</button>
                   </div>
                 </div>
               </div>
@@ -150,6 +150,9 @@ export default {
   font-size: 23px;
   color: hsla(357, 100%, 37%, 0.979);
   font-weight: bold;
+}
+.withdrawn {
+  cursor: auto!important;
 }
 
 @media screen and (max-width:767px) {
