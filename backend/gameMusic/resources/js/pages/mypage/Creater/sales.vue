@@ -1,7 +1,12 @@
 <template>
   <div>
-    <div class="">
+      <!-- ローディング中 -->
+    <div class="my-5" v-if="loading">
+      <Loader />
+    </div>
 
+
+    <div class="" v-if="!loading">
       <div class="card-group mb-5">
         <div class="card text-center">
           <div class="card-body earnings">
@@ -23,17 +28,20 @@
           売上履歴
         </h3>
 
-        <div class="card-body purchase_audio_body" v-for="(audio, i) in audios" :key="i">
-          <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">購入ユーザー名：{{audio.artist}}</h6>
-          <h6 class="card-subtitle mb-2 text-muted" >日付：{{'2018-09-10' | fromiso}}</h6>
-          <h6 class="card-subtitle mb-2 price font-weight-bold text-danger"><i class="fas fa-yen-sign"></i>{{audio.price | comma}}</h6>
+        <div class="card-body purchase_audio_body" v-for="(sale, i) in sales" :key="i">
+          <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{sale.audio.title}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${sale.user_id}` }})">購入ユーザー名：{{sale.user.name}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted" >日付：{{sale.created_at | fromiso}}</h6>
+          <h6 class="card-subtitle mb-2 price font-weight-bold text-danger"><i class="fas fa-yen-sign"></i>{{sale.price | comma}}</h6>
           <div class="application_button">
-            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#exampleModal">
+            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#exampleModal" v-if="sale.status == 0">
               出勤申請をする
             </button>
-            <button type="button" class="btn btn-secondary text-white">出金済み</button>
+            <button type="button" class="btn btn-secondary text-white" v-if="sale.status == 1">
+              出金済み
+            </button>
           </div>
+
 
 
 
@@ -44,13 +52,13 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title font-weight-bold" id="exampleModalLabel">{{audio.title}}</h5>
+                    <h5 class="modal-title font-weight-bold" id="exampleModalLabel">{{sale.audio.title}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div class="modal-body audio_price">
-                    金額：<i class="fas fa-yen-sign"></i>{{ audio.price | comma }}
+                    金額：<i class="fas fa-yen-sign"></i>{{ sale.price | comma }}
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">キャンセル</button>
@@ -75,8 +83,6 @@ export default {
   data() {
     return {
       loading: false,
-      earning:4000,
-      cumulative:60000,
       audios:[
         {
           id: 1,
@@ -108,6 +114,27 @@ export default {
         },
       ],
       sales:[]
+    }
+  },
+  computed: {
+    cumulative() { //累計金額
+
+      // まずはpriceだけ取り出した配列を作成
+      let price = this.sales.map(o => o.price)
+      // その中身の合計を出す
+      let total = price.reduce((sum, element) => sum + element, 0);
+      return total
+    },
+    earning() { // 売上金額
+
+      // まずはstatusが0(金額を引き出してない)もののみをfilter
+      let notWithdraw = this.sales.filter(o => o.status == 0);
+      // priceだけ取り出した配列を作成
+      let price = notWithdraw.map(o => o.price);
+      // その中身の合計を出す
+      let total = price.reduce((sum, element) => sum + element, 0);
+
+       return total
     }
   },
   methods: {
