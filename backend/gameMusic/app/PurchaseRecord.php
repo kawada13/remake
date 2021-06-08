@@ -16,4 +16,14 @@ class PurchaseRecord extends Model
         'user_id', 'audio_id', 'stripe_id', 'status', 'withdraw_at'
     ];
 
+    // リレーション
+    Public function user()
+     {
+       return $this->belongsTo('App\User');
+     }
+    Public function audio()
+     {
+       return $this->belongsTo('App\Audio');
+     }
+
 }

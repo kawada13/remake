@@ -74,6 +74,7 @@
 export default {
   data() {
     return {
+      loading: false,
       earning:4000,
       cumulative:60000,
       audios:[
@@ -105,8 +106,31 @@ export default {
           price: 3000,
           artist: 'dsfa4'
         },
-      ]
+      ],
+      sales:[]
     }
+  },
+  methods: {
+    async getSalesData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('purchase/getSales')
+        this.sales = this.$store.state.purchase.sales
+
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
+    }
+  },
+  created() {
+    Promise.all([
+      this.getSalesData(),
+    ])
   },
 
 }

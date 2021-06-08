@@ -130,4 +130,27 @@ class PurchaseRecordController extends Controller
             ],500);
         }
     }
+
+    // ログインユーザーが出品した商品のうち、購入されたデータ一覧を取得
+    public function sales() {
+
+        try{
+            $sales_records = PurchaseRecord::with(['user', 'audio'])
+                                    ->WhereHas('audio', function($q)  {
+                                        $q->whereIn('user_id', [Auth::id()]);
+                                    })
+                                    ->get();
+
+            return response()->json([
+                'message' => '成功',
+                'sales_records' => $sales_records,
+            ],200);
+
+        }catch(\Exception $e){
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
 }

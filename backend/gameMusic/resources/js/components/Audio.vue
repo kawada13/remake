@@ -74,6 +74,9 @@ export default {
 h4 {
   cursor: pointer;
 }
+.audio_title:hover {
+  text-decoration: underline;
+}
 
 
 </style>
