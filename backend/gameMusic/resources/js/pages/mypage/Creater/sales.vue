@@ -43,10 +43,6 @@
           </div>
 
 
-
-
-
-
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -69,10 +65,6 @@
             </div>
         </div>
 
-
-        
-
-        
       </div>
     </div>
   </div>
@@ -83,36 +75,6 @@ export default {
   data() {
     return {
       loading: false,
-      audios:[
-        {
-          id: 1,
-          title:'生演奏！アコースティックギターのポップス',
-          sound: '/images/Closed_Case.mp3',
-          price: 3000,
-          artist: 'dsfa1'
-        },
-        {
-          id: 2,
-          title:'生演奏！アコースティックギターのポップス',
-          sound: '/images/Closed_Case.mp3',
-          price: 3000,
-          artist: 'dsfa2'
-        },
-        {
-          id: 3,
-          title:'生演奏！アコースティックギターのポップス',
-          sound: '/images/Closed_Case.mp3',
-          price: 3000,
-          artist: 'dsfa3'
-        },
-        {
-          id: 4,
-          title:'生演奏！アコースティックギターのポップス',
-          sound: '/images/Closed_Case.mp3',
-          price: 3000,
-          artist: 'dsfa4'
-        },
-      ],
       sales:[]
     }
   },

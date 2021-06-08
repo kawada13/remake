@@ -48,7 +48,7 @@ const actions = {
   async getSales({ commit }) {
     await axios.get(`/api/sales`)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       commit('setSales', res.data);
     })
     .catch(e => {
