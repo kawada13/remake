@@ -13,6 +13,9 @@
         <h3 class="card-header">
           フォローしているクリエイター
         </h3>
+        <div class="no_user my-4" v-if="!users.length">
+          <p>現在フォローしているクリエイターはございません。</p>
+        </div>
         <ul class="list-group list-group-flush follows">
           <li class="list-group-item" v-for="(user, i) in users" :key="i">
 
@@ -28,10 +31,6 @@
                   <div v-else class="profile_image">
                     <img src="/images/default_img.png" class="rounded-circle" @click="$router.push({ name: 'user-show', params: { id: `${user.id}` }})">
                   </div>
-
-
-
-
 
                   <div class="d-flex align-items-center ml-2">
                     <span class="creater_name" @click="$router.push({ name: 'user-show', params: { id: `${user.id}` }})">{{ user.name }}</span>
@@ -109,6 +108,10 @@ export default {
 }
 .profile_image img {
   cursor: pointer;
+}
+
+.no_user {
+  text-align: center;
 }
 
 @media screen and (max-width:767px) {

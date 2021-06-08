@@ -9,16 +9,17 @@
         <div class="no_audio mt-4" v-if="!audios.length">
           <p>登録されているオーディオはまだありません。</p>
         </div>
-        <div class="card-body" v-for="(audio, i) in audios" :key="i">
+        <div class="card-body my-4" v-for="(audio, i) in audios" :key="i">
             <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show',  params: { id: `${audio.id}` } })">{{audio.title}}</h5>
-            <p>
-              <button type="button" class="btn btn-outline-info ml-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</button>
-              <button type="button" class="btn btn-success text-white ml-2" @click="$router.push({ name: 'audio-edit', params: { id: `${audio.id}` }})">編集</button>
-              <button type="button" class="btn btn-danger text-white ml-2" @click="del(audio.id)">削除</button>
-            </p>
+            <h6 class="card-subtitle mb-2 text-muted" >出品日：{{audio.created_at | fromiso}}</h6>
+              <h6 class="card-subtitle mb-2 price font-weight-bold text-danger"><i class="fas fa-yen-sign"></i>{{audio.price | comma}}</h6>
             <audio controls controlslist="nodownload">
               <source :src="audio.audio_file">
             </audio>
+            <p>
+              <button type="button" class="btn btn-success text-white ml-2" @click="$router.push({ name: 'audio-edit', params: { id: `${audio.id}` }})">編集</button>
+              <button type="button" class="btn btn-danger text-white ml-2" @click="del(audio.id)">削除</button>
+            </p>
         </div>
       </div>
     </div>

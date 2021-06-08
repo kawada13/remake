@@ -12,7 +12,7 @@
           お気に入り作品一覧
         </h3>
         <p class="favorite_cont ml-3 mt-3 mb-5">お気に入り件数：{{audios.length}}件</p>
-        <div class="no_audio mt-4" v-if="!audios.length">
+        <div class="no_favorite_audio my-4" v-if="!audios.length">
           <p>現在お気に入りしているオーディオはございません。</p>
         </div>
         <div class="audios my-3" v-for="(audio,i) in audios" :key="i">
@@ -79,6 +79,9 @@ audio {
   font-weight: 600;
   font-size: 18px;
   color: #334e6f;
+}
+.no_favorite_audio {
+  text-align: center;
 }
 
 @media screen and (max-width:767px) {

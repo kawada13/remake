@@ -10,8 +10,8 @@
               購入履歴
             </h3>
             <p class="purchase_count ml-4 mt-3 mb-5">購入した商品：{{audios.length}}件</p>
-            <div class="no_audio mt-4" v-if="!audios.length">
-              <p>購入されたオーディオは現在ございません。</p>
+            <div class="no_audio my-4" v-if="!audios.length">
+              <p>現在購入されたオーディオはございません。</p>
             </div>
             <div class="audios ml-4 my-4" v-for="(audio,i) in audios" :key="i">
               <h4 class="audio_title " @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
