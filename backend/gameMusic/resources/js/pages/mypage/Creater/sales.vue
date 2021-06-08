@@ -24,18 +24,18 @@
         </h3>
 
         <div class="card-body purchase_audio_body" v-for="(audio, i) in audios" :key="i">
-            <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
-            <p>
-              <button type="button" class="btn btn-outline-info ml-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</button>
-              <button type="button" class="btn btn-danger text-white ml-3" data-toggle="modal" data-target="#exampleModal">
-                出勤申請をする
-              </button>
-              <button type="button" class="btn btn-secondary text-white">出金済み</button>
-            </p>
-            <audio controls controlslist="nodownload">
-              <source :src="audio.sound">
-            </audio>
-            <p class="card-text"><small class="text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.id}` }})">購入ユーザー名：{{audio.artist}}</small></p>
+          <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{audio.title}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">購入ユーザー名：{{audio.artist}}</h6>
+          <h6 class="card-subtitle mb-2 text-muted" >日付：{{'2018-09-10' | fromiso}}</h6>
+          <h6 class="card-subtitle mb-2 price font-weight-bold text-danger"><i class="fas fa-yen-sign"></i>{{audio.price | comma}}</h6>
+          <div class="application_button">
+            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#exampleModal">
+              出勤申請をする
+            </button>
+            <button type="button" class="btn btn-secondary text-white">出金済み</button>
+          </div>
+
+
 
 
 
@@ -44,12 +44,12 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{audio.title}}</h5>
+                    <h5 class="modal-title font-weight-bold" id="exampleModalLabel">{{audio.title}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body audio_price">
                     金額：<i class="fas fa-yen-sign"></i>{{ audio.price | comma }}
                   </div>
                   <div class="modal-footer">
@@ -155,6 +155,12 @@ export default {
 .creater_name:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.audio_price {
+  font-size: 23px;
+  color: hsla(357, 100%, 37%, 0.979);
+  font-weight: bold;
 }
 
 @media screen and (max-width:767px) {
