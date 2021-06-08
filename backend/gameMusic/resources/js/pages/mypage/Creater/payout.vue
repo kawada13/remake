@@ -1,16 +1,125 @@
 <template>
-  <div>
+  <div class="container">
+
+    <!-- ローディング中 -->
+    <div class="my-5" v-if="loading">
+      <Loader />
+    </div>
+
+    <div v-if="!loading">
+
+      <div class="header mt-3">
+        <h3 class="font-weight-bold">振込申請</h3>
+      </div>
+
+      <div class="transfer_account_information my-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title font-weight-bold text-primary">振込先口座</h4>
+
+            <div class="button text-center mt-4">
+              <p>振込申請には、振込口座設定をお願いします。</p>
+              <button type="button" class="btn btn-primary font-weight-bold text-white" @click="$router.push({ name: 'transfer-account-setting' })">振込先口座を登録</button>
+            </div>
+
+            <div class="mt-4">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th scope="row">銀行名</th>
+                    <td>Mark</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">支店コード</th>
+                    <td>Jacob</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">口座種別</th>
+                    <td>Larry</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">口座番号</th>
+                    <td>Larry</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">口座名義</th>
+                    <td>Larry</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
     
-    payout
+            <div class="button text-right">
+              <button type="button" class="btn btn-primary font-weight-bold text-white" @click="$router.push({ name: 'transfer-account-setting' })">振込先口座を編集</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="transfer_money my-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title font-weight-bold text-primary">振込申請金額情報</h4>
+            <h5 class="card-title mt-4">商品名：タイトル</h5>
+            <p class="card-text font-weight-bold text-danger h3">
+              合計：<i class="fas fa-yen-sign"></i>{{ '70000' | comma }}
+            </p>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="p-2 text-center">
+        <button 
+            type="submit" 
+            class="btn btn-primary my-4 store mr-5"
+            :disabled="payoutProcessing"
+            v-text="payoutProcessing ? '申請中' : '振込申請する'"
+            @click="processPayout"
+            >
+        </button>
+        <button type="button" class="btn btn-primary my-4 cancel" @click="$router.push({ name: 'sales'})">戻る</button>
+    </div>
+    
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      loading: false,
+      payoutProcessing: false
+    }
+  },
+  methods: {
+    async processPayout() {
+      console.log('申請');
+    }
+  },
 
 }
 </script>
 
-<style>
+<style scoped>
+
+.store{
+  color: white;
+  font-weight: bold;
+  padding: 12px 30px;
+  border-radius: 20px;
+}
+.cancel{
+  color: white;
+  font-weight: bold;
+  padding: 12px 30px;
+  border-radius: 20px;
+  background: #4DB7FE;
+}
+
 
 </style>

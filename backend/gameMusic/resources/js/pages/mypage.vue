@@ -61,7 +61,7 @@ export default {
   },
 
   created() {
-    if(this.$route.name == 'exhibited-audios' || this.$route.name == 'transfer-account-setting' || this.$route.name == 'audio-create' || this.$route.name == 'audio-edit' || this.$route.name == 'sales')
+    if(this.$route.name == 'exhibited-audios' || this.$route.name == 'transfer-account-setting' || this.$route.name == 'audio-create' || this.$route.name == 'audio-edit' || this.$route.name == 'sales' || this.$route.name == 'payout')
     {
       this.createrClass = true
     }

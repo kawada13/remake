@@ -18,7 +18,7 @@
             <h4 class="card-title font-weight-bold text-primary">ご注文内容</h4>
             <h5 class="card-title">商品名：{{audio.title}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">※購入後、フル音源がダウンロードできます。</h6>
-            <p class="card-text" v-if="audio.price">
+            <p class="card-text font-weight-bold text-danger" v-if="audio.price">
               合計：<i class="fas fa-yen-sign"></i>{{ audio.price | comma }}
             </p>
           </div>

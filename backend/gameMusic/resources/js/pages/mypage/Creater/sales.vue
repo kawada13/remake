@@ -29,12 +29,12 @@
         </h3>
 
         <div class="card-body purchase_audio_body" v-for="(sale, i) in sales" :key="i">
-          <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show' })">{{sale.audio.title}}</h5>
+          <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${sale.audio_id}` } })">{{sale.audio.title}}</h5>
           <h6 class="card-subtitle mb-2 text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${sale.user_id}` }})">購入ユーザー名：{{sale.user.name}}</h6>
           <h6 class="card-subtitle mb-2 text-muted" >日付：{{sale.created_at | fromiso}}</h6>
           <h6 class="card-subtitle mb-2 price font-weight-bold text-danger"><i class="fas fa-yen-sign"></i>{{sale.price | comma}}</h6>
           <div class="application_button">
-            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#exampleModal" v-if="sale.status == 0">
+            <button type="button" class="btn btn-danger text-white" @click="$router.push({ name: 'payout', params: { id: `${sale.audio_id}` }})" v-if="sale.status == 0">
               出勤申請をする
             </button>
             <button type="button" class="btn btn-secondary text-white withdrawn" v-if="sale.status == 1">
@@ -42,27 +42,6 @@
             </button>
           </div>
 
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title font-weight-bold" id="exampleModalLabel">{{sale.audio.title}}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body audio_price">
-                    金額：<i class="fas fa-yen-sign"></i>{{ sale.price | comma }}
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary text-white" data-dismiss="modal">キャンセル</button>
-                    <button type="button" class="btn btn-primary text-white application_btn" data-dismiss="modal" @click="$router.push({ name: 'payout', params: { id: `${sale.audio_id}` }})">申請する</button>
-                  </div>
-                </div>
-              </div>
-            </div>
         </div>
 
       </div>
