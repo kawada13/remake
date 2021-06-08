@@ -141,7 +141,7 @@ export default {
         return
       }
       // 新規作成なのかアップデートなのかを条件分岐
-      if(this.$store.state.transferAccount.transferAccountInformation)
+      if(this.$store.state.transferAccount.transferAccountInformation.id)
       {
         console.log('更新');
         try {
@@ -241,7 +241,7 @@ export default {
       await this.$store.dispatch('transferAccount/show')
 
       // もしすでに登録していてデータがあれば
-      if(this.$store.state.transferAccount.transferAccountInformation) {
+      if(this.$store.state.transferAccount.transferAccountInformation.id) {
         this.form = {
             id: this.$store.state.transferAccount.transferAccountInformation.id,
             bank_name: this.$store.state.transferAccount.transferAccountInformation.bank_name,

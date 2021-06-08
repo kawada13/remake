@@ -17,39 +17,39 @@
           <div class="card-body">
             <h4 class="card-title font-weight-bold text-primary">振込先口座</h4>
 
-            <div class="button text-center mt-4">
+            <div class="button text-center mt-4" v-if="!transferAccount.id">
               <p>振込申請には、振込口座設定をお願いします。</p>
               <button type="button" class="btn btn-primary font-weight-bold text-white" @click="$router.push({ name: 'transfer-account-setting' })">振込先口座を登録</button>
             </div>
 
-            <div class="mt-4">
+            <div class="mt-4" v-if="transferAccount.id">
               <table class="table">
                 <tbody>
                   <tr>
                     <th scope="row">銀行名</th>
-                    <td>Mark</td>
+                    <td>{{transferAccount.bank_name}}</td>
                   </tr>
                   <tr>
                     <th scope="row">支店コード</th>
-                    <td>Jacob</td>
+                    <td>{{transferAccount.bank_code}}</td>
                   </tr>
                   <tr>
                     <th scope="row">口座種別</th>
-                    <td>Larry</td>
+                    <td>{{transferAccount.deposit_type}}</td>
                   </tr>
                   <tr>
                     <th scope="row">口座番号</th>
-                    <td>Larry</td>
+                    <td>{{transferAccount.account_number}}</td>
                   </tr>
                   <tr>
                     <th scope="row">口座名義</th>
-                    <td>Larry</td>
+                    <td>{{transferAccount.account_holder}}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-    
-            <div class="button text-right">
+
+            <div class="button text-right" v-if="transferAccount.id">
               <button type="button" class="btn btn-primary font-weight-bold text-white" @click="$router.push({ name: 'transfer-account-setting' })">振込先口座を編集</button>
             </div>
 
@@ -84,7 +84,7 @@
         </button>
         <button type="button" class="btn btn-primary my-4 cancel" @click="$router.push({ name: 'sales'})">戻る</button>
     </div>
-    
+
   </div>
 </template>
 
@@ -93,13 +93,34 @@ export default {
   data() {
     return {
       loading: false,
-      payoutProcessing: false
+      payoutProcessing: false,
+      transferAccount: {}
     }
   },
   methods: {
     async processPayout() {
       console.log('申請');
+    },
+    async getTransferAccountData() {
+
+      try{
+        this.loading = true
+        await this.$store.dispatch('transferAccount/show')
+        this.transferAccount = this.$store.state.transferAccount.transferAccountInformation
+      }
+      catch(e){
+        // console.log(e);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
     }
+  },
+  created() {
+    Promise.all([
+      this.getTransferAccountData(),
+    ])
   },
 
 }
