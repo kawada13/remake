@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name')->comment('ユーザー名');
             $table->string('email')->unique()->comment('登録メールアドレス');
             $table->string('password')->unique()->comment('登録パスワード');
+            $table->integer('scope')->comment('ユーザーか管理者か');
             $table->timestamps();
         });
     }
