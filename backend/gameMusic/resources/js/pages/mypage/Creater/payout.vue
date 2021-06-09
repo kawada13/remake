@@ -149,7 +149,6 @@ export default {
       }
       catch(e){
         // console.log(e);
-        console.log(1111);
         this.loading = false
       }
       finally{

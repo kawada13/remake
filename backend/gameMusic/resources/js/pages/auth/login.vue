@@ -133,7 +133,7 @@ export default {
             this.errors.isLogin = false
 
             // 最後にリダイレクト
-            this.$router.push("/admin");
+            this.$router.push("/admin/withdrawal");
 
             // トースト表示
             this.toasted();

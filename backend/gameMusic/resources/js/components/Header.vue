@@ -21,7 +21,7 @@
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'audio-create' })" v-if="isAuth"><i class="fas fa-music mr-2 text-white"></i>出品する</a>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'register' })" v-if="isGuest">会員登録</a>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'login' })" v-if="isGuest">ログイン</a>
-          <a class="nav-item nav-link text-white" v-if="isAdmin">管理者</a>
+          <a class="nav-item nav-link text-white admin" v-if="isAdmin" @click="$router.push({ name: 'withdrawal' })">管理者ページ</a>
           <a class="nav-item nav-link text-white" @click="logout()" v-if="isAdmin">ログアウト</a>
         </div>
       </div>
@@ -59,14 +59,6 @@ export default {
     }
   },
   computed: {
-    // isAuth() {
-    //   リロード対策
-    //   if(this.$store.state.auth.isAuth || localStorage.getItem("auth"))
-    //   {
-    //     return true
-    //   }
-    // }
-
     isAuth() {
       if(localStorage.getItem("auth")) {
         return true

@@ -56,9 +56,8 @@ import BuyerSetteing from '../pages/mypage/User/BuyerSetteing.vue'
 
 
 // 管理者ページ関連
-
-
 import Admin from '../pages/admin.vue'
+import Withdrawal from '../pages/admin/withdrawal.vue'
 
 
 
@@ -213,7 +212,14 @@ const routes = new VueRouter({
       path: '/admin',
       component: Admin,
       name:'admin',
-      meta: { adminOnly: true }
+      meta: { adminOnly: true },
+      children:[
+        {
+          path: 'withdrawal',
+          component: Withdrawal,
+          name:'withdrawal'
+        },
+      ]
     },
     {
       path: '*',

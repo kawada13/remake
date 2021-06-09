@@ -105,11 +105,10 @@ export default {
           // エラーメッセージ非表示
           this.errors.email.isSame = false
 
-          // ヘッダーの表示を変えるためにサイレンダリング
-          // this.$router.go({path: this.$router.currentRoute.path, force: true})
-
           // 最後にリダイレクト
           this.$router.push("/");
+
+          this.$router.go({path: this.$router.currentRoute.path, force: true})
         })
         .catch(error => {
           // storeにもログイン状態を保存
