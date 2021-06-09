@@ -185,7 +185,7 @@ class PurchaseRecordController extends Controller
 
         DB::beginTransaction();
 
-        // try{
+        try{
             $today = date("Y-m-d H:i:s");
 
 
@@ -201,13 +201,13 @@ class PurchaseRecordController extends Controller
                 'message' => '成功',
             ],200);
 
-        // }catch(\Exception $e){
+        }catch(\Exception $e){
             DB::rollback();
             return response()->json([
                 'message' => '失敗',
                 'errorInfo' => $e
             ],500);
-        // }
+        }
 
 
     }
