@@ -105,6 +105,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('audio/{id}/payout', 'PurchaseRecordController@payoutAudio')->name('audio_payout');
     // 振込申請
     Route::post('{id}/payout', 'PurchaseRecordController@payout')->name('payout');
+    // 管理者が入金する
+    Route::post('{id}/payment', 'PurchaseRecordController@adminPayment')->name('adminPayment');
 
 
 

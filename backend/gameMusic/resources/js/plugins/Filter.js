@@ -12,7 +12,7 @@ export default {
         },
         fromiso (val) {
           // console.log(val);
-          return moment(val).format('YYYY/MM/DD')
+          return moment(val).format('YYYY/MM/DD h:mm:ss')
         },
       }
     })

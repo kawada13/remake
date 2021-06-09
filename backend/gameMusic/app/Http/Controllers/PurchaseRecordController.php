@@ -158,8 +158,9 @@ class PurchaseRecordController extends Controller
     public function allDatas() {
 
         try{
-            $records = PurchaseRecord::with(['user', 'audio'])
-                                    ->get();
+            $records = PurchaseRecord::with(['audio'=> function($query){
+                        $query->with('user');
+                    }])->get();
 
             return response()->json([
                 'message' => '成功',
@@ -199,7 +200,7 @@ class PurchaseRecordController extends Controller
             ],500);
         }
     }
-    
+
     // 振込申請
     public function payout($id) {
 
@@ -229,6 +230,39 @@ class PurchaseRecordController extends Controller
             ],500);
         }
 
+    }
+    // 管理者が入金する
+    public function adminPayment($id) {
+
+        DB::beginTransaction();
+
+        try{
+
+            // 管理者しか実行できないように制限
+            $user = Auth::user();
+            if($user->scope !== 1) {
+                return response()->json([
+                    'message' => '管理者ユーザーのみ実行できるメソッドです。',
+                ],500);
+            }
+
+            $purchase_record = PurchaseRecord::find($id);
+            $purchase_record->status = 2;
+            $purchase_record->save();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => '成功',
+            ],200);
+
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
 
     }
 

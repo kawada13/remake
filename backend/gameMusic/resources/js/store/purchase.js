@@ -70,7 +70,7 @@ const actions = {
   async getAllPurchase({ commit }) {
     await axios.get(`/api/allPurchases`)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       commit('setAllPurchases', res.data);
     })
     .catch(e => {
@@ -92,8 +92,17 @@ const actions = {
   async payout({ commit }, id) {
     await axios.post(`/api/${id}/payout`)
     .then(res => {
-      console.log(res.data);
-      // commit('setPayoutAudio', res.data);
+      // console.log(res.data);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // 管理者が入金する
+  async adminPayment({ commit }, id) {
+    await axios.post(`/api/${id}/payment`)
+    .then(res => {
+      // console.log(res.data);
     })
     .catch(e => {
       console.log(e);

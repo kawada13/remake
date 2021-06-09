@@ -30,10 +30,10 @@
             <tbody>
               <tr v-for="(purchasing, i) in purchasings" :key="i">
                 <th scope="row">{{i + 1}}</th>
-                <td><a href="">{{purchasing.user.name}}</a></td>
-                <td>{{purchasing.withdraw_at}}</td>
+                <td><a href="">{{purchasing.audio.user.name}}</a></td>
+                <td>{{purchasing.withdraw_at | fromiso}}</td>
                 <td><i class="fas fa-yen-sign"></i>{{purchasing.price | comma}}</td>
-                <td><button type="button" class="btn btn-danger text-white font-weight-bold">入金する</button></td>
+                <td><button type="button" class="btn btn-danger text-white font-weight-bold" @click="payment(purchasing.id)">入金する</button></td>
               </tr>
             </tbody>
           </table>
@@ -53,10 +53,10 @@
             <tbody>
               <tr v-for="(purchased, i) in purchaseds" :key="i">
                 <th scope="row">{{i + 1}}</th>
-                <td><a href="">{{purchased.user.name}}</a></td>
-                <td>{{purchased.withdraw_at}}</td>
+                <td><a href="">{{purchased.audio.user.name}}</a></td>
+                <td>{{purchased.withdraw_at | fromiso}}</td>
                 <td><i class="fas fa-yen-sign"></i>{{purchased.price | comma}}</td>
-                <td>{{purchased.updated_at}}</td>
+                <td>{{purchased.updated_at | fromiso}}</td>
               </tr>
             </tbody>
           </table>
@@ -76,6 +76,10 @@ export default {
       purchases: [], //全ての購入履歴データ
       purchasings:[], //申請中の購入履歴データ
       purchaseds:[], //入金済の購入履歴データ
+      options: {
+          duration: 1500,
+          type: 'info'
+      }
 
     }
   },
@@ -101,7 +105,32 @@ export default {
       finally{
         this.loading = false
       }
-    }
+    },
+    async payment(id) {
+      let res = confirm("「入金済」にステータスを変更してもよろしいですか？");
+
+      if( res == true ) {
+        try{
+          this.loading = true
+          await this.$store.dispatch('purchase/adminPayment', id)
+        }
+        catch(e){
+          // console.log(e);
+          this.loading = false
+        }
+        finally{
+          this.loading = false
+          this.toasted()
+          this.getPurchaseData()
+        }
+      } else {
+        return
+      }
+
+    },
+    toasted() {
+      this.$toasted.show('保存しました。', this.options);
+    },
   },
   created() {
     Promise.all([
