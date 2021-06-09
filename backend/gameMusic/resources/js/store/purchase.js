@@ -4,7 +4,8 @@ const state = {
   isPurchase: false,
   purchases: [], //ログインユーザーの購入オーディオ一覧
   sales: [],
-  payoutAudio: {}
+  payoutAudio: {},
+  allPurchases: []
 }
 
 const getters = {}
@@ -25,6 +26,10 @@ const mutations = {
   // セット購入オーディオ一覧
   setPayoutAudio(state, data) {
     state.payoutAudio = data.audio
+  },
+  // セット全ての購入データ
+  setAllPurchases(state, data) {
+    state.allPurchases = data.records
   },
 }
 
@@ -56,6 +61,17 @@ const actions = {
     .then(res => {
       // console.log(res.data);
       commit('setSales', res.data);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // 全ての購入履歴データ取得
+  async getAllPurchase({ commit }) {
+    await axios.get(`/api/allPurchases`)
+    .then(res => {
+      console.log(res.data);
+      commit('setAllPurchases', res.data);
     })
     .catch(e => {
       console.log(e);

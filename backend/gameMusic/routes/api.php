@@ -97,11 +97,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('purchases', 'PurchaseRecordController@index')->name('purchases');
     // ログインユーザーが出品した商品のうち、購入されたデータ一覧を取得
     Route::get('sales', 'PurchaseRecordController@sales')->name('sales');
+    // 全ての購入履歴データ取得
+    Route::get('allPurchases', 'PurchaseRecordController@allDatas')->name('allDatas');
 
 
     // 振込申請ページ用で使うオーディオデータ取得
     Route::get('audio/{id}/payout', 'PurchaseRecordController@payoutAudio')->name('audio_payout');
-    // 振込申請ページ用で使うオーディオデータ取得
+    // 振込申請
     Route::post('{id}/payout', 'PurchaseRecordController@payout')->name('payout');
 
 

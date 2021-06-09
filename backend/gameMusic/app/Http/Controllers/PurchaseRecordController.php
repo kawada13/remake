@@ -154,6 +154,25 @@ class PurchaseRecordController extends Controller
             ],500);
         }
     }
+    // 全てのデータ
+    public function allDatas() {
+
+        try{
+            $records = PurchaseRecord::with(['user', 'audio'])
+                                    ->get();
+
+            return response()->json([
+                'message' => '成功',
+                'records' => $records,
+            ],200);
+
+        }catch(\Exception $e){
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
 
     // 振込申請ページ用で使うオーディオデータ取得
     public function payoutAudio($id) {
