@@ -22,7 +22,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">申請ユーザー</th>
-                <th scope="col">申請日</th>
+                <th scope="col">申請日時</th>
                 <th scope="col">申請金額</th>
                 <th scope="col">アクション</th>
               </tr>
@@ -32,7 +32,7 @@
                 <th scope="row">{{i + 1}}</th>
                 <td><a href="">{{purchasing.user.name}}</a></td>
                 <td>{{purchasing.withdraw_at}}</td>
-                <td>{{purchasing.price}}</td>
+                <td><i class="fas fa-yen-sign"></i>{{purchasing.price | comma}}</td>
                 <td><button type="button" class="btn btn-danger text-white font-weight-bold">入金する</button></td>
               </tr>
             </tbody>
@@ -45,7 +45,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">申請ユーザー</th>
-                <th scope="col">申請日</th>
+                <th scope="col">申請日時</th>
                 <th scope="col">申請金額</th>
                 <th scope="col">入金日時</th>
               </tr>
@@ -55,7 +55,7 @@
                 <th scope="row">{{i + 1}}</th>
                 <td><a href="">{{purchased.user.name}}</a></td>
                 <td>{{purchased.withdraw_at}}</td>
-                <td>{{purchased.price}}</td>
+                <td><i class="fas fa-yen-sign"></i>{{purchased.price | comma}}</td>
                 <td>{{purchased.updated_at}}</td>
               </tr>
             </tbody>
