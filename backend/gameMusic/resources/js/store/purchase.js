@@ -69,7 +69,7 @@ const actions = {
     })
     .catch(e => {
       console.log(e);
-      router.push({ name: 'sales'})
+      router.replace({ name: 'sales'})
     })
   },
   // 振込申請

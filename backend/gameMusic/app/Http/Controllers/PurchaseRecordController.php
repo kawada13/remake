@@ -113,6 +113,7 @@ class PurchaseRecordController extends Controller
 
         try{
             $purchases = Audio::with(['user', 'purchaseRecords'])
+                                    ->withTrashed() //クリエイターが削除したものも含む
                                     ->WhereHas('purchase_users', function($q)  {
                                         $q->whereIn('purchase_records.user_id', [Auth::id()]);
                                     })

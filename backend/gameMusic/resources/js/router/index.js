@@ -76,12 +76,6 @@ const routes = new VueRouter({
       name:'home',
     },
     {
-      path: '/profile',
-      component: profile,
-      name:'profile',
-      meta: { authOnly: true }
-    },
-    {
       path: '/profile/edit',
       component: profileEdit,
       name:'profile-edit',
@@ -98,6 +92,11 @@ const routes = new VueRouter({
           component: UserPage,
           name:'user-page',
           children:[
+            {
+              path: 'profile',
+              component: profile,
+              name:'profile',
+            },
             {
               path: 'purchase_history',
               component: PurchaseHistory,

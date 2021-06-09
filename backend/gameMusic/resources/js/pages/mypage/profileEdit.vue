@@ -198,7 +198,7 @@ export default {
 
     },
     cancel() {
-      this.$router.push({ name: 'purchase-history'})
+      this.$router.replace({ name: 'profile'})
     },
     toasted() {
       this.$toasted.show('保存しました', this.options);

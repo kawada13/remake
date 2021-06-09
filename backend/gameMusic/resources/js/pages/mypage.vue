@@ -6,6 +6,7 @@
       <button type="button" class="btn btn-secondary btn-lg mr-3 text-white" :class="classColorSetUser" @click="userClassActive()"><i class="fas fa-shopping-cart mr-2"></i>購入者メニュー</button>
       <button type="button" class="btn btn-secondary btn-lg text-white" :class="classColorSetArtist" @click="artistClassActive()"><i class="fas fa-music mr-2"></i>出品者メニュー</button>
     </div>
+    
 
     <router-view></router-view>
 
@@ -65,11 +66,11 @@ export default {
     {
       this.createrClass = true
     }
-    if(this.$route.name == 'purchase-history' || this.$route.name == 'favorite-audios' || this.$route.name == 'follows' || this.$route.name == 'profile-setting' || this.$route.name == 'buyer_setteing')
+    if(this.$route.name == 'profile' || this.$route.name == 'purchase-history' || this.$route.name == 'favorite-audios' || this.$route.name == 'follows' || this.$route.name == 'profile-setting' || this.$route.name == 'buyer_setteing')
     {
       this.userClass = true
     }
-    if(this.$route.name == 'profile' || this.$route.name == 'profile-edit')
+    if(this.$route.name == 'profile-edit')
     {
       this.createrClass = false
       this.userClass = false

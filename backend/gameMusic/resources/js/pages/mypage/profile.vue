@@ -6,29 +6,8 @@
       <Loader />
     </div>
 
-    <div class="row my-3" v-if="!loading">
 
-      <!-- (左側) -->
-      <div class="col-sm-3 col-xs-12">
-
-        <!-- アイコン -->
-        <div class="user_image d-flex justify-content-center mb-3" v-if="userInformation.user_information.profile_image">
-          <img :src="userInformation.user_information.profile_image" class="rounded-circle">
-        </div>
-        <div class="user_image d-flex justify-content-center mb-3" v-else>
-          <img src="/images/default_img.png" class="rounded-circle">
-        </div>
-
-        <!-- ユーザー名 -->
-        <div class="user_name">
-          <h3>{{ userInformation.user.name }}</h3>
-        </div>
-      </div>
-
-      <!-- (右側) -->
-      <div class="col-sm-9 col-xs-12">
-
-        <div class="profile">
+        <div class="profile" v-if="!loading">
           <div class="profile_title">
               <h2>{{ userInformation.user.name }}さんのプロフィール</h2>
           </div>
@@ -53,19 +32,7 @@
             </ul>
           </div>
 
-          <div class="button my-3 more">
-            <button 
-              type="button"
-              class="btn btn-primary"
-              @click="$router.go(-1)"
-              >
-              戻る</button>
-          </div>
-
         </div>
-      </div>
-
-    </div>
 
 
 

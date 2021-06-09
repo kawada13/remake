@@ -14,8 +14,8 @@
               <p>現在購入されたオーディオはございません。</p>
             </div>
             <div class="audios ml-4 my-4" v-for="(audio,i) in audios" :key="i">
-              <h4 class="audio_title " @click="$router.push({ name: 'audio-show', params: { id: `${audio.id}` } })">{{ audio.title }}</h4>
-              <h6 class="card-subtitle mb-2 text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${audio.user.id}` }})">クリエイター：{{audio.user.name}}</h6>
+              <h4 class="audio_title ">{{ audio.title }}</h4>
+              <h6 class="card-subtitle mb-2 text-muted creater_name">クリエイター：{{audio.user.name}}</h6>
               <h6 class="card-subtitle mb-2 text-muted" >購入日：{{audio.purchase_records[0].created_at | fromiso}}</h6>
               <h6 class="card-subtitle mb-2 price font-weight-bold text-danger"><i class="fas fa-yen-sign"></i>{{audio.price | comma}}</h6>
               <audio controls controlslist="nodownload" class="my-3">
@@ -79,19 +79,6 @@ export default {
 
 .purchase_audio_body button {
   margin: 0!important;
-}
-
-.purchase_audio_body .audio_title:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.audio_title:hover {
-  cursor: pointer;
-  text-decoration: underline;
-}
-.creater_name:hover {
-  cursor: pointer;
-  text-decoration: underline;
 }
 
 .no_audio {

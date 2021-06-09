@@ -2,6 +2,13 @@
 
 <div>
 
+  <div v-if="!loading && !audio.id" class="container my-5">
+    <p class="font-weight-bold h2 text-center">このオーディオはクリエイターにより削除されました。</p>
+    <p class="text-center mt-4">
+      <button type="button" class="btn btn-primary my-4 cancel" @click="$router.replace({ name: 'profile' })">マイページへ戻る</button>
+    </p>
+  </div>
+
 
   <!-- ローディング中 -->
   <div class="my-5" v-if="loading">
@@ -9,7 +16,7 @@
   </div>
 
 
-  <div class="audio-show" v-if="!loading">
+  <div class="audio-show" v-if="!loading && audio.id">
     <div class="container">
       <div class="row my-3">
 
@@ -369,6 +376,13 @@ export default {
   cursor: auto!important;
   background: gray!important;
   color: white!important;
+}
+.cancel{
+  color: white;
+  font-weight: bold;
+  padding: 12px 30px;
+  border-radius: 20px;
+  background: #4DB7FE;
 }
 
 @media screen and (max-width:767px) {
