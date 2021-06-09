@@ -55,6 +55,12 @@ import BuyerSetteing from '../pages/mypage/User/BuyerSetteing.vue'
 
 
 
+// 管理者ページ関連
+
+
+import Admin from '../pages/admin.vue'
+
+
 
 
 
@@ -204,6 +210,12 @@ const routes = new VueRouter({
       meta: { guestOnly: true }
     },
     {
+      path: '/admin',
+      component: Admin,
+      name:'admin',
+      meta: { adminOnly: true }
+    },
+    {
       path: '*',
       component: notFound,
       name:'404',
@@ -213,6 +225,9 @@ const routes = new VueRouter({
 
 function isLoggedIn() {
   return localStorage.getItem("auth");
+}
+function isAdmin() {
+  return localStorage.getItem("admin");
 }
 
 routes.beforeEach((to, from, next) => {
@@ -228,7 +243,14 @@ routes.beforeEach((to, from, next) => {
       } else {
           next();
       }
-  } else {
+  } else if (to.matched.some(record => record.meta.adminOnly)) {
+      if (!isAdmin()) {
+          next("/");
+      } else {
+          next();
+      }
+  }
+  else {
       next();
   }
 });

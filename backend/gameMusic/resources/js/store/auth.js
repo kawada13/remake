@@ -2,7 +2,8 @@ import router from '../router/index';
 
 const state = {
   user: {},
-  isAuth: false
+  isAuth: false,
+  isAdmin: false
 }
 
 const getters = {}
@@ -14,6 +15,9 @@ const mutations = {
   SET_IS_AUTH(state, value) {
     state.isAuth = value;
   },
+  SET_IS_ADMIN(state, value) {
+    state.isAdmin = value;
+  },
 }
 
 const actions = {
@@ -23,8 +27,10 @@ const actions = {
     await axios.post('/api/logout')
     .then(res => {
       localStorage.removeItem("auth");
+      localStorage.removeItem("admin");
       commit('setUser', null);
       commit('SET_IS_AUTH', false);
+      commit('SET_IS_ADMIN', false);
       router.push("/login");
     })
   },
@@ -61,6 +67,10 @@ const actions = {
 
   // ログインしているかどうかを保存
   SET_IS_AUTH({ commit }, status) {
+    commit('SET_IS_AUTH', status);
+  },
+  // 管理者としてログインしているかどうかを保存
+  SET_IS_ADMIN({ commit }, status) {
     commit('SET_IS_AUTH', status);
   },
   // ログインしたユーザーをセット

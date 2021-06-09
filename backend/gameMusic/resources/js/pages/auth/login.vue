@@ -89,26 +89,62 @@ export default {
           password: this.form.password,
         })
         .then(response => {
-          // ローカルストレージにログイン状態かどうかを保存
-          localStorage.setItem("auth", "true");
+          console.log(response.data.user.scope);
 
-          // storeにもログイン状態を保存
-          this.$store.dispatch('auth/SET_IS_AUTH', true)
+          // ユーザーとしてログインしたら
+          if(response.data.user.scope == 0) {
 
-          // storeにユーザーデータを保存
-          this.$store.dispatch('auth/setUser', response.data.user)
+            // ローカルストレージにログイン状態かどうかを保存
+            localStorage.setItem("auth", "true");
 
-          // エラーメッセージ非表示
-          this.errors.isLogin = false
+            // storeにもログイン状態を保存
+            this.$store.dispatch('auth/SET_IS_AUTH', true)
 
-          // ヘッダーの表示を変えるためにサイレンダリング
-          // this.$router.go({path: this.$router.currentRoute.path, force: true})
+            // storeにユーザーデータを保存
+            this.$store.dispatch('auth/setUser', response.data.user)
 
-          // 最後にリダイレクト
-          this.$router.push("/");
+            // エラーメッセージ非表示
+            this.errors.isLogin = false
 
-          // トースト表示
-          this.toasted();
+            // 最後にリダイレクト
+            this.$router.push("/");
+
+            // トースト表示
+            this.toasted();
+
+            this.$router.go({path: this.$router.currentRoute.path, force: true})
+
+            return
+          }
+
+          // 管理者としてログインしたら
+          if(response.data.user.scope == 1) {
+
+            // ローカルストレージにログイン状態かどうかを保存
+            localStorage.setItem("admin", "true");
+
+            // storeにもログイン状態を保存
+            this.$store.dispatch('auth/SET_IS_ADMIN', true)
+
+            // storeにユーザーデータを保存
+            this.$store.dispatch('auth/setUser', response.data.user)
+
+            // エラーメッセージ非表示
+            this.errors.isLogin = false
+
+            // 最後にリダイレクト
+            this.$router.push("/admin");
+
+            // トースト表示
+            this.toasted();
+
+
+            this.$router.go({path: this.$router.currentRoute.path, force: true})
+
+            return
+          }
+
+
         })
         .catch(error => {
           // storeにもログイン状態を保存

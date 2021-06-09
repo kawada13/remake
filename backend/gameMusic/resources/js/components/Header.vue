@@ -19,8 +19,10 @@
           </li>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'favorite-audios' })" v-if="isAuth"><i class="far fa-star text-white mr-2"></i>お気に入り</a>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'audio-create' })" v-if="isAuth"><i class="fas fa-music mr-2 text-white"></i>出品する</a>
-          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'register' })" v-if="!isAuth">会員登録</a>
-          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'login' })" v-if="!isAuth">ログイン</a>
+          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'register' })" v-if="isGuest">会員登録</a>
+          <a class="nav-item nav-link text-white" @click="$router.push({ name: 'login' })" v-if="isGuest">ログイン</a>
+          <a class="nav-item nav-link text-white" v-if="isAdmin">管理者</a>
+          <a class="nav-item nav-link text-white" @click="logout()" v-if="isAdmin">ログアウト</a>
         </div>
       </div>
     </nav>
@@ -48,6 +50,7 @@ export default {
       }
       finally{
         // トースト表示
+        this.$router.go({path: this.$router.currentRoute.path, force: true})
         this.toasted()
       }
     },
@@ -56,13 +59,35 @@ export default {
     }
   },
   computed: {
+    // isAuth() {
+    //   リロード対策
+    //   if(this.$store.state.auth.isAuth || localStorage.getItem("auth"))
+    //   {
+    //     return true
+    //   }
+    // }
+
     isAuth() {
-      // リロード対策
-      if(this.$store.state.auth.isAuth || localStorage.getItem("auth"))
-      {
+      if(localStorage.getItem("auth")) {
         return true
+      } else {
+        return false
       }
-    }
+    },
+    isAdmin() {
+      if(localStorage.getItem("admin")) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isGuest() {
+      if(!localStorage.getItem("admin") && !localStorage.getItem("auth")) {
+        return true
+      } else {
+        return false
+      }
+    },
   },
   created() {
   },
