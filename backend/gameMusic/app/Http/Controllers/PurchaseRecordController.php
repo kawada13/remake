@@ -181,7 +181,34 @@ class PurchaseRecordController extends Controller
     }
     
     // 振込申請
-    public function payout() {
+    public function payout($id) {
+
+        DB::beginTransaction();
+
+        // try{
+            $today = date("Y-m-d H:i:s");
+
+
+            $purchase_record = PurchaseRecord::where('audio_id', $id)
+                                               ->first();
+            $purchase_record->status = 1;
+            $purchase_record->withdraw_at = $today;
+            $purchase_record->save();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => '成功',
+            ],200);
+
+        // }catch(\Exception $e){
+            DB::rollback();
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        // }
+
 
     }
 

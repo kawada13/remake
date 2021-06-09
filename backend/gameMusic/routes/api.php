@@ -101,6 +101,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // 振込申請ページ用で使うオーディオデータ取得
     Route::get('audio/{id}/payout', 'PurchaseRecordController@payoutAudio')->name('audio_payout');
+    // 振込申請ページ用で使うオーディオデータ取得
+    Route::post('{id}/payout', 'PurchaseRecordController@payout')->name('payout');
 
 
 

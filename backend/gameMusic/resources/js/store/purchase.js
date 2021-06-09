@@ -65,12 +65,22 @@ const actions = {
   async getPayoutAudio({ commit }, id) {
     await axios.get(`/api/audio/${id}/payout`)
     .then(res => {
-      console.log(res.data);
       commit('setPayoutAudio', res.data);
     })
     .catch(e => {
       console.log(e);
       router.push({ name: 'sales'})
+    })
+  },
+  // 振込申請
+  async payout({ commit }, id) {
+    await axios.post(`/api/${id}/payout`)
+    .then(res => {
+      console.log(res.data);
+      // commit('setPayoutAudio', res.data);
+    })
+    .catch(e => {
+      console.log(e);
     })
   },
 }

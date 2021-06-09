@@ -58,12 +58,12 @@
       </div>
 
 
-      <div class="transfer_money my-4">
+      <div class="transfer_money my-4" v-if="transferAccount.id">
         <div class="card">
           <div class="card-body">
             <h4 class="card-title font-weight-bold text-primary">振込申請金額情報</h4>
             <h5 class="card-title mt-4">商品名：{{payoutAudio.title}}</h5>
-            <p class="card-text font-weight-bold text-danger h3">
+            <p class="card-text font-weight-bold text-danger h3" v-if="payoutAudio.price">
               合計：<i class="fas fa-yen-sign"></i>{{ payoutAudio.price | comma }}
             </p>
 
@@ -73,7 +73,7 @@
 
     </div>
 
-    <div class="p-2 text-center">
+    <div class="p-2 text-center" v-if="transferAccount.id">
         <button 
             type="submit" 
             class="btn btn-primary my-4 store mr-5"
@@ -95,12 +95,35 @@ export default {
       loading: false,
       payoutProcessing: false,
       transferAccount: {},
-      payoutAudio: {}
+      payoutAudio: {},
+      options: {
+          duration: 1500,
+          type: 'info'
+      }
     }
   },
   methods: {
     async processPayout() {
-      console.log('申請');
+      let res = confirm("振込申請してもよろしいですか？");
+
+      if( res == true ) {
+          try{
+            this.loading = true
+            await this.$store.dispatch('purchase/payout', this.$route.params.id)
+          }
+          catch(e){
+            this.loading = false
+          }
+          finally{
+            this.loading = false
+            this.toasted()
+            this.$router.push({ name: 'sales'})
+          }
+      }
+      else {
+         return
+      }
+
     },
     async getTransferAccountData() {
 
@@ -133,6 +156,9 @@ export default {
         this.loading = false
       }
     },
+    toasted() {
+      this.$toasted.show('振込申請完了しました。', this.options);
+    }
   },
   created() {
     Promise.all([
