@@ -1,8 +1,10 @@
+import router from '../router/index';
 
 const state = {
   isPurchase: false,
   purchases: [], //ログインユーザーの購入オーディオ一覧
-  sales: []
+  sales: [],
+  payoutAudio: {}
 }
 
 const getters = {}
@@ -19,6 +21,10 @@ const mutations = {
   // セット購入オーディオ一覧
   setSales(state, data) {
     state.sales = data.sales_records
+  },
+  // セット購入オーディオ一覧
+  setPayoutAudio(state, data) {
+    state.payoutAudio = data.audio
   },
 }
 
@@ -53,6 +59,18 @@ const actions = {
     })
     .catch(e => {
       console.log(e);
+    })
+  },
+  // 振込申請ページ用で使うオーディオデータ取得
+  async getPayoutAudio({ commit }, id) {
+    await axios.get(`/api/audio/${id}/payout`)
+    .then(res => {
+      console.log(res.data);
+      commit('setPayoutAudio', res.data);
+    })
+    .catch(e => {
+      console.log(e);
+      router.push({ name: 'sales'})
     })
   },
 }

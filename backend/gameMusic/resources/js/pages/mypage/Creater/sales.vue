@@ -35,9 +35,9 @@
           <h6 class="card-subtitle mb-2 price font-weight-bold text-danger"><i class="fas fa-yen-sign"></i>{{sale.price | comma}}</h6>
           <div class="application_button">
             <button type="button" class="btn btn-danger text-white" @click="$router.push({ name: 'payout', params: { id: `${sale.audio_id}` }})" v-if="sale.status == 0">
-              出勤申請をする
+              振込申請をする
             </button>
-            <button type="button" class="btn btn-secondary text-white withdrawn" v-if="sale.status == 1">
+            <button type="button" class="btn btn-secondary text-white withdrawn" v-if="sale.status == 1 || sale.status == 2">
               出金済み
             </button>
           </div>

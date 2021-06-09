@@ -98,4 +98,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // ログインユーザーが出品した商品のうち、購入されたデータ一覧を取得
     Route::get('sales', 'PurchaseRecordController@sales')->name('sales');
 
+
+    // 振込申請ページ用で使うオーディオデータ取得
+    Route::get('audio/{id}/payout', 'PurchaseRecordController@payoutAudio')->name('audio_payout');
+
+
+
 });

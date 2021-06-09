@@ -62,9 +62,9 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title font-weight-bold text-primary">振込申請金額情報</h4>
-            <h5 class="card-title mt-4">商品名：タイトル</h5>
+            <h5 class="card-title mt-4">商品名：{{payoutAudio.title}}</h5>
             <p class="card-text font-weight-bold text-danger h3">
-              合計：<i class="fas fa-yen-sign"></i>{{ '70000' | comma }}
+              合計：<i class="fas fa-yen-sign"></i>{{ payoutAudio.price | comma }}
             </p>
 
           </div>
@@ -94,7 +94,8 @@ export default {
     return {
       loading: false,
       payoutProcessing: false,
-      transferAccount: {}
+      transferAccount: {},
+      payoutAudio: {}
     }
   },
   methods: {
@@ -115,11 +116,28 @@ export default {
       finally{
         this.loading = false
       }
-    }
+    },
+    async getPayoutAudioData() {
+
+      try{
+        this.loading = true
+        await this.$store.dispatch('purchase/getPayoutAudio', this.$route.params.id)
+        this.payoutAudio = this.$store.state.purchase.payoutAudio
+      }
+      catch(e){
+        // console.log(e);
+        console.log(1111);
+        this.loading = false
+      }
+      finally{
+        this.loading = false
+      }
+    },
   },
   created() {
     Promise.all([
       this.getTransferAccountData(),
+      this.getPayoutAudioData(),
     ])
   },
 

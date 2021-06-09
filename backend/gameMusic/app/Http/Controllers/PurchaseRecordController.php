@@ -153,4 +153,36 @@ class PurchaseRecordController extends Controller
             ],500);
         }
     }
+
+    // 振込申請ページ用で使うオーディオデータ取得
+    public function payoutAudio($id) {
+
+        try{
+            $audio = Audio::find($id);
+
+            // ログインユーザー自身のオーディオじゃなければ、振込申請が行われては困る(url直打ち対策)⇨これに引っ掛かればリダイレクトreplace
+            if(Auth::id() !== $audio->user_id){
+                return response()->json([
+                    'message' => '不正なアクセスです。',
+                ],500);
+            }
+
+            return response()->json([
+                'message' => '成功',
+                'audio' => $audio,
+            ],200);
+
+        }catch(\Exception $e){
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+    
+    // 振込申請
+    public function payout() {
+
+    }
+
 }
