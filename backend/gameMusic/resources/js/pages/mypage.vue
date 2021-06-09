@@ -6,7 +6,7 @@
       <button type="button" class="btn btn-secondary btn-lg mr-3 text-white" :class="classColorSetUser" @click="userClassActive()"><i class="fas fa-shopping-cart mr-2"></i>購入者メニュー</button>
       <button type="button" class="btn btn-secondary btn-lg text-white" :class="classColorSetArtist" @click="artistClassActive()"><i class="fas fa-music mr-2"></i>出品者メニュー</button>
     </div>
-    
+
 
     <router-view></router-view>
 
