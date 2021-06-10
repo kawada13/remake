@@ -21,7 +21,7 @@
           <tbody>
             <tr v-for="(user, i) in users" :key="i">
               <th scope="row">{{i + 1}}</th>
-              <td><a href>{{ user.name }}</a></td>
+              <td><a href @click="$router.push({ name: 'usershow', params: { id: `${user.id}` }})">{{ user.name }}</a></td>
               <td>{{user.created_at | fromiso}}</td>
             </tr>
           </tbody>

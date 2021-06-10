@@ -59,6 +59,7 @@ import BuyerSetteing from '../pages/mypage/User/BuyerSetteing.vue'
 import Admin from '../pages/admin.vue'
 import Withdrawal from '../pages/admin/withdrawal.vue'
 import Users from '../pages/admin/users.vue'
+import Usershow from '../pages/admin/user/show.vue'
 import Audios from '../pages/admin/audios.vue'
 
 
@@ -225,6 +226,11 @@ const routes = new VueRouter({
           path: 'users',
           component: Users,
           name:'users'
+        },
+        {
+          path: 'users/:id/show',
+          component: Usershow,
+          name:'usershow'
         },
         {
           path: 'audios',
