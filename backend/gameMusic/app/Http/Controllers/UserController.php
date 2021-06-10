@@ -109,7 +109,7 @@ class UserController extends Controller
     public function show($id) {
 
         try{
-            $user = User::with('userInformation')
+            $user = User::with(['userInformation', 'transfer_account'])
                             ->where('id', $id)
                             ->first();
             $userAudios = Audio::where('user_id', $user->id)
@@ -152,6 +152,5 @@ class UserController extends Controller
                 'errorInfo' => $e
             ],500);
         }
-
     }
 }

@@ -78,7 +78,7 @@
             <div class="card">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item price py-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</li>
-                <li class="list-group-item purchase_btn" v-if="!isMine && !isPurchase"><button type="button" class="btn btn-warning py-3 px-5" data-toggle="modal" data-target="#exampleModal">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
+                <li class="list-group-item purchase_btn" v-if="!isMine && !isPurchase && isLogined"><button type="button" class="btn btn-warning py-3 px-5" data-toggle="modal" data-target="#exampleModal">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
                 <li class="list-group-item purchase_btn purchased" v-if="!isMine && isPurchase"><button class="btn btn-warning py-3 px-5">購入済</button></li>
               </ul>
             </div>
