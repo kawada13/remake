@@ -30,7 +30,7 @@
             <tbody>
               <tr v-for="(purchasing, i) in purchasings" :key="i">
                 <th scope="row">{{i + 1}}</th>
-                <td><a href="">{{purchasing.audio.user.name}}</a></td>
+                <td><a href @click="$router.push({ name: 'usershow', params: { id: `${purchasing.audio.user_id}` }})">{{purchasing.audio.user.name}}</a></td>
                 <td>{{purchasing.withdraw_at | fromiso}}</td>
                 <td><i class="fas fa-yen-sign"></i>{{purchasing.price | comma}}</td>
                 <td><button type="button" class="btn btn-danger text-white font-weight-bold" @click="payment(purchasing.id)">入金する</button></td>
@@ -53,7 +53,7 @@
             <tbody>
               <tr v-for="(purchased, i) in purchaseds" :key="i">
                 <th scope="row">{{i + 1}}</th>
-                <td><a href="">{{purchased.audio.user.name}}</a></td>
+                <td><a href @click="$router.push({ name: 'usershow', params: { id: `${purchased.audio.user_id}` }})">{{purchased.audio.user.name}}</a></td>
                 <td>{{purchased.withdraw_at | fromiso}}</td>
                 <td><i class="fas fa-yen-sign"></i>{{purchased.price | comma}}</td>
                 <td>{{purchased.updated_at | fromiso}}</td>

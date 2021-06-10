@@ -15,6 +15,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">ユーザー名</th>
+              <th scope="col">メール</th>
               <th scope="col">登録日時</th>
             </tr>
           </thead>
@@ -22,6 +23,7 @@
             <tr v-for="(user, i) in users" :key="i">
               <th scope="row">{{i + 1}}</th>
               <td><a href @click="$router.push({ name: 'usershow', params: { id: `${user.id}` }})">{{ user.name }}</a></td>
+              <td>{{user.email}}</td>
               <td>{{user.created_at | fromiso}}</td>
             </tr>
           </tbody>
