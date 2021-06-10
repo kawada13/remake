@@ -17,6 +17,8 @@
             <div class="card my-3">
               <ul class="list-group list-group-flush admin_management">
                 <li class="list-group-item" @click="$router.push({ name: 'withdrawal' })">出金管理</li>
+                <li class="list-group-item" @click="$router.push({ name: 'users' })">登録ユーザー</li>
+                <li class="list-group-item" @click="$router.push({ name: 'audios' })">登録オーディオ</li>
               </ul>
             </div>
           </div>

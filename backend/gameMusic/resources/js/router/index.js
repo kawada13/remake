@@ -58,6 +58,8 @@ import BuyerSetteing from '../pages/mypage/User/BuyerSetteing.vue'
 // 管理者ページ関連
 import Admin from '../pages/admin.vue'
 import Withdrawal from '../pages/admin/withdrawal.vue'
+import Users from '../pages/admin/users.vue'
+import Audios from '../pages/admin/audios.vue'
 
 
 
@@ -218,6 +220,16 @@ const routes = new VueRouter({
           path: 'withdrawal',
           component: Withdrawal,
           name:'withdrawal'
+        },
+        {
+          path: 'users',
+          component: Users,
+          name:'users'
+        },
+        {
+          path: 'audios',
+          component: Audios,
+          name:'audios'
         },
       ]
     },
