@@ -19,20 +19,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
+            <tr v-for="(user, i) in users" :key="i">
+              <th scope="row">{{i + 1}}</th>
+              <td><a href>{{ user.name }}</a></td>
+              <td>{{user.created_at | fromiso}}</td>
             </tr>
           </tbody>
         </table>
