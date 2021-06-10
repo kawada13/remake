@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user_information', 'UserController@loginUserInformation')->name('loginUserInformation');
     // ユーザープロフィール編集
     Route::post('/user_information', 'UserController@profileEdit')->name('profileEdit');
+    // ユーザープロフィール編集
+    Route::get('/users', 'UserController@index')->name('users.index');
 
     // オーディオ作成
     Route::post('/audio/create', 'AudioController@store')->name('audio.store');

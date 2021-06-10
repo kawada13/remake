@@ -132,4 +132,26 @@ class UserController extends Controller
         }
 
     }
+
+    // 全ユーザー情報取得(管理者ユーザーを除く)
+    public function index() {
+
+        try{
+            $users = User::with('userInformation')
+                            ->where('scope', 0)
+                            ->get();
+
+            return response()->json([
+                'users' => $users,
+                'message' => '成功'
+            ],200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
+    }
 }
