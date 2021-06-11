@@ -5,8 +5,8 @@
       <source :src="sampleAudioFile">
     </audio>
       <p>
-        <a class="btn btn-outline-primary" v-if="isLogined && !isFavoriteData" @click="favorite(audioId)">この曲をお気に入りに登録</a>
-        <a class="btn btn-outline-danger  unfavorite" v-if="isLogined && isFavoriteData" @click="unfavorite(audioId)">お気に入り解除</a>
+        <a class="btn btn-outline-primary" v-if="isLogined && !isFavoriteData && !isAdmin" @click="favorite(audioId)">この曲をお気に入りに登録</a>
+        <a class="btn btn-outline-danger  unfavorite" v-if="isLogined && isFavoriteData && !isAdmin" @click="unfavorite(audioId)">お気に入り解除</a>
       </p>
   </div>
 </template>
@@ -23,6 +23,15 @@ export default {
     return {
       isFavoriteData: false
     }
+  },
+  computed: {
+    isAdmin() {
+      if(localStorage.getItem("admin")) {
+        return true
+      } else {
+        return false
+      }
+    },
   },
   methods: {
     async favorite(id) {

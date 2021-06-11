@@ -263,12 +263,16 @@ routes.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authOnly)) {
       if (!isLoggedIn()) {
           next("/login");
+      } else if  (isAdmin()){
+          next("/admin/withdrawal");
       } else {
           next();
       }
   } else if (to.matched.some(record => record.meta.guestOnly)) {
       if (isLoggedIn()) {
           next("/");
+      } else if(isAdmin()) {
+          next("/admin/withdrawal");
       } else {
           next();
       }

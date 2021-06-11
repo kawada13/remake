@@ -30,8 +30,8 @@
             <source :src="audio.sample_audio_file">
            </audio>
             <p>
-              <button type="button" class="btn btn-outline-primary" v-if="isLogined && !isFavoriteData" @click="favorite">この曲をお気に入りに登録</button>
-              <button type="button" class="btn btn-outline-danger  unfavorite" v-if="isLogined && isFavoriteData" @click="unfavorite">お気に入り解除</button>
+              <button type="button" class="btn btn-outline-primary" v-if="isLogined && !isFavoriteData && !isAdmin" @click="favorite">この曲をお気に入りに登録</button>
+              <button type="button" class="btn btn-outline-danger  unfavorite" v-if="isLogined && isFavoriteData && !isAdmin" @click="unfavorite">お気に入り解除</button>
             </p>
         </div>
 
@@ -78,8 +78,8 @@
             <div class="card">
               <ul class="list-group list-group-flush">
                 <li class="list-group-item price py-4"><i class="fas fa-yen-sign"></i>{{ audio.price | comma }}</li>
-                <li class="list-group-item purchase_btn" v-if="!isMine && !isPurchase && isLogined"><button type="button" class="btn btn-warning py-3 px-5" data-toggle="modal" data-target="#exampleModal">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
-                <li class="list-group-item purchase_btn purchased" v-if="!isMine && isPurchase"><button class="btn btn-warning py-3 px-5">購入済</button></li>
+                <li class="list-group-item purchase_btn" v-if="!isMine && !isPurchase && isLogined && !isAdmin"><button type="button" class="btn btn-warning py-3 px-5" data-toggle="modal" data-target="#exampleModal">購入する<i class="fas fa-chevron-right pl-2"></i></button></li>
+                <li class="list-group-item purchase_btn purchased" v-if="!isMine && isPurchase && !isAdmin"><button class="btn btn-warning py-3 px-5">購入済</button></li>
               </ul>
             </div>
           </div>
@@ -107,8 +107,8 @@
               <div class="card-body pt-5">
                 <h5 class="card-title">紹介文</h5>
                 <p class="card-text">{{audio.userInformation.introduce}}</p>
-                <a class="btn btn-outline-primary" @click="follow(audio.user_id)" v-if="isLogined && !isFollowed && !isMine">このクリエイターをフォロー</a>
-                <a class="btn btn-outline-danger" @click="unfollow(audio.user_id)" v-if="isLogined && isFollowed && !isMine">フォロー解除</a>
+                <a class="btn btn-outline-primary" @click="follow(audio.user_id)" v-if="isLogined && !isFollowed && !isMine && !isAdmin">このクリエイターをフォロー</a>
+                <a class="btn btn-outline-danger" @click="unfollow(audio.user_id)" v-if="isLogined && isFollowed && !isMine && !isAdmin">フォロー解除</a>
               </div>
             </div>
           </div>
@@ -155,6 +155,15 @@ export default {
       isMine: false, //このページがログインユーザー自身のページかどうか
       isPurchase: false //この商品をログインユーザーが購入済かどうか
     }
+  },
+  computed: {
+    isAdmin() {
+      if(localStorage.getItem("admin")) {
+        return true
+      } else {
+        return false
+      }
+    },
   },
   methods: {
     async follow(userId) {
