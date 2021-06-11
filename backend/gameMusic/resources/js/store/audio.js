@@ -168,7 +168,7 @@ const actions = {
   async getAllAudios({ commit }) {
     await axios.get(`/api/audios`)
     .then(res => {
-      console.log(res);
+      // console.log(res);
       commit('setAllaudios', res.data);
     })
     .catch(e => {

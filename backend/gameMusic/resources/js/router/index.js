@@ -61,7 +61,7 @@ import Withdrawal from '../pages/admin/withdrawal.vue'
 import Users from '../pages/admin/users.vue'
 import Usershow from '../pages/admin/user/show.vue'
 import Audios from '../pages/admin/audios.vue'
-
+import Audioshow from '../pages/admin/audio/show.vue'
 
 
 
@@ -236,6 +236,11 @@ const routes = new VueRouter({
           path: 'audios',
           component: Audios,
           name:'audios'
+        },
+        {
+          path: 'audios/:id/show',
+          component: Audioshow,
+          name:'audioshow'
         },
       ]
     },

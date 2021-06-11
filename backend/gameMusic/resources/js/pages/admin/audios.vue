@@ -23,7 +23,7 @@
           <tbody>
             <tr v-for="(audio, i) in audios" :key="i">
               <th scope="row">{{i + 1}}</th>
-              <td><a href @click="$router.push({ name: 'usershow', params: { id: `${audio.id}` }})">{{ audio.title }}</a></td>
+              <td><a href @click="$router.push({ name: 'audioshow', params: { id: `${audio.id}` }})">{{ audio.title }}</a></td>
               <td><a href @click="$router.push({ name: 'usershow', params: { id: `${audio.user_id}` }})">{{ audio.user.name }}</a></td>
               <td>{{audio.created_at | fromiso}}</td>
             </tr>
