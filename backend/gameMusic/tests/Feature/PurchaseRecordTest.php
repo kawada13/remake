@@ -233,5 +233,68 @@ class PurchaseRecordTest extends TestCase
         $this->assertDatabaseHas('purchase_records', ['status' => 1]);
 
     }
+    public function testallDatas()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        // サウンドマスターを作成
+        $sound = factory(SoundMaster::class)->create();
+
+        // ユーザーに紐づくオーディオを作成
+        $audio = factory(Audio::class)->create([
+            'user_id' => $user->id,
+            'sound_id' => $sound->id,
+        ]);
+        // 購入履歴作成
+        $purchase_record = factory(PurchaseRecord::class)->create([
+            'user_id' => $user->id,
+            'audio_id' => $audio->id,
+        ]);
+
+        // actingAsでログイン認証したのちAPI通信
+        $response = $this->actingAs($user)
+                         ->json('GET', route('allDatas'));
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功',]);
+
+    }
+    public function testadminPayment()
+    {
+        // 管理者ユーザー作成
+
+        $user = factory(User::class)->create([
+            'scope' => 1,
+        ]);
+
+        // サウンドマスターを作成
+        $sound = factory(SoundMaster::class)->create();
+
+        // ユーザーに紐づくオーディオを作成
+        $audio = factory(Audio::class)->create([
+            'user_id' => $user->id,
+            'sound_id' => $sound->id,
+        ]);
+        // 購入履歴作成
+        $purchase_record = factory(PurchaseRecord::class)->create([
+            'user_id' => $user->id,
+            'audio_id' => $audio->id,
+        ]);
+
+        // actingAsでログイン認証したのちAPI通信
+        $response = $this->actingAs($user)
+                         ->json('POST', route('adminPayment', [
+                            'id' => $purchase_record->id
+                         ]));
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功',]);
+
+
+        // しっかりDBにデータが保存されているのかチェック
+        $this->assertDatabaseHas('purchase_records', ['status' => 2]);
+
+    }
 
 }

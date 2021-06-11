@@ -63,6 +63,8 @@ class UserTest extends TestCase
         ]); // ユーザーに紐づくオーディオを作成
         $this->assertEquals($count, count($user->refresh()->audios));
     }
+
+    // データベーステスト
     public function test_show()
     {
         // ユーザー作成
@@ -71,6 +73,18 @@ class UserTest extends TestCase
         $response = $this->json('GET', route('user.show', [
                             'id' => $user->id
                          ]));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功',]);
+    }
+    public function test_index()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)
+                            ->json('GET', route('users.index'));
 
         $response
             ->assertStatus(200)

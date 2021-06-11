@@ -100,4 +100,28 @@ class AudioTest extends TestCase
 
     }
 
+    public function test_audios()
+    {
+        // ユーザー作成
+        $user = factory(User::class)->create();
+
+        // サウンドマスターを作成
+        $sound = factory(SoundMaster::class)->create();
+
+        // ユーザーに紐づくオーディオを作成
+        $audio = factory(Audio::class)->create([
+            'user_id' => $user->id,
+            'sound_id' => $sound->id,
+        ]);
+
+        // actingAsでログイン認証したのちAPI通信
+        $response = $this->actingAs($user)
+                         ->json('GET', route('audios'));
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功',]);
+
+    }
+
 }
