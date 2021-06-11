@@ -35,7 +35,10 @@
       <!-- 口座情報 -->
       <div class="mt-4">
         <h3>口座情報</h3>
-        <table class="table">
+        <div class="text-center"  v-if="!user.user.transfer_account">
+          <p>このユーザーは口座登録していません。</p>
+        </div>
+        <table class="table" v-if="user.user.transfer_account">
           <tbody>
             <tr>
               <th scope="row">銀行名</th>
