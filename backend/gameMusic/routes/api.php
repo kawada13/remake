@@ -65,6 +65,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/exhibited_audio/{id}/update', 'AudioController@exhibitedAudioUpdate')->name('exhibited_update');
     // ログインユーザーの特定のオーディオ削除
     Route::post('/exhibited_audio/{id}/delete', 'AudioController@exhibitedAudioDelete')->name('exhibited_delete');
+    // オーディオ全件取得
+    Route::get('/audios', 'AudioController@audios')->name('audios');
 
     // 振り込み口座情報作成
     Route::post('/transferAccount/store', 'TransferAccountController@store')->name('transferAccount.store');

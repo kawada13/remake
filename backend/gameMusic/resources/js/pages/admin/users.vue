@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     async getUsersData() {
-       this.isLogined = false
       try{
         this.loading = true
         await this.$store.dispatch('user/getUsers')

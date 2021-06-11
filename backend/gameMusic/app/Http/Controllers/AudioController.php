@@ -522,4 +522,24 @@ class AudioController extends Controller
         }
     }
 
+    // オーディオ全件取得
+    public function audios() {
+
+        try {
+            $audios = Audio::with('user')
+                            ->get();
+
+            return response()->json([
+                'message' => '成功',
+                'audios' => $audios,
+            ], 200);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+
 }

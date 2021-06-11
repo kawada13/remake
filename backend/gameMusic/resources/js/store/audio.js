@@ -8,6 +8,7 @@ const state = {
   oldAudios: [],
   newAudios: [],
   user_audios: [], //ある特定ユーザーのオーディオ一覧
+  allAudios: [], //全件オーディオ
 }
 
 const getters = {}
@@ -35,6 +36,9 @@ const mutations = {
   },
   setUser_audios(state, audios) {
     state.user_audios = audios
+  },
+  setAllaudios(state, data) {
+    state.allAudios = data.audios
   },
 }
 
@@ -155,6 +159,17 @@ const actions = {
     await axios.get(`/api/user/${id}/audios`)
     .then(res => {
       commit('setUser_audios', res.data.audios);
+    })
+    .catch(e => {
+      console.log(e);
+    })
+  },
+  // オーディオ全件取得
+  async getAllAudios({ commit }) {
+    await axios.get(`/api/audios`)
+    .then(res => {
+      console.log(res);
+      commit('setAllaudios', res.data);
     })
     .catch(e => {
       console.log(e);
