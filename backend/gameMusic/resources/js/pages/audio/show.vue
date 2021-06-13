@@ -91,7 +91,7 @@
             <div class="card">
               <div class="card-header">
 
-                <p @click="$router.push({ name: 'user-show' })">{{audio.user.name}}</p>
+                <p @click="$router.push({ name: 'user-show', params: { id: `${audio.user_id}` }  })">{{audio.user.name}}</p>
 
 
                 <!-- アイコン(登録されてなければデフォルト画像) -->

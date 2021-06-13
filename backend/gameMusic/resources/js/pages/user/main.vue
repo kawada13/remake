@@ -6,12 +6,12 @@
         <div class="col-sm-3 col-xs-12 left_side_bar mb-5" v-if="!loading">
 
           <!-- アイコン(登録されてなければデフォルト画像) -->
-          <div class="creater_image mb-3" v-if="user.user.user_information.profile_image">
-            <img :src="user.user.user_information.profile_image" class="rounded-circle">
-          </div>
-          <div class="creater_image mb-3" v-else>
-            <img src="/images/default_img.png" class="rounded-circle">
-          </div>
+            <div class="creater_image mb-3" v-if="user.user.user_information.profile_image">
+              <img :src="user.user.user_information.profile_image" class="rounded-circle">
+            </div>
+            <div class="creater_image mb-3" >
+              <img src="/images/default_img.png" class="rounded-circle">
+            </div>
 
           <h3>{{user.user.name}}</h3>
           <a class="btn btn-outline-primary mt-2" v-if="isLogined && !isFollowed && !isMine && !isAdmin" @click="follow()">このクリエイターをフォロー</a>

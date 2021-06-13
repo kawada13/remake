@@ -34,12 +34,12 @@ class TestAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['my-channel'];
-        // return new Channel('test-added-name',$this->task);
+        // return ['my-channel'];
+        return new Channel('test-added-name',$this->task);
     }
 
-    public function broadcastAs()
-  {
-      return 'my-event';
-  }
-}
+//     public function broadcastAs()
+//   {
+//       return 'my-event';
+//   }
+// }
