@@ -9,62 +9,67 @@
       <div class="title">
         <h4>プロフィール編集</h4>
       </div>
+      <div class="alert alert-danger" role="alert" v-if="isGuest">
+        ゲストユーザーではプロフィールを編集できません!
+      </div>
 
       <div class="form_creater_edit my-5">
         <div class="card">
           <div class="card-body">
             <form @submit.prevent="upload">
-              <div class="form-group">
-                <div><label for="creater_name">ユーザー名</label></div>
-                <input type="text" class="form-control form-control-lg" id="creater_name" v-model="userInformation.user.name">
-                <div class="alert alert-danger" role="alert" v-if="errors.user.required">
-                  ユーザー名は必須です!
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="introduce">自己紹介</label>
-                <textarea class="form-control" id="introduce" placeholder="よろしくお願いします。" v-model="userInformation.user_information.introduce"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="instruments">使用機材</label>
-                <textarea class="form-control" id="instruments" placeholder="ギター、ベース" v-model="userInformation.user_information.instrument"></textarea>
-              </div>
-              <div class="form-group">
-
-                <div><label>プロフィール画像</label></div>
-
-                <!-- アイコン(登録されてなければデフォルト画像) -->
-                <div class="creater_image mt-5 mb-3" v-if="userInformation.user_information.profile_image">
-                  <img :src="userInformation.user_information.profile_image" class="rounded-circle">
-                </div>
-                <div class="creater_image mt-5 mb-3" v-else>
-                  <img src="/images/default_img.png" class="rounded-circle">
-                </div>
-
-                <label class="input-group-btn">
-                  <span class="btn btn-secondary">
-                      ファイルを選択<input type="file" style="display:none" @change="fileSelected" accept="image/*">
-                  </span>
-                  <span></span>
-                </label>
-
-                <div class="d-flex justify-content-start"><small class="form-text text-muted">画像は jpg, png 画像のみアップロードできます。</small></div>
-                <div class="alert alert-danger" role="alert" v-if="errors.image.isFile">
-                  画像は jpg, pngファイルのみです!
-                </div>
-
-                <div class="creater_image mt-5 mb-3" v-if="confirmedImage">
-                  <hr>
-                  <p>アップロード画像確認</p>
-                  <img :src="confirmedImage" />
-                  <div class="alert alert-danger mt-3" role="alert" v-if="errors.image.size">
-                    画像ファイルの縦横幅それぞれは、700 px を超えることはできません!
+              <fieldset :disabled="isGuest">
+                <div class="form-group">
+                  <div><label for="creater_name">ユーザー名</label></div>
+                  <input type="text" class="form-control form-control-lg" id="creater_name" v-model="userInformation.user.name">
+                  <div class="alert alert-danger" role="alert" v-if="errors.user.required">
+                    ユーザー名は必須です!
                   </div>
                 </div>
+                <div class="form-group">
+                  <label for="introduce">自己紹介</label>
+                  <textarea class="form-control" id="introduce" placeholder="よろしくお願いします。" v-model="userInformation.user_information.introduce"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="instruments">使用機材</label>
+                  <textarea class="form-control" id="instruments" placeholder="ギター、ベース" v-model="userInformation.user_information.instrument"></textarea>
+                </div>
+                <div class="form-group">
 
-              </div>
-              <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
-              <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">戻る</button>
+                  <div><label>プロフィール画像</label></div>
+
+                  <!-- アイコン(登録されてなければデフォルト画像) -->
+                  <div class="creater_image mt-5 mb-3" v-if="userInformation.user_information.profile_image">
+                    <img :src="userInformation.user_information.profile_image" class="rounded-circle">
+                  </div>
+                  <div class="creater_image mt-5 mb-3" v-else>
+                    <img src="/images/default_img.png" class="rounded-circle">
+                  </div>
+
+                  <label class="input-group-btn">
+                    <span class="btn btn-secondary">
+                        ファイルを選択<input type="file" style="display:none" @change="fileSelected" accept="image/*">
+                    </span>
+                    <span></span>
+                  </label>
+
+                  <div class="d-flex justify-content-start"><small class="form-text text-muted">画像は jpg, png 画像のみアップロードできます。</small></div>
+                  <div class="alert alert-danger" role="alert" v-if="errors.image.isFile">
+                    画像は jpg, pngファイルのみです!
+                  </div>
+
+                  <div class="creater_image mt-5 mb-3" v-if="confirmedImage">
+                    <hr>
+                    <p>アップロード画像確認</p>
+                    <img :src="confirmedImage" />
+                    <div class="alert alert-danger mt-3" role="alert" v-if="errors.image.size">
+                      画像ファイルの縦横幅それぞれは、700 px を超えることはできません!
+                    </div>
+                  </div>
+
+                </div>
+                <button type="submit" class="btn btn-primary my-4 store mr-5">保存<i class="fas fa-chevron-right pl-2"></i></button>
+                <button type="button" class="btn btn-primary my-4 cancel" @click="cancel">戻る</button>
+              </fieldset>
             </form>
           </div>
         </div>
@@ -98,6 +103,15 @@ export default {
         width: '',
         height: ''
       },
+    }
+  },
+  computed: {
+    isGuest() {
+      if(this.userInformation.user.scope == 2) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {

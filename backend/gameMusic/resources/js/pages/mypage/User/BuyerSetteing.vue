@@ -64,7 +64,7 @@ export default {
               });
 
         }
-    }
+    },
   },
   async mounted() {
       this.stripe = await loadStripe('pk_test_51IrZ1FAccOz42G5p5HiPoJZbZ6zVGiiR44z7u6ZKGQwRBzCbMIVqrzgwRd9W9lijHvmR4RpttiGCKyOSfOYL7uIB00p2qLe7wu');

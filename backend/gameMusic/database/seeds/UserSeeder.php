@@ -18,5 +18,16 @@ class UserSeeder extends Seeder
             'password' => bcrypt('adminuser'),
             'scope' => 1,
         ]);
+        DB::table('users')->insert([
+            'name' => 'ゲストユーザー',
+            'email' => 'guest@gmail.com',
+            'password' => bcrypt('guestuser'),
+            'scope' => 2,
+        ]);
+        DB::table('user_informations')->insert([
+            'user_id' => 2,
+            'introduce' => 'ゲストユーザーです',
+            'instrument' => 'エレキギター、ドラム',
+        ]);
     }
 }

@@ -21,6 +21,7 @@
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'audio-create' })" v-if="isAuth"><i class="fas fa-music mr-2 text-white"></i>出品する</a>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'register' })" v-if="isGuest">会員登録</a>
           <a class="nav-item nav-link text-white" @click="$router.push({ name: 'login' })" v-if="isGuest">ログイン</a>
+          <a class="nav-item nav-link text-white" @click="guestLogin()" v-if="isGuest">ゲストユーザーログイン</a>
           <a class="nav-item nav-link text-white admin" v-if="isAdmin" @click="$router.push({ name: 'withdrawal' })">管理者ページ</a>
           <a class="nav-item nav-link text-white" @click="logout()" v-if="isAdmin">ログアウト</a>
         </div>
@@ -54,9 +55,56 @@ export default {
         this.toasted()
       }
     },
+    async guestLogin() {
+     // サンクタム処理
+       await axios.get('/sanctum/csrf-cookie')
+
+      //  ログイン処理
+       axios.post('/api/login', {
+          email: 'guest@gmail.com',
+          password: 'guestuser',
+        })
+        .then(response => {
+
+            // ローカルストレージにログイン状態かどうかを保存
+            localStorage.setItem("auth", "true");
+
+            // storeにもログイン状態を保存
+            this.$store.dispatch('auth/SET_IS_AUTH', true)
+
+            // storeにユーザーデータを保存
+            this.$store.dispatch('auth/setUser', response.data.user)
+
+
+            // 最後にリダイレクト
+            this.$router.push("/");
+
+            // トースト表示
+            this.guesttoasted();
+
+            this.$router.go({path: this.$router.currentRoute.path, force: true})
+
+          }
+        )
+        .catch(error => {
+          // storeにもログイン状態を保存
+          this.$store.dispatch('auth/SET_IS_AUTH', false)
+
+          // storeにユーザーデータを保存
+          this.$store.dispatch('auth/setUser', null)
+
+
+          // アラート
+          alert('ログインに失敗しました。');
+        })
+
+    },
     toasted() {
       this.$toasted.show('ログアウトしました', this.options);
-    }
+    },
+    guesttoasted() {
+      this.$toasted.show('ゲストユーザーとしてログインしました。', this.options);
+    },
   },
   computed: {
     isAuth() {

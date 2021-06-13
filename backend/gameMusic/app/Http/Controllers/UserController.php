@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+// イベント
+use App\Events\TestAdded;
+
+
 // リクエスト
 use App\Http\Requests\UserInformationRequest;
 
@@ -50,8 +54,14 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            // インスタンスか
+            // ゲストユーザーだったら編集できない
             $user = User::find($request->user_id);
+
+            if($user->scope == 2) {
+                return response()->json([
+                    'message' => 'ゲストユーザーのため編集できません。'
+                ], 500);
+            }
             $userInformation = UserInformation::select('*')
                             ->where('user_id', $request->user_id)
                             ->first();
@@ -152,5 +162,16 @@ class UserController extends Controller
                 'errorInfo' => $e
             ],500);
         }
+    }
+    // test)
+    public function test() {
+
+        $task = ['id' => 1, 'name' => 'こんちは！']; 
+
+        event(new TestAdded($task));
+
+            return response()->json([
+                'message' => '成功'
+            ],200);
     }
 }
