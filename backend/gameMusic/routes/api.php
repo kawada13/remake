@@ -40,7 +40,7 @@ Route::post('/audios', 'AudioController@audioSearchIndex')->name('audio.index');
 // 特定のユーザー情報取得
 Route::get('/user/{id}/show', 'UserController@show')->name('user.show');
 // test
-Route::get('/test', 'UserController@test')->name('test');
+Route::post('/test', 'UserController@test')->name('test');
 
 
 

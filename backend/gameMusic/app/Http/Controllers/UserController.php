@@ -166,9 +166,9 @@ class UserController extends Controller
     // test)
     public function test() {
 
-        $task = ['id' => 1, 'name' => 'こんちは！']; 
+        $task = ['id' => 1, 'name' => 'こんちは！'];
 
-        event(new TestAdded($task));
+        event(new TestAdded('hello world'));
 
             return response()->json([
                 'message' => '成功'

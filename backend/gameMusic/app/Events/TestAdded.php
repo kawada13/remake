@@ -14,6 +14,9 @@ class TestAdded implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+
+    public $task;
+
     /**
      * Create a new event instance.
      *
@@ -31,6 +34,12 @@ class TestAdded implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('test-name',$this->task);
+        return ['my-channel'];
+        // return new Channel('test-added-name',$this->task);
     }
+
+    public function broadcastAs()
+  {
+      return 'my-event';
+  }
 }
