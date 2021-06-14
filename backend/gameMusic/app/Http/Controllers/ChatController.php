@@ -126,6 +126,7 @@ class ChatController extends Controller
                                                 $query->with('userInformation');
                                             }])
                                             ->where('chat_room_id', $chat_room_id)
+                                            ->latest()
                                             ->get();
 
                 return response()->json([

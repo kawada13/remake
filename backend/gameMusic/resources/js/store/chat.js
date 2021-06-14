@@ -20,7 +20,7 @@ const actions = {
   async sendMessage({ commit }, {id, data}) {
     await axios.post(`/api/message/${id}`, data)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch(e => {
       console.log(e.response);
@@ -41,7 +41,7 @@ const actions = {
   async getChatMessages({ commit }, id) {
     await axios.get(`/api/message/${id}`)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       commit('setChatMessages', res.data)
     })
     .catch(e => {
