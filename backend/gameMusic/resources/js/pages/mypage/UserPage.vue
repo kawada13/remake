@@ -34,6 +34,7 @@
                 <li class="list-group-item" @click="$router.push({ name: 'purchase-history'})">購入履歴</li>
                 <li class="list-group-item" @click="$router.push({ name: 'favorite-audios'})">お気に入り作品一覧</li>
                 <li class="list-group-item" @click="$router.push({ name: 'follows'})">フォローしているクリエイター</li>
+                <li class="list-group-item" @click="$router.push({ name: 'messages'})">メッセージ</li>
                 <li class="list-group-item" @click="$router.push({ name: 'buyer_setteing'})">購入者情報設定</li>
               </ul>
             </div>
