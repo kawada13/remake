@@ -93,6 +93,7 @@ class ChatController extends Controller
                                     }])
                                     ->whereIn('chat_room_id', $chat_room_ids)
                                     ->where('user_id', '<>', Auth::id())
+                                    ->latest()
                                     ->get();
 
             return response()->json([
