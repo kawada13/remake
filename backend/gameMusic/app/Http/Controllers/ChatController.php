@@ -113,18 +113,19 @@ class ChatController extends Controller
                 ->where('user_id', $id)
                 ->pluck('chat_room_id');
 
-            $chat_messages = [];
-
-
             // なければからの配列を返す
             if ($chat_room_id->isEmpty()){
+                $chat_messages = [];
+
                 return response()->json([
                     'message' => '成功',
                     'chat_messages' => $chat_messages,
                 ], 200);
             } else {
-                $chat_messages = ChatMessage::with('user')
-                                            ->where('chat_room_id', $$chat_room_id)
+                $chat_messages = ChatMessage::with(['user' => function($query){
+                                                $query->with('userInformation');
+                                            }])
+                                            ->where('chat_room_id', $chat_room_id)
                                             ->get();
 
                 return response()->json([

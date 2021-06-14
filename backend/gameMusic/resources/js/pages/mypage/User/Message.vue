@@ -24,24 +24,24 @@
     <!-- チャット内容表示部分 -->
     <div class="card mt-5">
       <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <div class="d-flex justify-content-start">
+          <div class="profile_image">
+            <div class="creater_image">
+              <img src="/images/default_img.png" class="rounded-circle">
+            </div>
+          </div>
+          <div class="name_post">
+            <p>名前</p>
+            <p class="created">2020-08-08 20:31:05</p>
+          </div>
+        </div>
+        <p class="card-text mt-3">With supporting text below as a natural lead-in to additional content.</p>
       </div>
     </div>
-    <div class="card mt-5">
-      <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
-    <div class="card mt-5">
-      <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
-    <div class="card mt-5">
-      <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
+
+
+
+
   </div>
 </template>
 
@@ -57,7 +57,8 @@ export default {
         message: {
           required: false
         }
-      }
+      },
+      chatMessages:[]
     }
   },
   methods: {
@@ -67,9 +68,6 @@ export default {
       {
         return
       }
-
-      console.log(132);
-
       try{
         await this.$store.dispatch('chat/sendMessage', {id: this.$route.params.id, data: this.form})
       }
@@ -78,6 +76,17 @@ export default {
       }
       finally{
         this.form.message = ''
+      }
+    },
+    async getChatMessagesData() {
+      try{
+        await this.$store.dispatch('chat/getChatMessages', this.$route.params.id)
+        this.chatMessages = this.$store.state.chat.chatMessages
+      }
+      catch(e){
+        console.log(e);
+      }
+      finally{
       }
     },
     validate() {
@@ -92,10 +101,28 @@ export default {
         this.errors.message.required = true
       }
     },
-  }
+  },
+  created() {
+    Promise.all([
+      this.getChatMessagesData(),
+    ])
+  },
 }
 </script>
 
-<style>
+<style scoped>
+.profile_image {
+  margin-right: 10px;
+}
+.creater_image img {
+  height: 35px;
+}
+.name_post p {
+  margin: 0;
+}
+.created {
+  color: gray;
+  font-size: 10px;
+}
 
 </style>
