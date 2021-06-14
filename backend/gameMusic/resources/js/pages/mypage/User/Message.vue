@@ -101,6 +101,16 @@ export default {
         this.userloading = true
         await this.$store.dispatch('user/getUserShow', this.$route.params.id)
         this.user = this.$store.state.user.user
+
+        // url直打ち対策
+        if(this.user.authId == Number(this.$route.params.id)) {
+          this.$router.push('/')
+          return
+        }
+        if(!this.user.message) {
+          this.$router.push('/')
+          return
+        }
       }
       catch(e){
         this.userloading = false
