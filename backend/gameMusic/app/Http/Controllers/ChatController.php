@@ -98,4 +98,47 @@ class ChatController extends Controller
         }
 
     }
+
+     // ある相手とのチャット履歴取得
+    public function chatMessages($id){
+
+        try {
+
+            // 自分の持っているチャットルームを取得
+            $current_user_chat_rooms = ChatRoomUser::where('user_id', Auth::id())
+            ->pluck('chat_room_id');
+
+            // 自分の持っているチャットルームからチャット相手のいるルームを探す(るーむid)
+            $chat_room_id = ChatRoomUser::whereIn('chat_room_id', $current_user_chat_rooms)
+                ->where('user_id', $id)
+                ->pluck('chat_room_id');
+
+            $chat_messages = [];
+
+
+            // なければからの配列を返す
+            if ($chat_room_id->isEmpty()){
+                return response()->json([
+                    'message' => '成功',
+                    'chat_messages' => $chat_messages,
+                ], 200);
+            } else {
+                $chat_messages = ChatMessage::with('user')
+                                            ->where('chat_room_id', $$chat_room_id)
+                                            ->get();
+
+                return response()->json([
+                    'message' => '成功',
+                    'chat_messages' => $chat_messages,
+                ], 200);
+            }
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
+    }
 }

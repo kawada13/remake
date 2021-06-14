@@ -39,8 +39,6 @@ Route::post('/audios', 'AudioController@audioSearchIndex')->name('audio.index');
 
 // 特定のユーザー情報取得
 Route::get('/user/{id}/show', 'UserController@show')->name('user.show');
-// test
-Route::post('/test', 'UserController@test')->name('test');
 
 
 
@@ -119,6 +117,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('message/{id}', 'ChatController@createChat')->name('createChat');
     // ログインユーザーのチャットルーム一覧
     Route::get('chatRooms', 'ChatController@chatRooms')->name('chatRooms');
+    // ある相手とのチャット履歴取得
+    Route::get('message/{id}', 'ChatController@chatMessages')->name('chatMessages');
 
 
 

@@ -10,6 +10,7 @@ import transferAccount from './transferAccount'
 import favorite from './favorite'
 import follow from './follow'
 import purchase from './purchase'
+import chat from './chat'
 
 
 Vue.use(Vuex)
@@ -24,7 +25,8 @@ const store = new Vuex.Store({
     transferAccount,
     favorite,
     follow,
-    purchase
+    purchase,
+    chat
   }
 })
 

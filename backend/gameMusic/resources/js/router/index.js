@@ -51,7 +51,6 @@ import PurchaseHistory from '../pages/mypage/User/PurchaseHistory.vue'
 import FavoriteAudios from '../pages/mypage/User/FavoriteAudios.vue'
 import Follows from '../pages/mypage/User/Follows.vue'
 import ProfileSetting from '../pages/mypage/User/ProfileSetting.vue'
-import Messages from '../pages/mypage/User/Messages.vue'
 import BuyerSetteing from '../pages/mypage/User/BuyerSetteing.vue'
 
 
@@ -66,7 +65,8 @@ import Audioshow from '../pages/admin/audio/show.vue'
 
 
 // チャット関連
-import Message from '../pages/message.vue'
+import Message from '../pages/mypage/User/Message.vue'
+import Messages from '../pages/mypage/User/Messages.vue'
 
 
 
@@ -129,6 +129,11 @@ const routes = new VueRouter({
               path: 'messages',
               component: Messages,
               name:'messages'
+            },
+            {
+              path: '/messages/:id',
+              component: Message,
+              name:'message',
             },
             {
               path: 'buyer_setteing',
@@ -253,12 +258,6 @@ const routes = new VueRouter({
           name:'audioshow'
         },
       ]
-    },
-    {
-      path: '/messages/:id',
-      component: Message,
-      name:'message',
-      meta: { authOnly: true }
     },
     {
       path: '*',
