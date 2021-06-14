@@ -109,7 +109,7 @@
                 <p class="card-text">{{audio.userInformation.introduce}}</p>
                 <a class="btn btn-outline-primary" @click="follow(audio.user_id)" v-if="isLogined && !isFollowed && !isMine && !isAdmin">このクリエイターをフォロー</a>
                 <a class="btn btn-outline-danger" @click="unfollow(audio.user_id)" v-if="isLogined && isFollowed && !isMine && !isAdmin">フォロー解除</a>
-                <a class="btn btn-outline-primary mt-3" @click="send()" v-if="isLogined && !isMine && !isAdmin">メッセージを送る</a>
+                <a class="btn btn-outline-primary mt-3" @click="$router.push({ name: 'message', params: { id: `${audio.user_id}` }})" v-if="isLogined && !isMine && !isAdmin">メッセージを送る</a>
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@
           <h3>{{user.user.name}}</h3>
           <a class="btn btn-outline-primary mt-2" v-if="isLogined && !isFollowed && !isMine && !isAdmin" @click="follow()">このクリエイターをフォロー</a>
           <a class="btn btn-outline-danger mt-2" v-if="isLogined && isFollowed && !isMine && !isAdmin" @click="unfollow()">フォロー解除</a>
-          <a class="btn btn-outline-primary mt-2" v-if="isLogined && !isMine && !isAdmin" @click="send()">メッセージを送る</a>
+          <a class="btn btn-outline-primary mt-2" v-if="isLogined && !isMine && !isAdmin" @click="$router.push({ name: 'message', params: { id: `${$route.params.id}` }})">メッセージを送る</a>
         </div>
 
 

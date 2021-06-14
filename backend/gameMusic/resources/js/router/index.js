@@ -65,6 +65,10 @@ import Audios from '../pages/admin/audios.vue'
 import Audioshow from '../pages/admin/audio/show.vue'
 
 
+// チャット関連
+import Message from '../pages/message.vue'
+
+
 
 
 
@@ -249,6 +253,12 @@ const routes = new VueRouter({
           name:'audioshow'
         },
       ]
+    },
+    {
+      path: '/messages/:id',
+      component: Message,
+      name:'message',
+      meta: { authOnly: true }
     },
     {
       path: '*',
