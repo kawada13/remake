@@ -10,11 +10,13 @@
         <h3 class="card-header">
           メッセージ一覧
         </h3>
-        <div class="no_user my-4 text-center">
+
+        <div class="no_user my-4 text-center" v-if="chatRooms.length == 0">
           <p>現在メッセージのやりとりがありません。</p>
         </div>
-        <!-- <ul class="list-group list-group-flush follows">
-          <li class="list-group-item" v-for="(user, i) in users" :key="i">
+
+        <ul class="list-group list-group-flush follows">
+          <li class="list-group-item" v-for="(chatRoom, i) in chatRooms" :key="i">
 
             <div class="row">
 
@@ -22,25 +24,25 @@
                 <div class="d-flex justify-content-start">
 
 
-                  <div v-if="user.user_information.profile_image" class="profile_image">
-                    <img :src="user.user_information.profile_image" class="rounded-circle" @click="$router.push({ name: 'user-show', params: { id: `${user.id}` }})">
+                  <div v-if="chatRoom.user.user_information.profile_image" class="profile_image">
+                    <img :src="chatRoom.user.user_information.profile_image" class="rounded-circle">
                   </div>
                   <div v-else class="profile_image">
-                    <img src="/images/default_img.png" class="rounded-circle" @click="$router.push({ name: 'user-show', params: { id: `${user.id}` }})">
+                    <img src="/images/default_img.png" class="rounded-circle">
                   </div>
 
                   <div class="d-flex align-items-center ml-2">
-                    <span class="creater_name" @click="$router.push({ name: 'user-show', params: { id: `${user.id}` }})">{{ user.name }}</span>
+                    <span class="creater_name">{{ chatRoom.user.name }}</span>
                   </div>
                 </div>
               </div>
 
               <div class="col-sm-3 col-xs-12 d-flex align-items-center">
-                <a type="button" class="btn btn-danger text-light" @click="unfollow(user.id)">フォロー解除</a>
+                <a type="button" class="btn btn-primary text-light" @click="$router.push({ name: 'message', params: { id: `${chatRoom.user_id}` }})">メッセージ</a>
               </div>
             </div>
           </li>
-        </ul> -->
+        </ul>
     </div>
   </div>
 </template>
@@ -50,12 +52,45 @@ export default {
   data() {
     return {
       loading :false,
+      chatRooms: []
     }
+  },
+  methods: {
+    async getChatRoomsData() {
+      try{
+        this.loading = true
+        await this.$store.dispatch('chat/getChatRooms')
+        this.chatRooms = this.$store.state.chat.chatRooms
+      }
+      catch(e){
+        this.loading = false
+        console.log(e);
+      }
+      finally{
+        this.loading = false
+      }
+    },
+  },
+  created() {
+    Promise.all([
+      this.getChatRoomsData(),
+    ])
   },
 
 }
 </script>
 
-<style>
+<style scoped>
+.profile_image img {
+  height: 45px;
+}
+.creater_name {
+  font-weight: 700;
+  font-size: 25px;
+}
 
 </style>
+
+
+
+

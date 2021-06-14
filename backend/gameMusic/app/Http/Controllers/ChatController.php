@@ -80,9 +80,20 @@ class ChatController extends Controller
 
         try {
 
-            $chat_rooms = ChatRoomUser::with('user')
-                                        ->where('user_id', Auth::id())
-                                        ->get();
+            // 自分の持っているチャットルームを取得
+            $chat_room_ids = ChatRoomUser::with(['user' => function($query){
+                                        $query->with('userInformation');
+                                    }])
+                                    ->latest()
+                                    ->where('user_id', Auth::id())
+                                    ->pluck('chat_room_id');
+
+            $chat_rooms = ChatRoomUser::with(['user' => function($query){
+                                        $query->with('userInformation');
+                                    }])
+                                    ->whereIn('chat_room_id', $chat_room_ids)
+                                    ->where('user_id', '<>', Auth::id())
+                                    ->get();
 
             return response()->json([
                 'message' => '成功',
