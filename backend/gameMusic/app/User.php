@@ -64,6 +64,16 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Audio', 'purchase_records', 'user_id', 'audio_id');
     }
 
+    public function chatMessages()
+    {
+        return $this->hasMany('App\ChatMessage');
+    }
+
+    public function chatRoomUsers()
+    {
+        return $this->hasMany('App\ChatRoomUsers');
+    }
+
 
 
 }
