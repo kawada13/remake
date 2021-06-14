@@ -115,5 +115,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('{id}/payment', 'PurchaseRecordController@adminPayment')->name('adminPayment');
 
 
+    // チャットメッセージ作成
+    Route::post('message/{id}', 'ChatController@createChat')->name('createChat');
+    // ログインユーザーのチャットルーム一覧
+    Route::get('chatRooms', 'ChatController@chatRooms')->name('chatRooms');
+
+
 
 });

@@ -13,6 +13,9 @@ use App\ChatRoomUser;
 use App\ChatMessage;
 use App\User;
 
+// リクエスト
+use App\Http\Requests\ChatRequest;
+
 
 // イベント
 use App\Events\ChatPusher;
@@ -21,7 +24,7 @@ class ChatController extends Controller
 {
 
      // メッセージ作成
-    public function createChatRoom(Request $request, $id){
+    public function createChat(ChatRequest $request, $id){
 
         // 自分の持っているチャットルームを取得
         $current_user_chat_rooms = ChatRoomUser::where('user_id', Auth::id())
@@ -43,7 +46,7 @@ class ChatController extends Controller
             $chat_room_id = $latest_chat_room->id;
 
             // 自身を登録
-            ChatRoomUser::create( 
+            ChatRoomUser::create(
             ['chat_room_id' => $chat_room_id,
             'user_id' => Auth::id()]);
 
