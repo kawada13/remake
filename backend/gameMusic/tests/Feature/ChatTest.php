@@ -152,7 +152,7 @@ class ChatTest extends TestCase
 
 
 
-    //  モデルのテスト
+    //  データベースのテスト
 
     public function test_createChat()
     {
@@ -215,6 +215,31 @@ class ChatTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJson(['message' => '成功']);
+    }
+    public function test_deleteChatMessages()
+    {
+        // チャットルームを作成
+        $chatRoom = factory(ChatRoom::class)->create();
+
+        // ユーザーを作成
+        $user = factory(User::class)->create();
+
+        // チャットメッセージを作成
+        $chatMessage = factory(ChatMessage::class)->create([
+            'user_id' => $user->id,
+            'chat_room_id' => $chatRoom->id,
+        ]);
+
+        $response = $this->actingAs($user)
+            ->json('DELETE', route('deleteChatMessages', [
+                'id' => $chatMessage->id,
+            ]));
+        $response
+            ->assertStatus(200)
+            ->assertJson(['message' => '成功']);
+
+        // DBから本当にデータがなくなっているのか確認
+        $this->assertDatabaseMissing('chat_messages', ['id' => $chatMessage->id]); 
     }
 
 }

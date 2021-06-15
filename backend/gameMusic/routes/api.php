@@ -119,6 +119,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('chatRooms', 'ChatController@chatRooms')->name('chatRooms');
     // ある相手とのチャット履歴取得
     Route::get('message/{id}', 'ChatController@chatMessages')->name('chatMessages');
+    // あるチャットを削除
+    Route::delete('message/{id}', 'ChatController@deleteChatMessages')->name('deleteChatMessages');
 
 
 

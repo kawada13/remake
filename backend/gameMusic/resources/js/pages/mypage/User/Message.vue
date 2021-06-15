@@ -11,9 +11,13 @@
           <div class="form-group">
             <label for="exampleFormControlTextarea1">{{user.user.name}}さんにメッセージを送る</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" v-model="form.message"></textarea>
+            <small id="emailHelp" class="form-text text-muted">250字以内</small>
           </div>
           <div class="alert alert-danger mt-2" role="alert" v-if="errors.message.required">
             メッセージ入力は必須です！
+          </div>
+          <div class="alert alert-danger mt-2" role="alert" v-if="errors.message.length">
+            250字以内です！
           </div>
         </form>
         <a class="btn btn-primary" @click="sendMessage">送信する</a>
@@ -37,6 +41,9 @@
             <p>{{chatMessage.user.name}}</p>
             <p class="created">{{chatMessage.created_at | fromiso}}</p>
           </div>
+          <div class="trash" v-if="chatMessage.user_id == user.authId" @click="messageDelete(chatMessage.id)">
+            <i class="fas fa-trash-alt"></i>
+          </div>
         </div>
         <p class="card-text mt-3">{{ chatMessage.message }}</p>
       </div>
@@ -57,7 +64,8 @@ export default {
       },
       errors: {
         message: {
-          required: false
+          required: false,
+          length: false
         }
       },
       chatMessages:[],
@@ -65,9 +73,27 @@ export default {
     }
   },
   methods: {
+    async messageDelete(id) {
+      let res = confirm("本当に削除しますか？");
+      if( res == true ) {
+         try{
+            await this.$store.dispatch('chat/deleteChatMessages', id)
+          }
+          catch(e){
+            console.log(e);
+          }
+          finally{
+            this.form.message = ''
+            this.getChatMessagesData()
+          }
+      }
+      else {
+        console.log('キャンセル');
+      }
+    },
     async sendMessage() {
       await this.validate();
-      if(this.errors.message.required )
+      if(this.errors.message.required || this.errors.message.length)
       {
         return
       }
@@ -124,12 +150,16 @@ export default {
       // 初期化
       this.errors = {
         message: {
-          required: false
+          required: false,
+          length: false
         }
       }
 
       if (!this.form.message) {
         this.errors.message.required = true
+      }
+      if (this.form.message.length > 250) {
+        this.errors.message.length = true
       }
     },
   },
@@ -161,6 +191,30 @@ export default {
   font-weight: 600;
   font-size: 18px;
   color: #334e6f;
+}
+
+@media screen and (max-width:767px) {
+    /*画面サイズが767px以下の場合読み込む（スマホ）*/
+
+    .trash {
+      margin-left: 140px;
+    }
+    .trash:hover {
+      cursor: pointer;
+    }
+
+
+}
+@media screen and (min-width:768px){
+    /*画面サイズが768px以上の場合読み込む（PC）*/
+
+    .trash {
+      margin-left: 410px;
+    }
+    .trash:hover {
+      cursor: pointer;
+    }
+
 }
 
 </style>

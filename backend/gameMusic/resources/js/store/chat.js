@@ -48,6 +48,16 @@ const actions = {
       console.log(e.response);
     })
   },
+  // あるチャットを削除
+  async deleteChatMessages({ commit }, id) {
+    await axios.delete(`/api/message/${id}`)
+    .then(res => {
+      // console.log(res.data);
+    })
+    .catch(e => {
+      console.log(e.response);
+    })
+  },
 
 }
 

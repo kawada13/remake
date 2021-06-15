@@ -155,4 +155,25 @@ class ChatController extends Controller
         }
 
     }
+     // あるチャットを削除
+    public function deleteChatMessages($id){
+
+        try {
+
+            $chat_message = ChatMessage::find($id);
+            $chat_message->delete();
+
+            return response()->json([
+                'message' => '成功',
+            ], 200);
+
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+
+    }
 }
