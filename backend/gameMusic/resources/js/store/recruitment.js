@@ -42,7 +42,7 @@ const actions = {
   },
   // 募集を削除
   async delete({ commit }, id) {
-    await axios.delete(`/recruitment/${id}`)
+    await axios.delete(`/api/recruitment/${id}`)
     .then(res => {
       // console.log(res.data);
     })

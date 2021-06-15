@@ -66,7 +66,7 @@ export default {
     {
       this.createrClass = true
     }
-    if(this.$route.name == 'profile' || this.$route.name == 'purchase-history' || this.$route.name == 'favorite-audios' || this.$route.name == 'follows' || this.$route.name == 'profile-setting' || this.$route.name == 'buyer_setteing' || this.$route.name == 'messages' || this.$route.name == 'recruitment_create')
+    if(this.$route.name == 'profile' || this.$route.name == 'purchase-history' || this.$route.name == 'favorite-audios' || this.$route.name == 'follows' || this.$route.name == 'profile-setting' || this.$route.name == 'buyer_setteing' || this.$route.name == 'messages' || this.$route.name == 'recruitment_create' || this.$route.name == 'login_user_recruitments')
     {
       this.userClass = true
     }

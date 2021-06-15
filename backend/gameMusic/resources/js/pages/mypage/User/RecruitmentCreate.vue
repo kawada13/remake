@@ -69,7 +69,6 @@ export default {
       {
         return
       }
-        console.log('新規作成');
         try {
           this.loading = true
           await this.$store.dispatch('recruitment/store', this.form)
@@ -80,6 +79,7 @@ export default {
         }
         finally{
           this.loading = false
+          this.$router.push({ name: 'login_user_recruitments'})
           this.toasted()
         }
     },

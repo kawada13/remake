@@ -28,6 +28,10 @@
           売上履歴
         </h3>
 
+        <div class="no_user my-4 text-center" v-if="sales.length == 0">
+          <p>現在売上履歴がありません。</p>
+        </div>
+
         <div class="card-body purchase_audio_body" v-for="(sale, i) in sales" :key="i">
           <h5 class="card-title audio_title" @click="$router.push({ name: 'audio-show', params: { id: `${sale.audio_id}` } })">{{sale.audio.title}}</h5>
           <h6 class="card-subtitle mb-2 text-muted creater_name" @click="$router.push({ name: 'user-show', params: { id: `${sale.user_id}` }})">購入ユーザー名：{{sale.user.name}}</h6>

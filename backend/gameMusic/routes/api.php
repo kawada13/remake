@@ -124,16 +124,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 
     // 募集作成
-    Route::post('/recruitment/store', 'RecruitmentController@store')->name('recruitment.store');
+    Route::post('recruitment/store', 'RecruitmentController@store')->name('recruitment.store');
     // 募集アップデート
-    Route::post('/recruitment/{id}/update', 'RecruitmentController@update')->name('recruitment.update');
+    Route::post('recruitment/{id}/update', 'RecruitmentController@update')->name('recruitment.update');
     // 募集削除
-    Route::delete('/recruitment/{id}', 'RecruitmentController@delete')->name('recruitment.delete');
+    Route::delete('recruitment/{id}', 'RecruitmentController@delete')->name('recruitment.delete');
     // 募集全件取得
-    Route::get('/recruitments', 'RecruitmentController@index')->name('recruitment.index');
+    Route::get('recruitments', 'RecruitmentController@index')->name('recruitment.index');
     // ログインユーザーの募集全件取得
-    Route::get('/loginuser/recruitments', 'RecruitmentController@loginuUserIndex')->name('recruitment.loginuUserIndex');
+    Route::get('loginuser/recruitments', 'RecruitmentController@loginuUserIndex')->name('recruitment.loginuUserIndex');
     // 募集詳細取得
-    Route::get('/recruitment/{id}', 'RecruitmentController@show')->name('recruitment.show');
+    Route::get('recruitment/{id}', 'RecruitmentController@show')->name('recruitment.show');
 
 });
