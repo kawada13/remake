@@ -11,6 +11,7 @@ import favorite from './favorite'
 import follow from './follow'
 import purchase from './purchase'
 import chat from './chat'
+import recruitment from './recruitment'
 
 
 Vue.use(Vuex)
@@ -26,7 +27,8 @@ const store = new Vuex.Store({
     favorite,
     follow,
     purchase,
-    chat
+    chat,
+    recruitment
   }
 })
 

@@ -131,12 +131,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('/recruitment/{id}', 'RecruitmentController@delete')->name('recruitment.delete');
     // 募集全件取得
     Route::get('/recruitments', 'RecruitmentController@index')->name('recruitment.index');
-    // 募集全件取得
+    // ログインユーザーの募集全件取得
     Route::get('/loginuser/recruitments', 'RecruitmentController@loginuUserIndex')->name('recruitment.loginuUserIndex');
-     // 募集詳細取得
-     Route::get('/recruitment/{id}', 'RecruitmentController@show')->name('recruitment.show');
-
-
-
+    // 募集詳細取得
+    Route::get('/recruitment/{id}', 'RecruitmentController@show')->name('recruitment.show');
 
 });
