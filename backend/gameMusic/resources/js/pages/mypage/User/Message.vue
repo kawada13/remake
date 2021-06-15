@@ -251,7 +251,7 @@ export default {
     /*画面サイズが768px以上の場合読み込む（PC）*/
 
     .trash {
-      margin-left: 410px;
+      margin-left: 630px;
     }
     .trash:hover {
       cursor: pointer;

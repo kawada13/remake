@@ -73,6 +73,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\ChatRoomUsers');
     }
+    public function recruitments()
+    {
+        return $this->hasMany('App\Recruitment');
+    }
 
 
 
