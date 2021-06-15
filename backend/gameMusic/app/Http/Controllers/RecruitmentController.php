@@ -16,7 +16,7 @@ use App\Recruitment;
 class RecruitmentController extends Controller
 {
     // 作成
-    public function store(RecruitmentController $request) {
+    public function store(RecruitmentRequest $request) {
 
         DB::beginTransaction();
 
