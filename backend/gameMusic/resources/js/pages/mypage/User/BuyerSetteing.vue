@@ -21,17 +21,18 @@
       animals: [],
       animalData: [],
       start: 0,
-      end: 20
+      end: 5
     }
   },
   mounted() {
     const list = ['サーバル', 'フェネック', 'アライグマ', 'カバ', 'コツメカワウソ', 'ジャガー', 'トキ']
-    for(let i = 0; i < 200; i++) {
+    for(let i = 0; i < 202; i++) {
       this.animalData.push({id: i, name: list[Math.floor(Math.random()*list.length)]})
     }
   },
   methods: {
     infiniteHandler($state) {
+      console.log(131);
       if (this.end > this.animalData.length) {
         // 表示するデータが無くなった場合
         $state.complete()
@@ -39,13 +40,14 @@
         // 表示するデータがある場合
         this.getAnimals()
         $state.loaded()
-      }      
+      }
     },
     // axiosとかのAPI想定
     getAnimals() {
+      console.log();
       this.animals = this.animals.concat(this.animalData.slice(this.start, this.end))
-      this.start = this.start + 20
-      this.end = this.end + 20
+      this.start = this.start + 5
+      this.end = this.end + 5
     }
   }
   }

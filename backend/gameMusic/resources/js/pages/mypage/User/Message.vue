@@ -25,7 +25,7 @@
     </div>
 
     <!-- チャット内容表示部分 -->
-    <div class="card mt-3" v-for="(chatMessage, i) in chatMessages" :key="i">
+    <div class="card mt-3" v-for="(chatMessage, i) in getItems" :key="i">
       <div class="card-body">
         <div class="d-flex justify-content-start">
           <div class="profile_image">
@@ -48,19 +48,35 @@
         <p class="card-text mt-3">{{ chatMessage.message }}</p>
       </div>
     </div>
-    <infinite-loading @infinite="infiniteHandler" v-if="!messageloading">
-      <div slot="no-results">メッセージは以上</div>
-      <div slot="no-more">メッセージは以上</div>
-    </infinite-loading>
+
+    <!-- ページネーション -->
+    <div class="pagination mt-5 d-flex justify-content-center">
+        <div v-if="paginateData.chatMessages.length">
+          <paginate
+          :page-count="getPageCount"
+          :page-range="3"
+          :margin-pages="2"
+          :click-handler="clickCallback"
+          :prev-text="'＜'"
+          :next-text="'＞'"
+          :containerClass="'pagination'"
+          :page-class="'page-item'"
+          :page-link-class="'page-link'"
+          :prev-class="'page-item'"
+          :prev-link-class="'page-link'"
+          :next-class="'page-item'"
+          :next-link-class="'page-link'"
+          >
+          </paginate>
+        </div>
+      </div>
 
   </div>
 </template>
 
 <script>
-import InfiniteLoading from 'vue-infinite-loading';
 export default {
   components: {
-      InfiniteLoading
   },
   data() {
     return {
@@ -76,27 +92,27 @@ export default {
         }
       },
       chatMessages:[],
-      infinitechatMessages:[],
       user: {},
-      page: 0,
+      paginateData: {
+        chatMessages: [],
+        parPage: 10, //1ページに表示する件数
+        currentPage: 1
+      },
     }
   },
+  computed: {
+    getItems() { //ページネーション用(1ページに表示する数)
+        let current = this.paginateData.currentPage * this.paginateData.parPage;
+        let start = current - this.paginateData.parPage;
+        return this.paginateData.chatMessages.slice(start, current);
+    },
+    getPageCount() {// ページネーション用(全体のページ数)
+        return Math.ceil(this.paginateData.chatMessages.length / this.paginateData.parPage);
+    },
+  },
   methods: {
-    infiniteHandler($state) {
-      let self = this;
-
-      if (self.infinitechatMessages.length >= this.page) {
-        // アイテム数が最大値以下だったら
-        self.chatMessages.slice(this.page,this.page+5).filter(function(item){
-          self.infinitechatMessages.push(item);
-          return item;
-        });
-        this.page += 5;
-        $state.loaded();
-      } else {
-        // アイテム数が最大数だったら終了
-        $state.complete();
-      }
+    clickCallback(pageNum) { //ページネーション用
+      this.paginateData.currentPage = Number(pageNum);
     },
     async messageDelete(id) {
       let res = confirm("本当に削除しますか？");
@@ -137,7 +153,8 @@ export default {
       try{
         this.messageloading = true
         await this.$store.dispatch('chat/getChatMessages', this.$route.params.id)
-        this.chatMessages = this.$store.state.chat.chatMessages
+         this.chatMessages = this.$store.state.chat.chatMessages
+         this.paginateData.chatMessages = this.$store.state.chat.chatMessages
       }
       catch(e){
         this.messageloading = false
