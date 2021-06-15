@@ -25,7 +25,6 @@ class RecruitmentRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'budget' => 'required|integer',
             'content' => 'required',
         ];
     }

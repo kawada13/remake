@@ -69,6 +69,11 @@ import Message from '../pages/mypage/User/Message.vue'
 import Messages from '../pages/mypage/User/Messages.vue'
 
 
+// 募集関連
+import RecruitmentCreate from '../pages/mypage/User/RecruitmentCreate.vue'
+import LoginUserRecruitments from '../pages/mypage/User/LoginUserRecruitments.vue'
+
+
 
 
 
@@ -131,9 +136,19 @@ const routes = new VueRouter({
               name:'messages'
             },
             {
-              path: '/messages/:id',
+              path: 'messages/:id',
               component: Message,
               name:'message',
+            },
+            {
+              path: 'recruitment/create',
+              component: RecruitmentCreate,
+              name:'recruitment_create',
+            },
+            {
+              path: 'recruitments',
+              component: LoginUserRecruitments,
+              name:'login_user_recruitments',
             },
             {
               path: 'buyer_setteing',

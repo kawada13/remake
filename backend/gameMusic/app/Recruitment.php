@@ -9,7 +9,7 @@ class Recruitment extends Model
     protected $table = 'recruitments';
 
     protected $fillable = [
-        'user_id', 'title', 'budget', 'content'
+        'user_id', 'title', 'content'
     ];
 
     // リレーション

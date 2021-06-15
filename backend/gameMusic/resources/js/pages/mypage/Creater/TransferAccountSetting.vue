@@ -173,7 +173,7 @@ export default {
           this.toasted()
         }
       }
-      
+
     },
     toasted() {
       this.$toasted.show('保存しました', this.options);

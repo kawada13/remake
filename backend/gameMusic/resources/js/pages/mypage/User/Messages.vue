@@ -89,6 +89,24 @@ export default {
   font-size: 25px;
 }
 
+@media screen and (max-width:767px) {
+    /*画面サイズが767px以下の場合読み込む（スマホ）*/
+
+    h3 {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+
+}
+@media screen and (min-width:768px){
+    /*画面サイズが768px以上の場合読み込む（PC）*/
+
+    h3 {
+      font-weight: bold;
+    }
+
+}
 </style>
 
 

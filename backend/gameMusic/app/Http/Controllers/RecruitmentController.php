@@ -24,7 +24,6 @@ class RecruitmentController extends Controller
             $recruitment = new Recruitment;
             $recruitment->user_id = Auth::id();
             $recruitment->title = $request->title;
-            $recruitment->budget = $request->budget;
             $recruitment->content = $request->content;
             $recruitment->save();
 
@@ -61,16 +60,8 @@ class RecruitmentController extends Controller
                     'message' => '自身の募集ではないので編集できません。',
                 ],500);
             }
-
-            if($request->title) {
-                $recruitment->title = $request->title;
-            }
-            if($request->budget) {
-                $recruitment->budget = $request->budget;
-            }
-            if($request->content) {
-                $recruitment->content = $request->content;
-            }
+            $recruitment->title = $request->title;
+            $recruitment->content = $request->content;
             $recruitment->save();
 
             DB::commit();

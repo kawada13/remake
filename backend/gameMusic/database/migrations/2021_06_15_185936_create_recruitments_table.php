@@ -17,7 +17,6 @@ class CreateRecruitmentsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->comment('外部キー');
             $table->string('title')->comment('タイトル');
-            $table->integer('budget')->comment('予算');
             $table->text('content')->comment('募集内容');
             $table->timestamps();
         });

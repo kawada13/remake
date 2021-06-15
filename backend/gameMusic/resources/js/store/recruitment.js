@@ -32,7 +32,7 @@ const actions = {
   },
   // 募集作成
   async store({ commit }, data) {
-    await axios.get(`/recruitment/store`, data)
+    await axios.post(`/api/recruitment/store`, data)
     .then(res => {
       // console.log(res.data);
     })

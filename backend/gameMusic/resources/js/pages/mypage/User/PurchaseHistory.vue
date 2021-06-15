@@ -108,6 +108,10 @@ export default {
       font-weight: bold;
       font-size: 20px;
     }
+    h3 {
+      font-weight: bold;
+      font-size: 20px;
+    }
 
 
 
@@ -116,6 +120,10 @@ export default {
     /*画面サイズが768px以上の場合読み込む（PC）*/
 
     .purchase_audio_title h3 {
+      font-weight: bold;
+    }
+
+    h3 {
       font-weight: bold;
     }
 
