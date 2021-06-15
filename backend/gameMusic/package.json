@@ -34,6 +34,7 @@
         "moment": "^2.29.1",
         "pusher-js": "^7.0.3",
         "stripe": "^8.153.0",
+        "vue-infinite-loading": "^2.4.5",
         "vue-router": "^3.5.1",
         "vue-stripe-checkout": "^1.2.6",
         "vue-toasted": "^1.1.28",

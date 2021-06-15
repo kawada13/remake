@@ -1,53 +1,52 @@
 <template>
-  <div class="container">
-
-    <!-- フォーム部分 -->
-    <div  class="card">
-      <div class="card-header">
-        チャットルーム
-      </div>
-      <div class="card-body">
-        <form>
-          <div class="form-group">
-            <label for="exampleFormControlTextarea1">Example textarea</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-          </div>
-        </form>
-        <a href="#" class="btn btn-primary">sumiyt</a>
-      </div>
-    </div>
-
-
-    <!-- チャット内容表示部分 -->
-    <div class="card mt-5">
-      <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
-    <div class="card mt-5">
-      <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
-    <div class="card mt-5">
-      <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
-    <div class="card mt-5">
-      <div class="card-body">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
+  <div>
+    <div v-for="animal in animals" :key="animal.id">ID:{{animal.id}} name:{{animal.name}}</div>
+   <!-- InfiniteLoadingコンポーネントを定義 -->
+    <infinite-loading @infinite="infiniteHandler" spinner="spiral">
+      <div slot="spinner">ロード中...</div>
+      <div slot="no-more">もう検索データが無いよ！</div>
+      <div slot="no-results">検索結果が無い！</div>
+    </infinite-loading>
   </div>
 </template>
 
 <script>
-export default {
-
-}
+  import InfiniteLoading from 'vue-infinite-loading';
+  export default {
+    components: {
+      InfiniteLoading
+    },
+    data() {
+    return {
+      animals: [],
+      animalData: [],
+      start: 0,
+      end: 20
+    }
+  },
+  mounted() {
+    const list = ['サーバル', 'フェネック', 'アライグマ', 'カバ', 'コツメカワウソ', 'ジャガー', 'トキ']
+    for(let i = 0; i < 200; i++) {
+      this.animalData.push({id: i, name: list[Math.floor(Math.random()*list.length)]})
+    }
+  },
+  methods: {
+    infiniteHandler($state) {
+      if (this.end > this.animalData.length) {
+        // 表示するデータが無くなった場合
+        $state.complete()
+      } else {
+        // 表示するデータがある場合
+        this.getAnimals()
+        $state.loaded()
+      }      
+    },
+    // axiosとかのAPI想定
+    getAnimals() {
+      this.animals = this.animals.concat(this.animalData.slice(this.start, this.end))
+      this.start = this.start + 20
+      this.end = this.end + 20
+    }
+  }
+  }
 </script>
-
-<style>
-
-</style>

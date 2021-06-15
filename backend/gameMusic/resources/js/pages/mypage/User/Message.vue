@@ -48,13 +48,20 @@
         <p class="card-text mt-3">{{ chatMessage.message }}</p>
       </div>
     </div>
-
+    <infinite-loading @infinite="infiniteHandler" v-if="!messageloading">
+      <div slot="no-results">メッセージは以上</div>
+      <div slot="no-more">メッセージは以上</div>
+    </infinite-loading>
 
   </div>
 </template>
 
 <script>
+import InfiniteLoading from 'vue-infinite-loading';
 export default {
+  components: {
+      InfiniteLoading
+  },
   data() {
     return {
       messageloading: false,
@@ -69,10 +76,28 @@ export default {
         }
       },
       chatMessages:[],
-      user: {}
+      infinitechatMessages:[],
+      user: {},
+      page: 0,
     }
   },
   methods: {
+    infiniteHandler($state) {
+      let self = this;
+
+      if (self.infinitechatMessages.length >= this.page) {
+        // アイテム数が最大値以下だったら
+        self.chatMessages.slice(this.page,this.page+5).filter(function(item){
+          self.infinitechatMessages.push(item);
+          return item;
+        });
+        this.page += 5;
+        $state.loaded();
+      } else {
+        // アイテム数が最大数だったら終了
+        $state.complete();
+      }
+    },
     async messageDelete(id) {
       let res = confirm("本当に削除しますか？");
       if( res == true ) {
