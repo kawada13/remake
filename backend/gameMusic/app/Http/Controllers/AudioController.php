@@ -216,16 +216,24 @@ class AudioController extends Controller
             $useId = [$request->use];
             $instrumentId = [$request->instrument];
 
+            $keyword = $request->keyword;
+
+            $_keyword = str_replace('　', ' ', $keyword);  //全角スペースを半角に変換
+            $_keyword = preg_replace('/\s(?=\s)/', '', $_keyword); //連続する半角スペースは削除
+            $_keyword = trim($_keyword); //文字列の先頭と末尾にあるホワイトスペースを削除
+
+
+
             // A のみ⇨もし「キーワード」のみ入力されていたら
             if($request->keyword && !$request->sound && !$request->understanding && !$request->use && !$request->instrument) {
                 $audios = Audio::with('user')
-                                 ->where('title', 'like', "%$request->keyword%")->get();
+                                 ->where('title', 'like', "%$_keyword%")->get();
             }
 
             // A and (B or C or D or E)⇨もし「キーワード」かつ「サウンドタイプ」が入力されていたら
             if(($request->keyword) && ($request->sound || $request->understanding || $request->use || $request->instrument)) {
                 $audios = Audio::with('user')
-                                ->where('title', 'like', "%$request->keyword%")
+                                ->where('title', 'like', "%$_keyword%")
                                 ->where(function($query) use($soundId, $understandingId, $useId, $instrumentId){
                                     $query->WhereHas('sound', function($q) use($soundId)  {
                                         $q->whereIn('id', $soundId);

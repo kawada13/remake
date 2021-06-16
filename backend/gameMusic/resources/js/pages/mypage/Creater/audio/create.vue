@@ -161,6 +161,10 @@ export default {
       // 代入(名前表示のためのみ)
       this.formInfo.audio.url = this.formInfo.audio.file_info.name
 
+      // バリデーション初期化
+      this.errors.audio_url.isFile = false
+      this.errors.audio_url.size = false
+
       // mp3のみを許可するバリデーション
       if (this.formInfo.audio.file_info.type != 'audio/mpeg') {
         this.errors.audio_url.isFile = true

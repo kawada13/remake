@@ -34,6 +34,12 @@
 
             <div class="form-group">
               <div><label class="weight">オーディオをアップロード</label><span class="badge badge-danger ml-2">必須</span></div>
+              <audio controls controlslist="nodownload" class="mt-3" v-if="$store.state.audio.userAudio.audio">
+                <source :src="$store.state.audio.userAudio.audio.audio_file">
+              </audio>
+              <div class="d-flex justify-content-start"><small class="form-text text-muted">現在アップロードしているオーディオです。</small></div>
+              <!-- <p>{{audio.audio_file}}</p> -->
+              <hr>
               <label class="input-group-btn">
                 <span class="btn btn-secondary">
                     ファイルを選択<input type="file" style="display:none" @change="fileSelected" accept="audio/*">
@@ -147,6 +153,10 @@ export default {
       // 代入(名前表示のためのみ)
       this.audio.fileName = this.audio.file.name
 
+      // バリデーション初期化
+      this.errors.audio_url.isFile = false
+      this.errors.audio_url.size = false
+
       // mp3のみを許可するバリデーション
       if (this.audio.file.type != 'audio/mpeg') {
         this.errors.audio_url.isFile = true
@@ -194,6 +204,7 @@ export default {
       finally{
         this.toasted();
         this.$router.push({ name: 'exhibited-audios' })
+        this.$router.go({path: this.$router.currentRoute.path, force: true})
         this.loading = false
       }
 
@@ -274,7 +285,6 @@ export default {
       try{
         this.loading = true
         await this.$store.dispatch('audio/getExhibitedAudioShow', this.$route.params.id)
-        console.log(this.$store.state.audio.userAudio);
 
         // 必要なデータだけ抜き出す
         let audio_instruments = this.$store.state.audio.userAudio.audioInstrument.map(o => o.id)
@@ -288,6 +298,7 @@ export default {
           id : this.$store.state.audio.userAudio.audio.id,
           title : this.$store.state.audio.userAudio.audio.title,
           price : this.$store.state.audio.userAudio.audio.price,
+          audio_file : this.$store.state.audio.userAudio.audio.audio_file,
           sound_id : this.$store.state.audio.userAudio.audio.sound_id,
           user_id : this.$store.state.audio.userAudio.audio.user_id,
           audio_instruments: audio_instruments,
