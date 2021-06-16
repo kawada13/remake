@@ -74,6 +74,7 @@ import RecruitmentCreate from '../pages/mypage/User/RecruitmentCreate.vue'
 import RecruitmentUpdate from '../pages/mypage/User/RecruitmentUpdate.vue'
 import LoginUserRecruitments from '../pages/mypage/User/LoginUserRecruitments.vue'
 import Recruitments from '../pages/recruitment/index.vue'
+import RecruitmentShow from '../pages/recruitment/show.vue'
 
 
 
@@ -252,6 +253,11 @@ const routes = new VueRouter({
       path: '/recruitments',
       component: Recruitments,
       name:'recruitments',
+    },
+    {
+      path: '/recruitments/:id',
+      component: RecruitmentShow,
+      name:'recruitment_show',
     },
     {
       path: '/admin',

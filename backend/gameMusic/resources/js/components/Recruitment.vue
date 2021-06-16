@@ -16,7 +16,7 @@
           <div class="col-sm-4" v-for="(recruitment, i) in recruitments" :key="i">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title" >{{ recruitment.title }}</h5>
+                <h5 class="card-title" @click="$router.push({ name: 'recruitment_show', params: { id: `${recruitment.id}` }})">{{ recruitment.title }}</h5>
                 <p class="card-text user_name"><small class="text-muted" @click="$router.push({ name: 'user-show', params: { id: `${recruitment.user_id}` }})">ユーザー名：{{recruitment.user.name}}</small></p>
                 <p class="card-text"><small class="text-muted">作成日時：{{recruitment.created_at | fromiso}}</small></p>
               </div>
