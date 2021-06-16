@@ -36,17 +36,30 @@ const actions = {
   },
 
   // ログインユーザー情報のみ取得
-  async getUser({ commit }) {
+  async getUser({ dispatch, commit }) {
+
     await axios.get('/api/user')
     .then(res => {
-      // console.log(res);
       commit('setUser', res.data);
       commit('SET_IS_AUTH', true);
     })
     .catch(e => {
-      // console.log(e.response);
       commit('setUser', null);
       commit('SET_IS_AUTH', false);
+
+
+      dispatch('auth/logout', null, { root: true })
+
+      var reload = function(){
+        location.reload();
+      }
+      var alert = function(){
+        alert('長時間操作がなかったため、安全のためログアウトいたしました。お手数ですが、再度ログインしてご利用ください。うまくいかなければリロードしてください。')
+      }
+
+      setTimeout(reload, 3000);
+      setTimeout(alert, 5000);
+
     })
   },
 

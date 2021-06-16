@@ -45,6 +45,9 @@ export default {
       this.createrClass = true
       this.$router.push({ name: 'exhibited-audios' })
     },
+    async getUser() {
+       await this.$store.dispatch('auth/getUser')
+    },
 
   },
   computed: {
@@ -62,6 +65,9 @@ export default {
   },
 
   created() {
+    Promise.all([
+      this.getUser()
+    ])
     if(this.$route.name == 'exhibited-audios' || this.$route.name == 'transfer-account-setting' || this.$route.name == 'audio-create' || this.$route.name == 'audio-edit' || this.$route.name == 'sales' || this.$route.name == 'payout')
     {
       this.createrClass = true
