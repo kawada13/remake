@@ -52,7 +52,7 @@ class RecruitmentController extends Controller
 
         DB::beginTransaction();
 
-        // try {
+        try {
             $recruitment = Recruitment::find($id);
 
             // 自身の募集でないと編集できない
@@ -70,17 +70,17 @@ class RecruitmentController extends Controller
                 'message' => '成功',
                 'recruitment' => $recruitment
             ],200);
-        // }
+        }
 
-        // catch (\Exception $e) {
-        //     // データベース巻き戻し
-        //     DB::rollback();
+        catch (\Exception $e) {
+            // データベース巻き戻し
+            DB::rollback();
 
-        //     return response()->json([
-        //         'message' => '失敗',
-        //         'errorInfo' => $e
-        //     ],500);
-        // }
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
 
     }
     // 削除
@@ -176,14 +176,18 @@ class RecruitmentController extends Controller
         DB::beginTransaction();
 
         try {
-            $recruitment = Recruitment::with('user')
+            $recruitment = Recruitment::with(['user' => function($query){
+                                        $query->with('userInformation');
+                                    }])
                                     ->where('id', $id)
                                     ->first();
+            $authId = Auth::id();
 
             DB::commit();
             return response()->json([
                 'message' => '成功',
                 'recruitment' => $recruitment,
+                'authId' => $authId,
             ],200);
         }
 

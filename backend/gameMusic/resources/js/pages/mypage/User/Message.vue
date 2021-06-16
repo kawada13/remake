@@ -45,7 +45,7 @@
             <i class="fas fa-trash-alt"></i>
           </div>
         </div>
-        <p class="card-text mt-3">{{ chatMessage.message }}</p>
+        <p class="card-text mt-3 chat_message" v-html="chatMessage.message"></p>
       </div>
     </div>
 
@@ -233,6 +233,11 @@ export default {
   font-weight: 600;
   font-size: 18px;
   color: #334e6f;
+}
+.chat_message {
+   white-space: pre-wrap;
+   word-wrap: break-word;
+   line-height: 1.7;
 }
 
 @media screen and (max-width:767px) {

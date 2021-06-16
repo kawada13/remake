@@ -17,6 +17,7 @@ const mutations = {
   },
   setRecruitment(state, data) {
     state.recruitment = data.recruitment
+    state.recruitment.authId = data.authId
   },
   setLoginUserRecruitments(state, data) {
     state.loginUserRecruitments = data.recruitments
