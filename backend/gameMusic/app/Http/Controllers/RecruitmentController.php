@@ -46,12 +46,13 @@ class RecruitmentController extends Controller
 
     }
     // 編集
-    public function update(RecruitmentController $request, $id) {
+    public function update(RecruitmentRequest $request, $id) {
+
 
 
         DB::beginTransaction();
 
-        try {
+        // try {
             $recruitment = Recruitment::find($id);
 
             // 自身の募集でないと編集できない
@@ -69,17 +70,17 @@ class RecruitmentController extends Controller
                 'message' => '成功',
                 'recruitment' => $recruitment
             ],200);
-        }
+        // }
 
-        catch (\Exception $e) {
-            // データベース巻き戻し
-            DB::rollback();
+        // catch (\Exception $e) {
+        //     // データベース巻き戻し
+        //     DB::rollback();
 
-            return response()->json([
-                'message' => '失敗',
-                'errorInfo' => $e
-            ],500);
-        }
+        //     return response()->json([
+        //         'message' => '失敗',
+        //         'errorInfo' => $e
+        //     ],500);
+        // }
 
     }
     // 削除

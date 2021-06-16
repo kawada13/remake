@@ -28,7 +28,7 @@
             </div>
 
             <div class="text-center">
-              <button type="submit" class="btn btn-primary my-4 store mr-5">保存する</button>
+              <button type="submit" class="btn btn-primary my-4 store mr-5">更新する</button>
             </div>
 
           </form>
@@ -59,6 +59,7 @@ export default {
           duration: 1500,
           type: 'success'
       },
+      recruitment: {}
     }
   },
   methods: {
@@ -71,7 +72,7 @@ export default {
       }
         try {
           this.loading = true
-          await this.$store.dispatch('recruitment/store', this.form)
+          await this.$store.dispatch('recruitment/update', {id: this.$route.params.id, data: this.form})
         }
         catch(e){
           console.log(e);
@@ -83,8 +84,24 @@ export default {
           this.toasted()
         }
     },
+    async getRecruitmentData() {
+        try {
+          this.loading = true
+          await this.$store.dispatch('recruitment/edit', this.$route.params.id)
+          this.recruitment = this.$store.state.recruitment.loginUserRecruitment
+          this.form.title = this.recruitment.title
+          this.form.content = this.recruitment.content
+        }
+        catch(e){
+          console.log(e);
+          this.loading = false
+        }
+        finally{
+          this.loading = false
+        }
+    },
     toasted() {
-      this.$toasted.show('保存しました', this.options);
+      this.$toasted.show('更新しました。', this.options);
     },
     validate() {
 
@@ -110,6 +127,7 @@ export default {
   },
   created() {
     Promise.all([
+      this.getRecruitmentData()
     ])
   },
 

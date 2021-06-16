@@ -24,11 +24,12 @@ const mutations = {
 }
 
 const actions = {
-  // 募集編集
+  // 募集更新編集
   async update({ commit }, {id, data}) {
+    console.log(id,data);
     await axios.post(`/api/recruitment/${id}/update`, data)
     .then(res => {
-      // console.log(res.data);
+      console.log(res.data);
     })
     .catch(e => {
       console.log(e.response);
@@ -78,7 +79,7 @@ const actions = {
   },
   // 募集詳細取得
   async show({ commit }, id) {
-    await axios.get(`/recruitment/${id}`)
+    await axios.get(`/api/recruitment/${id}`)
     .then(res => {
       // console.log(res.data);
       commit('setRecruitment', res.data)
@@ -89,7 +90,7 @@ const actions = {
   },
   // ログインユーザーの特定の募集を取得(更新のため)
   async edit({ commit }, id) {
-    await axios.get(`/recruitment/edit/${id}`)
+    await axios.get(`/api/recruitment/edit/${id}`)
     .then(res => {
       // console.log(res.data);
       commit('setLoginUserRecruitment', res.data)
