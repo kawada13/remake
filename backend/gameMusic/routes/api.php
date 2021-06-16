@@ -131,6 +131,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('recruitment/{id}', 'RecruitmentController@delete')->name('recruitment.delete');
     // 募集全件取得
     Route::get('recruitments', 'RecruitmentController@index')->name('recruitment.index');
+    // 最新データ6件取得(トップページで使うやつ)
+    Route::get('top/recruitments', 'RecruitmentController@topindex')->name('recruitment.topindex');
     // ログインユーザーの募集全件取得
     Route::get('loginuser/recruitments', 'RecruitmentController@loginuUserIndex')->name('recruitment.loginuUserIndex');
     // 募集詳細取得

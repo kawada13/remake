@@ -123,6 +123,7 @@ class RecruitmentController extends Controller
 
         try {
             $recruitments = Recruitment::with('user')
+                                    ->latest()
                                     ->get();
 
             DB::commit();
@@ -211,6 +212,35 @@ class RecruitmentController extends Controller
             return response()->json([
                 'message' => '成功',
                 'recruitment' => $recruitment,
+            ],200);
+        }
+
+        catch (\Exception $e) {
+            // データベース巻き戻し
+            DB::rollback();
+
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
+
+    // 最新データ6件取得(トップページで使うやつ)
+    public function topindex() {
+
+        DB::beginTransaction();
+
+        try {
+            $recruitments = Recruitment::with('user')
+                                    ->latest()
+                                    ->take(6)
+                                    ->get();
+
+            DB::commit();
+            return response()->json([
+                'message' => '成功',
+                'recruitments' => $recruitments,
             ],200);
         }
 

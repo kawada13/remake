@@ -9,6 +9,7 @@
     <div class="contents">
       <new-audio />
       <audio-index />
+      <Recruitment />
       <how-to />
     </div>
 
@@ -19,6 +20,7 @@
 import Hero from '../components/Hero.vue'
 import NewAudio from '../components/NewAudio.vue'
 import AudioIndex from '../components/AudioIndex.vue'
+import Recruitment from '../components/Recruitment.vue'
 import HowTo from '../components/HowTo.vue'
 
 export default {
@@ -26,16 +28,17 @@ export default {
     Hero,
     NewAudio,
     AudioIndex,
+    Recruitment,
     HowTo
   },
   methods: {
-    async getUser() {
-       await this.$store.dispatch('auth/getUser')
-    },
+    // async getUser() {
+    //    await this.$store.dispatch('auth/getUser')
+    // },
   },
   created() {
     Promise.all([
-      this.getUser()
+      // this.getUser()
     ])
     // this.$router.go({path: this.$router.currentRoute.path, force: true})
   },
