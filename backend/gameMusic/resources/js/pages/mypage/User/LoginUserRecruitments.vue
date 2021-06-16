@@ -23,7 +23,7 @@
               <h6 class="mb-2 text-muted">作成日時：{{recruitment.created_at | fromiso}}</h6>
             </div>
             <div class="edit_delete">
-               <i class="fas fa-edit mr-3"></i>
+               <i class="fas fa-edit mr-3" @click="$router.push({ name: 'recruitment_update', params: { id: `${recruitment.id}` }})"></i>
                <i class="fas fa-trash-alt" @click="deleteRecruitment(recruitment.id)"></i>
             </div>
 

@@ -1,7 +1,8 @@
 const state = {
   recruitments: [],
   loginUserRecruitments: [],
-  recruitment: {}
+  recruitment: {},
+  loginUserRecruitment: {}
 }
 
 const getters = {}
@@ -15,6 +16,9 @@ const mutations = {
   },
   setLoginUserRecruitments(state, data) {
     state.loginUserRecruitments = data.recruitments
+  },
+  setLoginUserRecruitment(state, data) {
+    state.loginUserRecruitment = data.recruitment
   },
 
 }
@@ -78,6 +82,17 @@ const actions = {
     .then(res => {
       // console.log(res.data);
       commit('setRecruitment', res.data)
+    })
+    .catch(e => {
+      console.log(e.response);
+    })
+  },
+  // ログインユーザーの特定の募集を取得(更新のため)
+  async edit({ commit }, id) {
+    await axios.get(`/recruitment/edit/${id}`)
+    .then(res => {
+      // console.log(res.data);
+      commit('setLoginUserRecruitment', res.data)
     })
     .catch(e => {
       console.log(e.response);

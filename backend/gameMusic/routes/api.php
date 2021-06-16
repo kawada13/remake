@@ -135,5 +135,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('loginuser/recruitments', 'RecruitmentController@loginuUserIndex')->name('recruitment.loginuUserIndex');
     // 募集詳細取得
     Route::get('recruitment/{id}', 'RecruitmentController@show')->name('recruitment.show');
+    // ログインユーザーの特定の募集を取得
+    Route::get('recruitment/edit/{id}', 'RecruitmentController@edit')->name('recruitment.edit');
 
 });

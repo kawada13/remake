@@ -195,4 +195,32 @@ class RecruitmentController extends Controller
             ],500);
         }
     }
+    // ログインユーザーの特定の募集を取得(更新のため)
+    public function edit($id) {
+
+        DB::beginTransaction();
+
+        try {
+            $recruitment = Recruitment::with('user')
+                                    ->where('user_id', Auth::id())
+                                    ->where('id', $id)
+                                    ->first();
+
+            DB::commit();
+            return response()->json([
+                'message' => '成功',
+                'recruitment' => $recruitment,
+            ],200);
+        }
+
+        catch (\Exception $e) {
+            // データベース巻き戻し
+            DB::rollback();
+
+            return response()->json([
+                'message' => '失敗',
+                'errorInfo' => $e
+            ],500);
+        }
+    }
 }
