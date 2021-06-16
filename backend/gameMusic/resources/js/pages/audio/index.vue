@@ -119,7 +119,7 @@ export default {
       serchResult: '', //検索結果のタイトル表示
       paginateData: {
         audios: [],
-        parPage: 2, //1ページに表示する件数
+        parPage: 10, //1ページに表示する件数
         currentPage: 1
       },
     }

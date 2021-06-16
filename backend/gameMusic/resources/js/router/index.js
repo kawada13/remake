@@ -73,6 +73,7 @@ import Messages from '../pages/mypage/User/Messages.vue'
 import RecruitmentCreate from '../pages/mypage/User/RecruitmentCreate.vue'
 import RecruitmentUpdate from '../pages/mypage/User/RecruitmentUpdate.vue'
 import LoginUserRecruitments from '../pages/mypage/User/LoginUserRecruitments.vue'
+import Recruitments from '../pages/recruitment/index.vue'
 
 
 
@@ -246,6 +247,11 @@ const routes = new VueRouter({
       component: Register,
       name:'register',
       meta: { guestOnly: true }
+    },
+    {
+      path: '/recruitments',
+      component: Recruitments,
+      name:'recruitments',
     },
     {
       path: '/admin',

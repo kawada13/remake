@@ -66,7 +66,7 @@ export default {
       loading: false,
       paginateData: {
         audios: [],
-        parPage: 2, //1ページに表示する件数
+        parPage: 10, //1ページに表示する件数
         currentPage: 1
       },
       user: {},
