@@ -48,12 +48,14 @@ const actions = {
       commit('SET_IS_AUTH', false);
 
 
+      // 強引に長時間操作なし対策をしたが正直微妙...
+
       dispatch('auth/logout', null, { root: true })
 
-      var reload = function(){
+      let reload = function(){
         location.reload();
       }
-      var alert = function(){
+      let alert = function(){
         alert('長時間操作がなかったため、安全のためログアウトいたしました。お手数ですが、再度ログインしてご利用ください。うまくいかなければリロードしてください。')
       }
 
