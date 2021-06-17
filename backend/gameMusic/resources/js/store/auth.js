@@ -60,7 +60,7 @@ const actions = {
       }
 
       setTimeout(reload, 3000);
-      setTimeout(alert, 5000);
+      setTimeout(alert, 7000);
 
     })
   },
