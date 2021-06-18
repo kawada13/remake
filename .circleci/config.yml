@@ -18,6 +18,7 @@ jobs:
      - checkout
      - run: sudo apt update
      - run: sudo docker-php-ext-install pdo_mysql
+     - run: sudo docker-php-ext-install gd
 
      - run:
           working_directory: backend/gameMusic
