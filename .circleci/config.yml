@@ -16,9 +16,19 @@ jobs:
           - MYSQL_DATABASE: test_sample01
     steps:
      - checkout
+
      - run: sudo apt update
+     - run: sudo apt-get install libfreetype6-dev
+     - run: sudo apt-get install libjpeg62-turbo-dev
+     - run: sudo apt-get install libpng-dev
+     - run: sudo apt-get install libwebp-dev
+     - run: sudo apt-get install libxpm-dev
+
      - run: sudo docker-php-ext-install pdo_mysql
-     - run: sudo docker-php-ext-install gd
+     - run: sudo docker-php-ext-install -j$(nproc) pdo_pgsql iconv
+     - run: sudo docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
+     - run: sudo docker-php-ext-install -j$(nproc) gd
+
 
      - run:
           working_directory: backend/gameMusic
