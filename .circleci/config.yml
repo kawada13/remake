@@ -3,18 +3,18 @@ jobs:
   build:
     docker:
       - image: circleci/php:7.3-node-browsers
+      - image: circleci/mysql:5.7
         environment:
           - APP_DEBUG: true
           - APP_ENV: testing
-          - DB_CONNECTION: mysql
-          - DB_DATABASE: test_game
-          - DB_USERNAME: dbuser
-      - image: circleci/mysql:5.7.22
-        environment:
+          - APP_KEY: base64:9CDUmmNHYUr2qeqfdJmjwLjvh/+2t8Y9ZD1XGdDB+WQ=
+          - DB_CONNECTION: test_game
           - MYSQL_ALLOW_EMPTY_PASSWORD: true
-          - MYSQL_DATABASE: test_game
     steps:
      - checkout
+     - run:
+          working_directory: backend/gameMusic
+          command: sudo docker-php-ext-install pdo_mysql
      - run:
           working_directory: backend/gameMusic
           command: composer install -n --prefer-dist
@@ -24,3 +24,9 @@ jobs:
      - run:
           working_directory: backend/gameMusic
           command: php artisan key:generate
+     - run:
+          working_directory: backend/gameMusic
+          command: php artisan migrate
+     - run:
+          working_directory: backend/gameMusic
+          command: ./vendor/bin/phpunit
