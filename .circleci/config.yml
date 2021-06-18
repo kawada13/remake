@@ -25,6 +25,7 @@ jobs:
      - run: sudo apt-get install libxpm-dev
 
      - run: sudo docker-php-ext-install pdo_mysql
+     - run: sudo docker-php-ext-configure gd --with-freetype --with-jpeg
      - run: sudo docker-php-ext-install -j$(nproc) gd
 
 
