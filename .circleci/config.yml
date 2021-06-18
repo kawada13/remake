@@ -3,11 +3,8 @@ jobs:
   build:
     docker:
       - image: circleci/php:7.3-node-browsers
-    working_directory: ~/development
     steps:
+     - checkout
      - run:
-        name: Docker Compose のインストール
-        command: |
-          curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-          chmod +x ~/docker-compose
-          sudo mv ~/docker-compose /usr/local/bin/docker-compose
+          working_directory: backend/gameMusic
+          command: composer install -n --prefer-dist
