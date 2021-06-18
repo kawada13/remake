@@ -20,12 +20,6 @@ jobs:
           command: composer install -n --prefer-dist
      - run:
           working_directory: backend/gameMusic
-          command: echo "APP_KEY=" > .env.testing
-     - run:
-          working_directory: backend/gameMusic
-          command: php artisan key:generate
-     - run:
-          working_directory: backend/gameMusic
           command: php artisan migrate
      - run:
           working_directory: backend/gameMusic
