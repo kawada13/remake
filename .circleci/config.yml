@@ -3,8 +3,27 @@ jobs:
   build:
     docker:
       - image: circleci/php:7.3-node-browsers
+        environment:
+          - APP_DEBUG: true
+          - APP_ENV: testing
+          - DB_CONNECTION: mysql
+          - DB_DATABASE: test_game
+          - DB_USERNAME: dbuser
+      - image: circleci/mysql:5.7-ram
+        environment:
+          - MYSQL_ALLOW_EMPTY_PASSWORD: true
+          - MYSQL_DATABASE: test_game
     steps:
      - checkout
      - run:
           working_directory: backend/gameMusic
           command: composer install -n --prefer-dist
+     - run:
+          working_directory: backend/gameMusic
+          command: echo "APP_KEY=" > .env.testing
+     - run:
+          working_directory: backend/gameMusic
+          command: php artisan key:generate
+     - run:
+          working_directory: backend/gameMusic
+          command: ./vendor/bin/phpunit
