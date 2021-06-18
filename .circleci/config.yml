@@ -24,9 +24,3 @@ jobs:
      - run:
           working_directory: backend/gameMusic
           command: php artisan key:generate
-     - run:
-          working_directory: backend/gameMusic
-          command: php artisan migrate
-     - run:
-          working_directory: backend/gameMusic
-          command: ./vendor/bin/phpunit
