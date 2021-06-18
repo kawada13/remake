@@ -9,7 +9,7 @@ jobs:
           - DB_CONNECTION: mysql
           - DB_DATABASE: test_game
           - DB_USERNAME: dbuser
-      - image: circleci/mysql:5.7
+      - image: circleci/mysql:5.7.22
         environment:
           - MYSQL_ALLOW_EMPTY_PASSWORD: true
           - MYSQL_DATABASE: test_game
