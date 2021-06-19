@@ -50,7 +50,7 @@ jobs:
           working_directory: backend/gameMusic
           command: php artisan migrate
      - run:
-          working_directory: laravel
+          working_directory: backend/gameMusic
           command: npm run dev
      - run:
           working_directory: backend/gameMusic
