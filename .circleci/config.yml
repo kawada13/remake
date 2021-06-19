@@ -29,9 +29,17 @@ jobs:
      - run: sudo docker-php-ext-install -j$(nproc) gd
 
 
+     - restore_cache:
+          key: composer-v2-{{ checksum "backend/gameMusic/composer.lock" }}
      - run:
           working_directory: backend/gameMusic
           command: composer install -n --prefer-dist
+     - save_cache:
+          key: composer-v2-{{ checksum "backend/gameMusic/composer.lock" }}
+          paths:
+            - backend/gameMusic/vendor
+
+
      - run:
           working_directory: backend/gameMusic
           command: echo "APP_KEY=" > .env.testing
