@@ -30,12 +30,12 @@ jobs:
 
 
      - restore_cache:
-          key: composer-v2-{{ checksum "backend/gameMusic/composer.lock" }}
+          key: composer-v1-{{ checksum "backend/gameMusic/composer.lock" }}
      - run:
           working_directory: backend/gameMusic
           command: composer install -n --prefer-dist
      - save_cache:
-          key: composer-v2-{{ checksum "backend/gameMusic/composer.lock" }}
+          key: composer-v1-{{ checksum "backend/gameMusic/composer.lock" }}
           paths:
             - backend/gameMusic/vendor
 
@@ -49,6 +49,9 @@ jobs:
      - run:
           working_directory: backend/gameMusic
           command: php artisan migrate
+     - run:
+          working_directory: laravel
+          command: npm run dev
      - run:
           working_directory: backend/gameMusic
           command: ./vendor/bin/phpunit
