@@ -26,7 +26,7 @@ WORKDIR /work
 
 RUN wget https://johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz \
     && tar xvfJ ffmpeg-git-amd64-static.tar.xz \
-    && cp -av ffmpeg-git-20210520-amd64-static/ffprobe /usr/local/bin/ \
-    && cp -av ffmpeg-git-20210520-amd64-static/ffmpeg /usr/local/bin/
+    && cp -av ffmpeg-git-20210611-amd64-static/ffmpeg /usr/local/bin/ \
+    && cp -av ffmpeg-git-20210611-amd64-static/ffprobe /usr/local/bin/
 
 RUN apt update && apt-get -y install nodejs npm vim
