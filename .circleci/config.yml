@@ -67,7 +67,11 @@ jobs:
     - run:
        name: deploy
        command: |
-        ssh -o StrictHostKeyChecking=no -t ubuntu@${HOST_NAME} "cd remake"
+        ssh -o StrictHostKeyChecking=no -t ubuntu@${HOST_NAME} "cd remake && \
+         git pull origin main && \
+         composer install && \
+         php artisan migrate && \
+         php artisan config:cache"
 
 
 workflows:
