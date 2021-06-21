@@ -68,6 +68,9 @@ jobs:
        name: deploy
        command: |
         ssh -o StrictHostKeyChecking=no -t ubuntu@${HOST_NAME} "cd remake && \
+         git add . && \
+         git commit -m 's' && \
+         git push origin main 
          git pull origin main && \
          composer install && \
          php artisan migrate && \
